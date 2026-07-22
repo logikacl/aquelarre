@@ -36,4 +36,45 @@ export default defineSchema({
     version: v.string(),
     at: v.number(),
   }).index("by_chat", ["chatId"]),
+
+  // Suscripción mensual (MercadoPago). Vive aquí (fuente única): el gate del chat la lee
+  // directo y la supresión (Ley 21.719) borra todo en un solo sistema.
+  subscriptions: defineTable({
+    email: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("active"),
+      v.literal("paused"),
+      v.literal("cancelled"),
+    ),
+    mpPreapprovalId: v.optional(v.string()),
+    chatId: v.optional(v.number()), // ausente hasta que el deep-link lo enlaza
+    linkToken: v.optional(v.string()), // token de un solo uso; se borra al enlazar
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_chat", ["chatId"])
+    .index("by_token", ["linkToken"]),
+
+  // Config editable desde el admin. Fila única keyed por "subscription".
+  settings: defineTable({
+    key: v.string(),
+    priceClp: v.number(),
+    reason: v.string(), // texto que ve el usuario en MercadoPago
+  }).index("by_key", ["key"]),
+
+  // Perfiles de astrólogos, gestionables desde el admin. El chat usa `system`;
+  // la web usa name/specialty/bio/photoUrl. `slug` es lo que guarda conversations.oracle.
+  oracles: defineTable({
+    slug: v.string(),
+    name: v.string(),
+    system: v.string(), // system prompt de la persona (solo backend/chat)
+    specialty: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    photoUrl: v.optional(v.string()),
+    published: v.boolean(), // visible/seleccionable en la web
+    order: v.number(),
+    updatedAt: v.number(),
+  }).index("by_slug", ["slug"]),
 });
