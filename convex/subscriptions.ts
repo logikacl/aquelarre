@@ -77,6 +77,18 @@ export const linkChat = internalMutation({
       .withIndex("by_token", (q) => q.eq("linkToken", linkToken))
       .unique();
     if (!sub) return false;
+    // Mantener el índice by_chat único: desvincula cualquier otra suscripción que ya
+    // tenga este chatId (re-checkout con otro email, regalo, segundo intento). Sin esto,
+    // isActiveByChat().unique() reventaría y bloquearía el gate de un usuario que paga.
+    const prev = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_chat", (q) => q.eq("chatId", chatId))
+      .collect();
+    await Promise.all(
+      prev
+        .filter((p) => p._id !== sub._id)
+        .map((p) => ctx.db.patch(p._id, { chatId: undefined, updatedAt: now() })),
+    );
     await ctx.db.patch(sub._id, { chatId, linkToken: undefined, updatedAt: now() });
     return true;
   },
