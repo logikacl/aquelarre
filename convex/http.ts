@@ -5,6 +5,7 @@ import { sendTelegram } from "./telegram";
 import { parseFecha, parseHora, fmtHora, noSabeHora, isoFecha } from "./birth";
 import { natalChart } from "./astro";
 import { buscarCiudad } from "./cities";
+import { parseStartToken } from "./subscription";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -17,6 +18,10 @@ Antes de empezar: nuestras conversaciones se guardan para darte continuidad, y s
 Si estás de acuerdo, escribe /acepto para comenzar.`;
 
 const NEED_CONSENT = `Para conversar necesito tu consentimiento. Escribe /start para ver de qué se trata y luego /acepto.`;
+
+const NEED_SUBSCRIPTION = `Para conversar con el oráculo necesitas una suscripción activa.
+Actívala aquí: ${process.env.WEB_BASE_URL}
+Cuando esté lista, vuelve a este chat y escríbeme.`;
 
 const askBirth = (nombre: string) =>
   `Gracias, ${nombre}. ✨ Para leer tu carta necesito saber dónde y cuándo naciste.
@@ -43,14 +48,20 @@ const handler = httpAction(async (ctx, req) => {
   const text = (msg.text as string).trim();
   const nombre = (msg.from?.first_name || msg.from?.username || "consultante") as string;
 
-  if (text === "/start") {
+  if (text === "/start" || text.startsWith("/start ") || text.startsWith("/start@")) {
     await ctx.runMutation(internal.messages.ensureConversation, { chatId });
+    const token = parseStartToken(text);
+    if (token) {
+      // Deep-link desde la web tras pagar: amarra este chatId a la suscripción.
+      await ctx.runMutation(internal.subscriptions.linkChat, { linkToken: token, chatId });
+    }
     await sendTelegram(chatId, WELCOME);
     return ok();
   }
   if (text === "/acepto") {
     await ctx.runMutation(internal.messages.recordConsent, { chatId, version: CONSENT_VERSION });
-    await sendTelegram(chatId, askBirth(nombre));
+    const active = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
+    await sendTelegram(chatId, active ? askBirth(nombre) : NEED_SUBSCRIPTION);
     return ok();
   }
 
@@ -59,6 +70,14 @@ const handler = httpAction(async (ctx, req) => {
   // Puerta de consentimiento (Ley 21.719): nada llega al oráculo sin consentimiento previo.
   if (!convo?.consented) {
     await sendTelegram(chatId, NEED_CONSENT);
+    return ok();
+  }
+
+  // Puerta de suscripción: nada de onboarding ni oráculo sin suscripción activa.
+  // ponytail: una query por mensaje en la ruta caliente; indexado by_chat, barato.
+  const activeSub = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
+  if (!activeSub) {
+    await sendTelegram(chatId, NEED_SUBSCRIPTION);
     return ok();
   }
 
@@ -108,9 +127,6 @@ const handler = httpAction(async (ctx, req) => {
     await sendTelegram(chatId, "Empecemos una lectura nueva. ¿Qué quieres mirar?");
     return ok();
   }
-
-  // Stub de paywall — Fase 1 sin pago.
-  // ponytail: acceso siempre permitido; reemplazar por chequeo de suscripción Flow en Fase 2.
 
   await ctx.runMutation(internal.messages.addMessage, { chatId, role: "user", content: text });
   await ctx.scheduler.runAfter(0, internal.oracle.respond, { chatId }); // responde async, 200 inmediato
