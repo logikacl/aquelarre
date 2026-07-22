@@ -13,6 +13,7 @@ import {
   getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
 } from "./admin";
 import { register, login } from "./authapi";
+import { publicOracles } from "./publicapi";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -155,4 +156,5 @@ http.route({ path: "/api/admin/oracles/publish", method: "POST", handler: publis
 http.route({ path: "/api/admin/oracles/delete", method: "POST", handler: deleteOracle });
 http.route({ path: "/api/auth/register", method: "POST", handler: register });
 http.route({ path: "/api/auth/login", method: "POST", handler: login });
+http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
 export default http;
