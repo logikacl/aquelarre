@@ -1,0 +1,14 @@
+{
+  "name": "oraculo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "convex dev",
+    "deploy": "convex deploy"
+  },
+  "dependencies": {
+    "astronomy-engine": "^2.1.19",
+    "convex": "^1.17.0"
+  }
+}
