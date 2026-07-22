@@ -6,6 +6,9 @@ import { parseFecha, parseHora, fmtHora, noSabeHora, isoFecha } from "./birth";
 import { natalChart } from "./astro";
 import { buscarCiudad } from "./cities";
 import { parseStartToken } from "./subscription";
+import {
+  checkout, subscription, subscriptionAction, subscriptionDelete, mercadopagoWebhook,
+} from "./webapi";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -135,4 +138,9 @@ const handler = httpAction(async (ctx, req) => {
 
 const http = httpRouter();
 http.route({ path: "/telegram", method: "POST", handler });
+http.route({ path: "/api/checkout", method: "POST", handler: checkout });
+http.route({ path: "/api/subscription", method: "POST", handler: subscription });
+http.route({ path: "/api/subscription/action", method: "POST", handler: subscriptionAction });
+http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
+http.route({ path: "/mercadopago", method: "POST", handler: mercadopagoWebhook });
 export default http;
