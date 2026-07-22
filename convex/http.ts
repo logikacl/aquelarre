@@ -9,6 +9,9 @@ import { parseStartToken } from "./subscription";
 import {
   checkout, subscription, subscriptionAction, subscriptionDelete, mercadopagoWebhook,
 } from "./webapi";
+import {
+  getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
+} from "./admin";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -143,4 +146,10 @@ http.route({ path: "/api/subscription", method: "POST", handler: subscription })
 http.route({ path: "/api/subscription/action", method: "POST", handler: subscriptionAction });
 http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
 http.route({ path: "/mercadopago", method: "POST", handler: mercadopagoWebhook });
+http.route({ path: "/api/admin/config", method: "POST", handler: getConfig });
+http.route({ path: "/api/admin/config/set", method: "POST", handler: setConfig });
+http.route({ path: "/api/admin/oracles", method: "POST", handler: listOracles });
+http.route({ path: "/api/admin/oracles/upsert", method: "POST", handler: upsertOracle });
+http.route({ path: "/api/admin/oracles/publish", method: "POST", handler: publishOracle });
+http.route({ path: "/api/admin/oracles/delete", method: "POST", handler: deleteOracle });
 export default http;
