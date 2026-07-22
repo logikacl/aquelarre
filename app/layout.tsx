@@ -3,6 +3,7 @@ import { EB_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ConsentClient from "@/components/ConsentClient";
 
 const garamond = EB_Garamond({ subsets: ["latin"], variable: "--font-garamond" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
@@ -16,9 +17,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${garamond.variable} ${manrope.variable}`}>
       <body className="bg-background text-on-surface font-body">
-        <Nav />
-        {children}
-        <Footer />
+        <ConsentClient>
+          <Nav />
+          {children}
+          <Footer />
+        </ConsentClient>
       </body>
     </html>
   );

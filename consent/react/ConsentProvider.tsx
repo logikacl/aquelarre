@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { createConsentManager } from '../core/consent-manager';
 import { consentConfig } from '../config';

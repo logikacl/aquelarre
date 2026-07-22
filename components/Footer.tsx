@@ -1,3 +1,5 @@
+import CookiePrefsButton from "@/components/CookiePrefsButton";
+
 export default function Footer() {
   return (
     <footer className="border-t border-primary/10 bg-background py-12">
@@ -29,6 +31,7 @@ export default function Footer() {
             >
               Términos
             </a>
+            <CookiePrefsButton />
           </nav>
           <nav className="flex flex-col gap-2">
             <span className="font-bold text-xs uppercase tracking-widest text-primary mb-2">Social</span>

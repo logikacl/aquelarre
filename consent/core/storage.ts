@@ -3,6 +3,10 @@ import type { ConsentConfig, ConsentState } from './types';
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
 function readCookie(name: string): string | null {
+  // ponytail: guard for Next.js SSR — this module targeted Vite (client-only),
+  // where `document` always exists. The React layer's getServerSnapshot already
+  // returns null for hydration; this just stops the server render from throwing.
+  if (typeof document === 'undefined') return null;
   const prefix = `${name}=`;
   const row = document.cookie.split('; ').find((r) => r.startsWith(prefix));
   return row ? decodeURIComponent(row.slice(prefix.length)) : null;
