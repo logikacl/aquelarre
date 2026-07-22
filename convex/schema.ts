@@ -77,4 +77,12 @@ export default defineSchema({
     order: v.number(),
     updatedAt: v.number(),
   }).index("by_slug", ["slug"]),
+
+  // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
+  users: defineTable({
+    email: v.string(),
+    name: v.string(),
+    passwordHash: v.string(), // formato "saltB64:hashB64"
+    createdAt: v.number(),
+  }).index("by_email", ["email"]),
 });
