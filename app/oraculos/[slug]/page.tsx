@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { backendGet } from "@/lib/backend";
+import { getCopy } from "@/lib/content";
 
 type Oracle = { slug: string; name: string; specialty: string | null; bio: string | null; photoUrl: string | null };
 type PublicData = { oracles: Oracle[]; priceClp: number };
@@ -10,6 +11,11 @@ export default async function Perfil({ params }: { params: Promise<{ slug: strin
   const { oracles } = await backendGet<PublicData>("/api/public/oracles");
   const oracle = oracles.find((o) => o.slug === slug);
   if (!oracle) notFound();
+
+  const t = await getCopy();
+  // El admin edita estos textos con el placeholder literal {nombre}; acá se sustituye
+  // por el nombre del oráculo de la ficha.
+  const conNombre = (key: string) => t(key).replaceAll("{nombre}", oracle.name);
 
   return (
     <main className="pt-28 pb-20 px-4 max-w-7xl mx-auto space-y-16">
@@ -44,7 +50,7 @@ export default async function Perfil({ params }: { params: Promise<{ slug: strin
               className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-on-primary rounded-xl font-bold text-lg hover:opacity-90 transition-all active:scale-95"
               href="/checkout"
             >
-              Suscribirme para hablar con {oracle.name}
+              {conNombre("oraculo.boton_suscripcion")}
             </Link>
           </div>
         </div>
@@ -53,16 +59,14 @@ export default async function Perfil({ params }: { params: Promise<{ slug: strin
       {/* CTA */}
       <section className="relative rounded-3xl overflow-hidden border border-primary/20 bg-surface-container flex items-center justify-center py-16">
         <div className="relative z-10 text-center space-y-6 max-w-2xl px-6">
-          <h2 className="text-4xl font-headline font-bold text-on-surface">¿Listo para conocer tu destino?</h2>
-          <p className="text-on-surface-variant text-lg">
-            El universo habla un lenguaje que solo {oracle.name} puede traducir para ti hoy mismo.
-          </p>
+          <h2 className="text-4xl font-headline font-bold text-on-surface">{t("oraculo.cta.titulo")}</h2>
+          <p className="text-on-surface-variant text-lg">{conNombre("oraculo.cta.parrafo")}</p>
           <div className="flex justify-center">
             <Link
               className="bg-primary text-on-primary px-10 py-5 rounded-full font-bold text-xl hover:scale-105 transition-transform inline-flex items-center gap-4"
               href="/checkout"
             >
-              Comenzar Lectura Ahora
+              {t("oraculo.cta.boton")}
               <span>🚀</span>
             </Link>
           </div>
