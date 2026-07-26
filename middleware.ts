@@ -3,10 +3,10 @@ import { auth } from "@/lib/auth";
 export default auth((req) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
-  if (pathname.startsWith("/cuenta") && !session) {
-    return Response.redirect(new URL("/checkout", req.url));
+  if (!session) {
+    return Response.redirect(new URL("/ingresar", req.url));
   }
-  if (pathname.startsWith("/admin") && !(session as any)?.isAdmin) {
+  if (pathname.startsWith("/admin") && !(session as any).isAdmin) {
     return Response.redirect(new URL("/", req.url));
   }
 });

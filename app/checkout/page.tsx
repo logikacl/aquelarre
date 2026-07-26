@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { backendGet } from "@/lib/backend";
 import { clp } from "@/lib/format";
 import { registerAndCheckout } from "./actions";
@@ -73,6 +74,13 @@ export default async function Checkout() {
               </button>
               <p className="md:col-span-2 text-xs text-on-surface-variant text-center">
                 Serás redirigido a MercadoPago para completar el pago de forma segura.
+              </p>
+              <p className="md:col-span-2 text-sm text-on-surface-variant text-center">
+                ¿Ya tienes cuenta?{" "}
+                <Link className="underline text-primary" href="/ingresar">
+                  Inicia sesión
+                </Link>
+                .
               </p>
             </form>
           </section>

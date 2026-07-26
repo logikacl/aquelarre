@@ -18,7 +18,16 @@ export async function registerAndCheckout(formData: FormData) {
     throw new Error(reg.error);
   }
 
-  await signIn("credentials", { email, password, redirect: false });
+  // El email ya existía y la clave no coincide → no es un registro, es un login fallido:
+  // mandarlo a /ingresar en vez de cobrarle. Ver nota en app/ingresar/actions.ts.
+  let signedIn = true;
+  try {
+    const url = await signIn("credentials", { email, password, redirect: false });
+    signedIn = !String(url).includes("error=");
+  } catch {
+    signedIn = false;
+  }
+  if (!signedIn) redirect("/ingresar?error=1");
 
   const { initPoint } = await backendPost<{ initPoint: string; linkToken: string }>(
     "/api/checkout",

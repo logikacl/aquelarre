@@ -1,5 +1,6 @@
 import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
+import { hashPassword } from "./password";
 
 export const getByEmail = internalQuery({
   args: { email: v.string() },
@@ -14,5 +15,17 @@ export const create = internalMutation({
     if (existing) return { ok: false as const, error: "email ya registrado" };
     await ctx.db.insert("users", { email, name, passwordHash, createdAt: Date.now() });
     return { ok: true as const };
+  },
+});
+
+// Reset de password sobre una cuenta existente (seed/soporte). Interno a propósito:
+// no hay ruta HTTP que lo exponga. ponytail: sin flujo de "olvidé mi clave" hasta que se pida.
+export const setPassword = internalMutation({
+  args: { email: v.string(), password: v.string() },
+  handler: async (ctx, { email, password }) => {
+    const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", email)).unique();
+    if (!user) return { ok: false as const, error: "email no existe" };
+    await ctx.db.patch(user._id, { passwordHash: await hashPassword(password) });
+    return { ok: true as const, id: user._id };
   },
 });

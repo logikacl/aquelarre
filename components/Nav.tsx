@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 
-export default function Nav() {
+export default async function Nav() {
+  const session = await auth();
+
   return (
     <header className="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full mx-auto bg-surface/60 backdrop-blur-xl border-b border-primary/10">
       <div className="flex items-center gap-8">
@@ -28,12 +31,22 @@ export default function Nav() {
           </Link>
         </nav>
       </div>
-      <Link
-        className="px-6 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 font-headline font-semibold hover:bg-primary hover:text-on-primary transition-all duration-300 scale-95 active:scale-90"
-        href="/cuenta"
-      >
-        Iniciar Sesión
-      </Link>
+      <div className="flex items-center gap-3">
+        {(session as any)?.isAdmin && (
+          <Link
+            className="hidden md:inline font-headline font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors"
+            href="/admin"
+          >
+            Admin
+          </Link>
+        )}
+        <Link
+          className="px-6 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 font-headline font-semibold hover:bg-primary hover:text-on-primary transition-all duration-300 scale-95 active:scale-90"
+          href={session ? "/cuenta" : "/ingresar"}
+        >
+          {session ? "Mi cuenta" : "Iniciar Sesión"}
+        </Link>
+      </div>
     </header>
   );
 }
