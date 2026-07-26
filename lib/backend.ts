@@ -22,6 +22,22 @@ export async function backendPost<T>(path: string, body: unknown, secret: Secret
   return res.json() as Promise<T>;
 }
 
+// POST con cuerpo crudo (upload de archivos). Mismo guard de secreto que backendPost.
+export async function backendRaw<T>(
+  path: string,
+  body: ArrayBuffer,
+  contentType: string,
+  secret: Secret = "admin",
+): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    method: "POST",
+    headers: { ...headers(secret), "Content-Type": contentType },
+    body,
+  });
+  if (!res.ok) throw new Error(`backend ${path} ${res.status}: ${await res.text()}`);
+  return res.json() as Promise<T>;
+}
+
 // GET público (marketing). Revalida cada 60s.
 export async function backendGet<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`, { next: { revalidate: 60 } });
