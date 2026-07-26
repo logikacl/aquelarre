@@ -3,7 +3,7 @@
 export type SubEvent = { email: string; status: string; at: number };
 
 export type MesRow = {
-  mes: string; // "2026-07" (UTC)
+  mes: string; // "2026-07"
   activasInicio: number;
   nuevas: number;
   bajas: number;
@@ -15,7 +15,11 @@ export type MesRow = {
 // Si algún día se quiere medir el embudo, se agrega una serie aparte, no se mezcla acá.
 const BAJA = new Set(["paused", "cancelled", "deleted"]);
 
-const mesDe = (at: number) => new Date(at).toISOString().slice(0, 7);
+// El reporte lo lee un negocio chileno: el corte de mes es en hora local, no UTC —
+// si no, una baja del 31 a las 21:30 en Santiago aparece en el mes siguiente.
+// "en-CA" da "YYYY-MM-DD", así que el slice deja "YYYY-MM".
+const mesDe = (at: number) =>
+  new Date(at).toLocaleDateString("en-CA", { timeZone: "America/Santiago" }).slice(0, 7);
 
 const mesSiguiente = (mes: string) => {
   const [y, m] = mes.split("-").map(Number);
