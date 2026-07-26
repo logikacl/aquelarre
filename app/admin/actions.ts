@@ -8,12 +8,21 @@ async function assertAdmin() {
   if (!(session as any)?.isAdmin) throw new Error("no autorizado");
 }
 
+// Las páginas de marketing leen precio, oráculos y copy con un caché de 60s: sin esto,
+// lo que el admin acaba de guardar no se ve hasta que expire.
+function revalidarPublico() {
+  revalidatePath("/");
+  revalidatePath("/planes");
+  revalidatePath("/oraculos/[slug]", "page");
+}
+
 // "layout" revalida /admin y todo su subárbol; el default ("page") solo tocaría /admin
 // y dejaba /admin/oraculos sirviendo datos viejos tras guardar.
 export async function setPrice(priceClp: number) {
   await assertAdmin();
   await backendPost("/api/admin/config/set", { priceClp }, "admin");
   revalidatePath("/admin", "layout");
+  revalidarPublico();
 }
 
 export async function upsertOracle(data: {
@@ -23,12 +32,14 @@ export async function upsertOracle(data: {
   await assertAdmin();
   await backendPost("/api/admin/oracles/upsert", data, "admin");
   revalidatePath("/admin", "layout");
+  revalidarPublico();
 }
 
 export async function deleteOracle(slug: string) {
   await assertAdmin();
   await backendPost("/api/admin/oracles/delete", { slug }, "admin");
   revalidatePath("/admin", "layout");
+  revalidarPublico();
 }
 
 // El admin necesita el motivo real del fallo (p. ej. el 404 cuando no hay preapproval en
@@ -64,8 +75,5 @@ export async function setContent(key: string, value: string) {
     return { error: e instanceof Error ? e.message : "error desconocido" };
   }
   revalidatePath("/admin", "layout");
-  // El copy vive en las páginas públicas: sin esto el cambio no se ve hasta que expire el caché.
-  revalidatePath("/");
-  revalidatePath("/planes");
-  revalidatePath("/oraculos/[slug]", "page");
+  revalidarPublico();
 }
