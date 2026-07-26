@@ -35,6 +35,14 @@ export const isActiveByChat = internalQuery({
   },
 });
 
+// Historial completo para el reporte de churn.
+// ponytail: scan completo de la tabla; a este volumen (un evento por cambio de estado) es
+// trivial. Paginar por rango de fechas con el índice by_at si pasa las ~10k filas.
+export const eventsAll = internalQuery({
+  args: {},
+  handler: (ctx) => ctx.db.query("subscriptionEvents").withIndex("by_at").collect(),
+});
+
 // Crea (o resetea a pending) la suscripción de un email y le da un token de enlace nuevo.
 export const createPending = internalMutation({
   args: { email: v.string() },

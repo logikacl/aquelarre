@@ -11,7 +11,7 @@ import {
 } from "./webapi";
 import {
   getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
-  listUsersAdmin, userAction, userDelete,
+  listUsersAdmin, userAction, userDelete, churnReport,
 } from "./admin";
 import { register, login } from "./authapi";
 import { publicOracles } from "./publicapi";
@@ -158,6 +158,7 @@ http.route({ path: "/api/admin/oracles/delete", method: "POST", handler: deleteO
 http.route({ path: "/api/admin/users", method: "POST", handler: listUsersAdmin });
 http.route({ path: "/api/admin/users/action", method: "POST", handler: userAction });
 http.route({ path: "/api/admin/users/delete", method: "POST", handler: userDelete });
+http.route({ path: "/api/admin/churn", method: "POST", handler: churnReport });
 http.route({ path: "/api/auth/register", method: "POST", handler: register });
 http.route({ path: "/api/auth/login", method: "POST", handler: login });
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });

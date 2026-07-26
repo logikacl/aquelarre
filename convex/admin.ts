@@ -1,6 +1,7 @@
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { applySubscriptionAction, suppressSubscription } from "./webapi";
+import { churnMensual } from "./churn";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
@@ -103,4 +104,15 @@ export const userDelete = httpAction(async (ctx, req) => {
   if (badEmail(email)) return json({ error: "email inválido" }, 400);
   await suppressSubscription(ctx, email);
   return json({ deleted: true });
+});
+
+// POST /api/admin/churn → { mensual, eventos }
+// Un solo endpoint: la tabla de la pantalla sale de `mensual` y las dos descargas CSV
+// de `mensual` y `eventos` (filas crudas) sin una segunda ida al servidor.
+export const churnReport = httpAction(async (ctx, req) => {
+  const bad = checkAdmin(req);
+  if (bad) return bad;
+  const rows = await ctx.runQuery(internal.subscriptions.eventsAll, {});
+  const eventos = rows.map(({ email, status, at }) => ({ email, status, at }));
+  return json({ mensual: churnMensual(eventos), eventos });
 });
