@@ -8,6 +8,34 @@ export const getByEmail = internalQuery({
     ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", email)).unique(),
 });
 
+// Vista del admin: cada cuenta con el estado de su suscripción ("none" si nunca pagó).
+// ponytail: scan completo de `users` + una lectura indexada por fila; a este volumen sobra.
+// Paginar (índice by_createdAt + cursor) cuando pasen los ~2.000 usuarios.
+export const listUsers = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const users = await ctx.db.query("users").collect();
+    const rows = await Promise.all(
+      users.map(async (u) => {
+        const sub = await ctx.db
+          .query("subscriptions")
+          .withIndex("by_email", (q) => q.eq("email", u.email))
+          .unique();
+        return {
+          email: u.email,
+          name: u.name,
+          createdAt: u.createdAt,
+          status: sub?.status ?? ("none" as const),
+          chatId: sub?.chatId ?? null,
+          mpPreapprovalId: sub?.mpPreapprovalId ?? null,
+          subUpdatedAt: sub?.updatedAt ?? null,
+        };
+      }),
+    );
+    return rows.sort((a, b) => b.createdAt - a.createdAt);
+  },
+});
+
 export const create = internalMutation({
   args: { email: v.string(), name: v.string(), passwordHash: v.string() },
   handler: async (ctx, { email, name, passwordHash }) => {

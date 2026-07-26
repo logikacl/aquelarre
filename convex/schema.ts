@@ -57,6 +57,22 @@ export default defineSchema({
     .index("by_chat", ["chatId"])
     .index("by_token", ["linkToken"]),
 
+  // Historial de cambios de estado. El estado actual no tiene memoria: sin esto
+  // no hay reporte de churn posible.
+  subscriptionEvents: defineTable({
+    email: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("active"),
+      v.literal("paused"),
+      v.literal("cancelled"),
+      v.literal("deleted"),
+    ),
+    at: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_at", ["at"]),
+
   // Config editable desde el admin. Fila única keyed por "subscription".
   settings: defineTable({
     key: v.string(),

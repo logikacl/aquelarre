@@ -1,9 +1,14 @@
-import { internalMutation, internalQuery } from "./_generated/server";
+import { internalMutation, internalQuery, type MutationCtx } from "./_generated/server";
 import { v } from "convex/values";
-import { newLinkToken, mapPreapprovalStatus, subscriptionAllows } from "./subscription";
+import { newLinkToken, mapPreapprovalStatus, subscriptionAllows, type SubStatus } from "./subscription";
 import type { MpStatus } from "./mercadopago";
 
 const now = () => Date.now();
+
+// Historial para el reporte de churn. Solo se registra cuando el estado cambia:
+// el webhook de MercadoPago puede repetirse y los duplicados inflarían las métricas.
+const logEvent = (ctx: MutationCtx, email: string, status: SubStatus | "deleted") =>
+  ctx.db.insert("subscriptionEvents", { email, status, at: now() });
 
 const statusValidator = v.union(
   v.literal("pending"),
@@ -41,6 +46,7 @@ export const createPending = internalMutation({
     const linkToken = newLinkToken();
     if (existing) {
       await ctx.db.patch(existing._id, { status: "pending", linkToken, updatedAt: now() });
+      if (existing.status !== "pending") await logEvent(ctx, email, "pending");
       return { id: existing._id, linkToken };
     }
     const id = await ctx.db.insert("subscriptions", {
@@ -50,6 +56,7 @@ export const createPending = internalMutation({
       createdAt: now(),
       updatedAt: now(),
     });
+    await logEvent(ctx, email, "pending");
     return { id, linkToken };
   },
 });
@@ -60,11 +67,9 @@ export const applyPreapproval = internalMutation({
   handler: async (ctx, { subId, mpPreapprovalId, mpStatus }) => {
     const sub = await ctx.db.get(subId);
     if (!sub) return;
-    await ctx.db.patch(subId, {
-      mpPreapprovalId,
-      status: mapPreapprovalStatus(mpStatus as MpStatus),
-      updatedAt: now(),
-    });
+    const status = mapPreapprovalStatus(mpStatus as MpStatus);
+    await ctx.db.patch(subId, { mpPreapprovalId, status, updatedAt: now() });
+    if (sub.status !== status) await logEvent(ctx, sub.email, status);
   },
 });
 
@@ -105,6 +110,7 @@ export const setStatusByEmail = internalMutation({
       .unique();
     if (!sub) return;
     await ctx.db.patch(sub._id, { status, updatedAt: now() });
+    if (sub.status !== status) await logEvent(ctx, email, status);
   },
 });
 
@@ -129,6 +135,17 @@ export const suppressByEmail = internalMutation({
     }
     const mpPreapprovalId = sub.mpPreapprovalId ?? null;
     await ctx.db.delete(sub._id);
+
+    // El historial sobrevive a la supresión, pero no la identidad: se seudonimiza con un
+    // token opaco (Ley 21.719). Único y estable por usuario, así el churn sigue midiendo
+    // bien — las transiciones pasadas quedan correlacionadas entre sí y con el "deleted".
+    const anon = `anon:${newLinkToken()}`;
+    const past = await ctx.db
+      .query("subscriptionEvents")
+      .withIndex("by_email", (q) => q.eq("email", email))
+      .collect();
+    await Promise.all(past.map((e) => ctx.db.patch(e._id, { email: anon })));
+    await logEvent(ctx, anon, "deleted");
     return { chatId, mpPreapprovalId };
   },
 });
