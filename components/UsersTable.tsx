@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import { setUserSubscription, deleteUser } from "@/app/admin/actions";
+import { fechaCL } from "@/lib/format";
 
 export type UserRow = {
   email: string;
   name: string;
   createdAt: number;
   status: "none" | "pending" | "active" | "paused" | "cancelled";
-  chatId: number | null;
-  mpPreapprovalId: string | null;
+  tieneChat: boolean;
+  gestionable: boolean; // hay preapproval en MercadoPago sobre el que actuar
   subUpdatedAt: number | null;
 };
 
@@ -19,9 +20,6 @@ const ESTADO: Record<UserRow["status"], { texto: string; clase: string }> = {
   cancelled: { texto: "Cancelada", clase: "bg-error/10 text-error" },
   none: { texto: "Sin suscripción", clase: "text-on-surface-variant border border-outline/30" },
 };
-
-const fecha = (ms: number | null) =>
-  ms ? new Date(ms).toLocaleDateString("es-CL", { timeZone: "America/Santiago" }) : "—";
 
 export default function UsersTable({ rows }: { rows: UserRow[] }) {
   const [q, setQ] = useState("");
@@ -82,7 +80,7 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
               // Sin preapproval en MercadoPago ninguna acción de suscripción funciona:
               // no se muestran botones muertos. Reactivar solo desde "paused", porque MP
               // no reautoriza un preapproval ya cancelado.
-              const gestionable = r.mpPreapprovalId !== null;
+              const gestionable = r.gestionable;
               return (
                 <tr key={r.email} className="border-b border-outline/20">
                   <td className="py-2 pr-4">{r.email}</td>
@@ -92,9 +90,9 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
                       {ESTADO[r.status].texto}
                     </span>
                   </td>
-                  <td className="py-2 pr-4">{r.chatId !== null ? "Sí" : "No"}</td>
-                  <td className="py-2 pr-4">{fecha(r.createdAt)}</td>
-                  <td className="py-2 pr-4">{fecha(r.subUpdatedAt)}</td>
+                  <td className="py-2 pr-4">{r.tieneChat ? "Sí" : "No"}</td>
+                  <td className="py-2 pr-4">{fechaCL(r.createdAt)}</td>
+                  <td className="py-2 pr-4">{fechaCL(r.subUpdatedAt)}</td>
                   <td className="py-2">
                     <div className="flex flex-wrap gap-2">
                       {gestionable && r.status === "active" && (
@@ -121,8 +119,11 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
                         onClick={() => {
                           if (
                             confirm(
-                              `Eliminar a ${r.email}: borra la cuenta, la suscripción y TODO el historial de chat. ` +
-                                `Es irreversible (supresión Ley 21.719). ¿Continuar?`,
+                              // "vinculado" y no "todo": si el chat de Telegram quedó
+                              // desligado por linkChat, ese historial no se alcanza (ver
+                              // suppressByEmail). No prometer lo que no se cumple.
+                              `Eliminar a ${r.email}: borra la cuenta, la suscripción y el historial del chat ` +
+                                `vinculado. Es irreversible (supresión Ley 21.719). ¿Continuar?`,
                             )
                           )
                             correr(r.email, () => deleteUser(r.email));

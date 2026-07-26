@@ -1,7 +1,7 @@
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { applySubscriptionAction, suppressSubscription } from "./webapi";
-import { churnMensual } from "./churn";
+import { churnMensual, mesDe } from "./churn";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
@@ -147,5 +147,7 @@ export const churnReport = httpAction(async (ctx, req) => {
   if (bad) return bad;
   const rows = await ctx.runQuery(internal.subscriptions.eventsAll, {});
   const eventos = rows.map(({ email, status, at }) => ({ email, status, at }));
-  return json({ mensual: churnMensual(eventos), eventos });
+  // Hasta el mes actual: si nadie se movió en junio y julio, esos meses tienen que existir
+  // igual — la última fila es la que rotula las tarjetas resumen de la pantalla.
+  return json({ mensual: churnMensual(eventos, mesDe(Date.now())), eventos });
 });

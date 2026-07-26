@@ -2,10 +2,7 @@ import { auth } from "@/lib/auth";
 import { backendPost } from "@/lib/backend";
 import { toCsv } from "@/lib/csv";
 import type { MesRow, SubEvent } from "@/convex/churn";
-
-// El backend entrega el timestamp crudo; el reporte lo lee gente en Chile.
-const fechaChile = (at: number) =>
-  new Date(at).toLocaleString("es-CL", { timeZone: "America/Santiago" });
+import { fechaHoraCL, isoCL } from "@/lib/format";
 
 export async function GET(req: Request) {
   // middleware.ts ya cubre /admin/*, pero esto es un borde de confianza: se verifica igual.
@@ -33,14 +30,15 @@ export async function GET(req: Request) {
         // de ahí que la columna sea "identificador" y no "email".
         Identificador: e.email,
         Estado: e.status,
-        Fecha: fechaChile(e.at),
+        Fecha: fechaHoraCL(e.at),
         "Timestamp (ms)": e.at, // para auditar sin depender del formateo
       }));
 
-  const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
-  // El BOM es lo único que hace que Excel en español lea el archivo como UTF-8;
-  // sin él los acentos salen rotos. No borrar.
-  return new Response("﻿" + toCsv(filas), {
+  const hoy = isoCL(Date.now());
+  // El BOM es lo único que hace que Excel en español lea el archivo como UTF-8; sin él los
+  // acentos salen rotos. Escapado y no literal: un formateador o una config de git se comen
+  // un U+FEFF crudo sin dejar rastro en el diff.
+  return new Response("\uFEFF" + toCsv(filas), {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
       "Content-Disposition": `attachment; filename="churn-${tipo}-${hoy}.csv"`,

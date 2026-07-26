@@ -26,8 +26,11 @@ export const listUsers = internalQuery({
           name: u.name,
           createdAt: u.createdAt,
           status: sub?.status ?? ("none" as const),
-          chatId: sub?.chatId ?? null,
-          mpPreapprovalId: sub?.mpPreapprovalId ?? null,
+          // Booleanos y no los valores: la tabla solo pregunta "¿hay?", y el chatId de
+          // Telegram es dato personal y el preapproval es camino de dinero — ninguno
+          // necesita viajar hasta el navegador.
+          tieneChat: sub?.chatId != null,
+          gestionable: sub?.mpPreapprovalId != null,
           subUpdatedAt: sub?.updatedAt ?? null,
         };
       }),

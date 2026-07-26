@@ -16,12 +16,17 @@ export default function ImageField({
   const [error, setError] = useState("");
 
   async function subir(file: File) {
+    // El tope también vive en Convex, pero rebotar acá evita subir y bufferear en memoria
+    // decenas de MB para recibir un 413 al final.
+    if (file.size > 5_000_000) return setError("La imagen supera los 5 MB.");
     setSubiendo(true);
     setError("");
     try {
       const res = await fetch("/admin/upload", {
         method: "POST",
-        headers: { "Content-Type": file.type },
+        // `file.type` puede venir vacío; como "" no es null, el ?? del route handler no lo
+        // cubriría y el backend rechazaría una imagen válida con "solo imágenes".
+        headers: { "Content-Type": file.type || "application/octet-stream" },
         body: file,
       });
       const data = await res.json();

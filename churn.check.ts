@@ -8,8 +8,9 @@ import { churnMensual, type SubEvent } from "./convex/churn.ts";
 const utc = (y: number, mes: number, d: number, h = 15) => Date.UTC(y, mes - 1, d, h);
 const ev = (email: string, status: string, at: number): SubEvent => ({ email, status, at });
 
-// Lista vacía.
+// Lista vacía — también con `hasta`: no hay último evento que mirar, no puede reventar.
 assert.deepStrictEqual(churnMensual([]), []);
+assert.deepStrictEqual(churnMensual([], "2026-07"), []);
 
 // Alta simple.
 assert.deepStrictEqual(churnMensual([ev("a@x.cl", "active", utc(2026, 1, 10))]), [
@@ -119,6 +120,26 @@ assert.deepStrictEqual(
     ev("a@x.cl", "deleted", Date.UTC(2027, 0, 1, 2)), // 2026-12-31 23:00 en Santiago
   ]).map((r) => r.mes),
   ["2026-12"],
+);
+
+// `hasta` posterior al último evento: rellena los meses tranquilos arrastrando el saldo, para
+// que el panel no rotule las tarjetas con un mes viejo. Cruza el año en el relleno.
+assert.deepStrictEqual(
+  churnMensual([ev("a@x.cl", "active", utc(2026, 11, 5))], "2027-01"),
+  [
+    { mes: "2026-11", activasInicio: 0, nuevas: 1, bajas: 0, activasFin: 1, churnPct: 0 },
+    { mes: "2026-12", activasInicio: 1, nuevas: 0, bajas: 0, activasFin: 1, churnPct: 0 },
+    { mes: "2027-01", activasInicio: 1, nuevas: 0, bajas: 0, activasFin: 1, churnPct: 0 },
+  ],
+);
+
+// `hasta` anterior al último evento: se ignora (no corta filas ni cuelga el bucle).
+assert.deepStrictEqual(
+  churnMensual(
+    [ev("a@x.cl", "active", utc(2026, 1, 5)), ev("a@x.cl", "cancelled", utc(2026, 3, 10))],
+    "2025-06",
+  ).map((r) => r.mes),
+  ["2026-01", "2026-02", "2026-03"],
 );
 
 console.log("churn.check.ts OK");

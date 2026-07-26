@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { upsertOracle, deleteOracle } from "@/app/admin/actions";
 import ImageField from "@/components/ImageField";
+import { campoAdmin as campo } from "@/lib/format";
 
 export type Oracle = {
   slug: string;
@@ -13,8 +14,6 @@ export type Oracle = {
   published: boolean;
   order: number;
 };
-
-const campo = "w-full bg-surface-container border border-outline/30 rounded-lg py-2 px-3";
 
 export default function OracleForm({ oracle }: { oracle?: Oracle }) {
   // Precarga TODOS los campos que el upsert manda: el botón Guardar envía el
@@ -31,11 +30,27 @@ export default function OracleForm({ oracle }: { oracle?: Oracle }) {
   });
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF({ ...f, [k]: v });
 
+  const [ocupado, setOcupado] = useState(false);
+  const [error, setError] = useState("");
+
   // Sin router.refresh(): las acciones revalidan /admin como "layout", que ya cubre esta ruta.
-  const guardar = () => upsertOracle(f);
+  async function correr(fn: () => Promise<{ error: string } | void>) {
+    setOcupado(true);
+    setError("");
+    try {
+      const r = await fn();
+      if (r?.error) setError(r.error);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "error desconocido");
+    } finally {
+      setOcupado(false);
+    }
+  }
+
+  const guardar = () => correr(() => upsertOracle(f));
   const borrar = () => {
     if (!oracle || !confirm("¿Borrar oráculo?")) return;
-    return deleteOracle(oracle.slug);
+    correr(() => deleteOracle(oracle.slug));
   };
 
   return (
@@ -82,12 +97,15 @@ export default function OracleForm({ oracle }: { oracle?: Oracle }) {
           />
         </label>
       </div>
+      {error && <p className="text-sm text-error">{error}</p>}
       <div className="flex gap-3">
-        <button onClick={guardar} className="px-5 py-2 rounded-lg bg-primary text-on-primary font-bold">
-          Guardar
+        <button onClick={guardar} disabled={ocupado}
+          className="px-5 py-2 rounded-lg bg-primary text-on-primary font-bold disabled:opacity-40">
+          {ocupado ? "Guardando…" : "Guardar"}
         </button>
         {oracle && (
-          <button onClick={borrar} className="px-5 py-2 rounded-lg border border-error/40 text-error">
+          <button onClick={borrar} disabled={ocupado}
+            className="px-5 py-2 rounded-lg border border-error/40 text-error disabled:opacity-40">
             Borrar
           </button>
         )}

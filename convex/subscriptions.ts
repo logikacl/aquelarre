@@ -43,6 +43,28 @@ export const eventsAll = internalQuery({
   handler: (ctx) => ctx.db.query("subscriptionEvents").withIndex("by_at").collect(),
 });
 
+// Backfill de un solo uso, para correr a mano una vez (`npx convex run subscriptions:backfillEvents`
+// o desde el dashboard). `subscriptionEvents` es posterior a las primeras suscripciones: la cohorte
+// que ya existía tiene cero eventos, y como churnMensual solo cuenta una baja de quien entró al set
+// con un "active", esas suscripciones no aparecen ni al alta ni a la baja — el panel mostraría 0%.
+// Idempotente: si el email ya tiene historial se salta, así correrla dos veces no duplica nada.
+export const backfillEvents = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    let creados = 0;
+    for (const s of await ctx.db.query("subscriptions").collect()) {
+      const previo = await ctx.db
+        .query("subscriptionEvents")
+        .withIndex("by_email", (q) => q.eq("email", s.email))
+        .first();
+      if (previo) continue;
+      await ctx.db.insert("subscriptionEvents", { email: s.email, status: s.status, at: s.createdAt });
+      creados++;
+    }
+    return { creados };
+  },
+});
+
 // Crea (o resetea a pending) la suscripción de un email y le da un token de enlace nuevo.
 export const createPending = internalMutation({
   args: { email: v.string() },
@@ -134,11 +156,32 @@ export const suppressByEmail = internalMutation({
       .unique();
     if (user) await ctx.db.delete(user._id);
 
+    // El historial sobrevive a la supresión, pero no la identidad: se seudonimiza con un
+    // token opaco (Ley 21.719). El token es nuevo en cada supresión, así que este ciclo de
+    // vida queda correlacionado consigo mismo — suficiente para el churn — y desligado de
+    // cualquier otro del mismo email: es a propósito, re-identificar sería el bug.
+    // Va antes del early-return a propósito: si alguna vez hay eventos sin fila de
+    // suscripción, el email quedaría en claro en la única tabla que sobrevive al borrado.
+    const past = await ctx.db
+      .query("subscriptionEvents")
+      .withIndex("by_email", (q) => q.eq("email", email))
+      .collect();
+    if (past.length > 0) {
+      const anon = `anon:${newLinkToken()}`;
+      await Promise.all(past.map((e) => ctx.db.patch(e._id, { email: anon })));
+      await logEvent(ctx, anon, "deleted");
+    }
+
     const sub = await ctx.db
       .query("subscriptions")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
     if (!sub) return { chatId: null, mpPreapprovalId: null };
+    // ponytail: solo se borra el chat que esta suscripción tiene vinculado *ahora*. Si el
+    // usuario compartió su chat de Telegram con otra cuenta, linkChat le quitó el chatId a
+    // la suscripción anterior y esos `messages` quedan huérfanos, sin email que los alcance.
+    // Requiere dos cuentas sobre un mismo chat; el arreglo real es ambiguo (borrar ese chat
+    // afectaría al otro usuario), así que se documenta en vez de adivinar.
     const chatId = sub.chatId ?? null;
     if (chatId !== null) {
       for (const table of ["messages", "consent", "conversations"] as const) {
@@ -151,18 +194,6 @@ export const suppressByEmail = internalMutation({
     }
     const mpPreapprovalId = sub.mpPreapprovalId ?? null;
     await ctx.db.delete(sub._id);
-
-    // El historial sobrevive a la supresión, pero no la identidad: se seudonimiza con un
-    // token opaco (Ley 21.719). El token es nuevo en cada supresión, así que este ciclo de
-    // vida queda correlacionado consigo mismo — suficiente para el churn — y desligado de
-    // cualquier otro del mismo email: es a propósito, re-identificar sería el bug.
-    const anon = `anon:${newLinkToken()}`;
-    const past = await ctx.db
-      .query("subscriptionEvents")
-      .withIndex("by_email", (q) => q.eq("email", email))
-      .collect();
-    await Promise.all(past.map((e) => ctx.db.patch(e._id, { email: anon })));
-    await logEvent(ctx, anon, "deleted");
     return { chatId, mpPreapprovalId };
   },
 });

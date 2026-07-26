@@ -3,8 +3,7 @@ import { useState } from "react";
 import { COPY_GROUPS, type CopyDef } from "@/lib/copy";
 import { setContent } from "@/app/admin/actions";
 import ImageField from "@/components/ImageField";
-
-const campo = "w-full bg-surface-container border border-outline/30 rounded-lg py-2 px-3";
+import { campoAdmin as campo } from "@/lib/format";
 
 // ponytail: se guarda campo por campo, sin "guardar todo" ni autosave. Cada guardado es
 // un round-trip al backend + revalidación de las páginas públicas; con 69 campos un
