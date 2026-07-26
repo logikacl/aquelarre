@@ -28,3 +28,26 @@ export async function deleteOracle(slug: string) {
   await backendPost("/api/admin/oracles/delete", { slug }, "admin");
   revalidatePath("/admin");
 }
+
+// El admin necesita el motivo real del fallo (p. ej. el 404 cuando no hay preapproval en
+// MercadoPago), y Next redacta el mensaje de los throw de Server Actions en producción:
+// por eso el error viaja como dato de retorno en vez de excepción.
+export async function setUserSubscription(email: string, action: "pause" | "reactivate" | "cancel") {
+  await assertAdmin();
+  try {
+    await backendPost("/api/admin/users/action", { email, action }, "admin");
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "error desconocido" };
+  }
+  revalidatePath("/admin/usuarios");
+}
+
+export async function deleteUser(email: string) {
+  await assertAdmin();
+  try {
+    await backendPost("/api/admin/users/delete", { email }, "admin");
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "error desconocido" };
+  }
+  revalidatePath("/admin/usuarios");
+}
