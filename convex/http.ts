@@ -12,9 +12,10 @@ import {
 import {
   getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
   listUsersAdmin, userAction, userDelete, churnReport,
+  getContent, setContent, uploadImage,
 } from "./admin";
 import { register, login } from "./authapi";
-import { publicOracles } from "./publicapi";
+import { publicOracles, publicContent } from "./publicapi";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -159,7 +160,11 @@ http.route({ path: "/api/admin/users", method: "POST", handler: listUsersAdmin }
 http.route({ path: "/api/admin/users/action", method: "POST", handler: userAction });
 http.route({ path: "/api/admin/users/delete", method: "POST", handler: userDelete });
 http.route({ path: "/api/admin/churn", method: "POST", handler: churnReport });
+http.route({ path: "/api/admin/content", method: "POST", handler: getContent });
+http.route({ path: "/api/admin/content/set", method: "POST", handler: setContent });
+http.route({ path: "/api/admin/upload", method: "POST", handler: uploadImage });
 http.route({ path: "/api/auth/register", method: "POST", handler: register });
 http.route({ path: "/api/auth/login", method: "POST", handler: login });
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
+http.route({ path: "/api/public/content", method: "GET", handler: publicContent });
 export default http;

@@ -76,6 +76,39 @@ export const deleteOracle = httpAction(async (ctx, req) => {
   return json({ ok: true });
 });
 
+// POST /api/admin/content            → { key: value } de los overrides
+// POST /api/admin/content/set { key, value }   → value vacío borra el override
+export const getContent = httpAction(async (ctx, req) => {
+  const bad = checkAdmin(req);
+  if (bad) return bad;
+  return json(await ctx.runQuery(internal.content.getAll, {}));
+});
+
+export const setContent = httpAction(async (ctx, req) => {
+  const bad = checkAdmin(req);
+  if (bad) return bad;
+  const { key, value } = await req.json();
+  if (typeof key !== "string" || !key.trim()) return json({ error: "key inválida" }, 400);
+  if (typeof value !== "string") return json({ error: "value debe ser string" }, 400);
+  await ctx.runMutation(internal.content.set, { key, value });
+  return json({ ok: true });
+});
+
+// POST /api/admin/upload — body = bytes crudos de la imagen (no JSON).
+// Devuelve una URL string, así que aguas abajo se guarda igual que cualquier photoUrl.
+export const uploadImage = httpAction(async (ctx, req) => {
+  const bad = checkAdmin(req);
+  if (bad) return bad;
+  const blob = await req.blob();
+  // Borde de confianza: valida tipo y tamaño antes de escribir en storage.
+  if (!blob.type.startsWith("image/")) return json({ error: "solo imágenes" }, 415);
+  if (blob.size > 5_000_000) return json({ error: "máximo 5 MB" }, 413);
+  const id = await ctx.storage.store(blob);
+  const url = await ctx.storage.getUrl(id);
+  if (!url) return json({ error: "no se pudo generar la URL" }, 500);
+  return json({ url });
+});
+
 // POST /api/admin/users                                     → usuarios + estado de suscripción
 // POST /api/admin/users/action { email, action }             → pausar/reactivar/cancelar
 // POST /api/admin/users/delete { email }                     → supresión Ley 21.719

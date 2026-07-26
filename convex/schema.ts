@@ -94,6 +94,14 @@ export default defineSchema({
     updatedAt: v.number(),
   }).index("by_slug", ["slug"]),
 
+  // Overrides del copy del sitio. Los defaults viven en lib/copy.ts (front);
+  // aquí solo se guarda lo que el admin editó. Tabla vacía = sitio como viene en código.
+  content: defineTable({
+    key: v.string(),
+    value: v.string(),
+    updatedAt: v.number(),
+  }).index("by_key", ["key"]),
+
   // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
   users: defineTable({
     email: v.string(),
