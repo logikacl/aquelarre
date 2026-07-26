@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { upsertOracle, deleteOracle } from "@/app/admin/actions";
 import ImageField from "@/components/ImageField";
 
@@ -30,18 +29,13 @@ export default function OracleForm({ oracle }: { oracle?: Oracle }) {
     published: oracle?.published ?? true,
     order: oracle?.order ?? 0,
   });
-  const router = useRouter();
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF({ ...f, [k]: v });
 
-  // Las acciones revalidan /admin; refrescar para que esta ruta vea los datos nuevos.
-  const guardar = async () => {
-    await upsertOracle(f);
-    router.refresh();
-  };
-  const borrar = async () => {
+  // Sin router.refresh(): las acciones revalidan /admin como "layout", que ya cubre esta ruta.
+  const guardar = () => upsertOracle(f);
+  const borrar = () => {
     if (!oracle || !confirm("¿Borrar oráculo?")) return;
-    await deleteOracle(oracle.slug);
-    router.refresh();
+    return deleteOracle(oracle.slug);
   };
 
   return (
