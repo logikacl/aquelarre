@@ -43,11 +43,16 @@ export const subscription = httpAction(async (ctx, req) => {
   return json({ status: sub.status, chatId: sub.chatId ?? null, linkToken: sub.linkToken ?? null });
 });
 
-const ACTIONS = {
-  pause: { mp: "paused", internal: "paused" },
-  reactivate: { mp: "authorized", internal: "active" },
-  cancel: { mp: "cancelled", internal: "cancelled" },
-} as const;
+type MpAction = Parameters<typeof setPreapprovalStatus>[1];
+
+// Map y no objeto literal a propósito: con un objeto, ACTIONS["toString"] devuelve un
+// método heredado de Object.prototype — truthy — y una acción fabricada pasaría el guard
+// para llegar a MercadoPago con `mp` undefined. Un Map solo conoce sus propias claves.
+export const ACTIONS = new Map<string, { mp: MpAction; internal: SubStatus }>([
+  ["pause", { mp: "paused", internal: "paused" }],
+  ["reactivate", { mp: "authorized", internal: "active" }],
+  ["cancel", { mp: "cancelled", internal: "cancelled" }],
+]);
 
 // Pausar/reactivar/cancelar en MercadoPago + reflejarlo en Convex. Vive aquí y no en la
 // httpAction porque el admin hace exactamente lo mismo con otro guard: es camino de dinero,
@@ -59,7 +64,7 @@ export async function applySubscriptionAction(
 ): Promise<{ ok: true; status: SubStatus } | { ok: false; error: string; code: number }> {
   const sub = await ctx.runQuery(internal.subscriptions.getByEmail, { email });
   if (!sub?.mpPreapprovalId) return { ok: false, error: "sin suscripción activa", code: 404 };
-  const m = ACTIONS[action as keyof typeof ACTIONS];
+  const m = ACTIONS.get(action);
   if (!m) return { ok: false, error: "acción inválida", code: 400 };
 
   await setPreapprovalStatus(sub.mpPreapprovalId, m.mp);

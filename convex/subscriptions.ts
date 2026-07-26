@@ -126,6 +126,14 @@ export const setStatusByEmail = internalMutation({
 export const suppressByEmail = internalMutation({
   args: { email: v.string() },
   handler: async (ctx, { email }) => {
+    // La cuenta web (email + nombre) es rastro personal: se borra aunque nunca haya
+    // habido suscripción. Deja al usuario sin login — es lo que pidió al borrar todo.
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", email))
+      .unique();
+    if (user) await ctx.db.delete(user._id);
+
     const sub = await ctx.db
       .query("subscriptions")
       .withIndex("by_email", (q) => q.eq("email", email))
@@ -145,8 +153,9 @@ export const suppressByEmail = internalMutation({
     await ctx.db.delete(sub._id);
 
     // El historial sobrevive a la supresión, pero no la identidad: se seudonimiza con un
-    // token opaco (Ley 21.719). Único y estable por usuario, así el churn sigue midiendo
-    // bien — las transiciones pasadas quedan correlacionadas entre sí y con el "deleted".
+    // token opaco (Ley 21.719). El token es nuevo en cada supresión, así que este ciclo de
+    // vida queda correlacionado consigo mismo — suficiente para el churn — y desligado de
+    // cualquier otro del mismo email: es a propósito, re-identificar sería el bug.
     const anon = `anon:${newLinkToken()}`;
     const past = await ctx.db
       .query("subscriptionEvents")
