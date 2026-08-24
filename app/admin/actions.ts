@@ -17,7 +17,7 @@ function revalidarPublico() {
 }
 
 // El admin necesita el motivo real del fallo (p. ej. el 400 "system es obligatorio", o el
-// 404 cuando no hay preapproval en MercadoPago). Next redacta el mensaje de los throw de
+// 404 cuando no hay suscripción en Reveniu). Next redacta el mensaje de los throw de
 // Server Actions en producción, así que el error viaja como dato de retorno, no como
 // excepción: si no, el botón simplemente no hace nada y el admin cree que guardó.
 async function backend(path: string, body: unknown) {
@@ -59,7 +59,7 @@ export async function deleteOracle(slug: string) {
   revalidarPublico();
 }
 
-export async function setUserSubscription(email: string, action: "pause" | "reactivate" | "cancel") {
+export async function setUserSubscription(email: string, action: "no_renovar" | "cancel") {
   await assertAdmin();
   const err = await backend("/api/admin/users/action", { email, action });
   if (err) return err;

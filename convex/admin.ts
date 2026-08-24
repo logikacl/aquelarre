@@ -110,7 +110,7 @@ export const uploadImage = httpAction(async (ctx, req) => {
 });
 
 // POST /api/admin/users                                     → usuarios + estado de suscripción
-// POST /api/admin/users/action { email, action }             → pausar/reactivar/cancelar
+// POST /api/admin/users/action { email, action }             → no renovar / cancelar
 // POST /api/admin/users/delete { email }                     → supresión Ley 21.719
 export const listUsersAdmin = httpAction(async (ctx, req) => {
   const bad = checkAdmin(req);
@@ -118,7 +118,7 @@ export const listUsersAdmin = httpAction(async (ctx, req) => {
   return json(await ctx.runQuery(internal.users.listUsers, {}));
 });
 
-// El body es borde de confianza: valida antes de tocar MercadoPago.
+// El body es borde de confianza: valida antes de tocar Reveniu.
 const badEmail = (email: unknown) => typeof email !== "string" || !email.includes("@");
 
 export const userAction = httpAction(async (ctx, req) => {

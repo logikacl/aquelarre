@@ -111,7 +111,7 @@ export const COPY_GROUPS: { page: string; label: string; items: CopyDef[] }[] = 
         key: "home.faq.3.respuesta",
         label: "FAQ 3 — respuesta",
         kind: "long",
-        def: "Utilizamos MercadoPago para cobros recurrentes mensuales. Puedes cancelar tu suscripción en cualquier momento sin compromisos de permanencia.",
+        def: "Utilizamos Reveniu para cobros recurrentes mensuales. Puedes cancelar tu suscripción en cualquier momento sin compromisos de permanencia.",
       },
     ],
   },

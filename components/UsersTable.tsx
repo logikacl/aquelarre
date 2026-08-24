@@ -7,16 +7,16 @@ export type UserRow = {
   email: string;
   name: string;
   createdAt: number;
-  status: "none" | "pending" | "active" | "paused" | "cancelled";
+  status: "none" | "pending" | "active" | "ending" | "cancelled";
   tieneChat: boolean;
-  gestionable: boolean; // hay preapproval en MercadoPago sobre el que actuar
+  gestionable: boolean; // hay suscripción en Reveniu sobre la que actuar
   subUpdatedAt: number | null;
 };
 
 const ESTADO: Record<UserRow["status"], { texto: string; clase: string }> = {
   active: { texto: "Activa", clase: "bg-primary text-on-primary" },
   pending: { texto: "Pendiente", clase: "bg-primary/15 text-primary" },
-  paused: { texto: "Pausada", clase: "bg-surface-container text-on-surface-variant border border-outline/40" },
+  ending: { texto: "Sin renovación", clase: "bg-surface-container text-on-surface-variant border border-outline/40" },
   cancelled: { texto: "Cancelada", clase: "bg-error/10 text-error" },
   none: { texto: "Sin suscripción", clase: "text-on-surface-variant border border-outline/30" },
 };
@@ -77,9 +77,9 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
           <tbody>
             {visibles.map((r) => {
               const esperando = ocupado === r.email;
-              // Sin preapproval en MercadoPago ninguna acción de suscripción funciona:
-              // no se muestran botones muertos. Reactivar solo desde "paused", porque MP
-              // no reautoriza un preapproval ya cancelado.
+              // Sin suscripción en Reveniu ninguna acción funciona: no se muestran botones
+              // muertos. No hay "reactivar": volver requiere registrar la tarjeta de nuevo
+              // y eso solo puede hacerlo el titular desde su cuenta.
               const gestionable = r.gestionable;
               return (
                 <tr key={r.email} className="border-b border-outline/20">
@@ -97,17 +97,11 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
                     <div className="flex flex-wrap gap-2">
                       {gestionable && r.status === "active" && (
                         <button disabled={esperando} className={btn}
-                          onClick={() => correr(r.email, () => setUserSubscription(r.email, "pause"))}>
-                          Pausar
+                          onClick={() => correr(r.email, () => setUserSubscription(r.email, "no_renovar"))}>
+                          No renovar
                         </button>
                       )}
-                      {gestionable && r.status === "paused" && (
-                        <button disabled={esperando} className={btn}
-                          onClick={() => correr(r.email, () => setUserSubscription(r.email, "reactivate"))}>
-                          Reactivar
-                        </button>
-                      )}
-                      {gestionable && (r.status === "active" || r.status === "paused") && (
+                      {gestionable && (r.status === "active" || r.status === "ending") && (
                         <button disabled={esperando} className={btn}
                           onClick={() => correr(r.email, () => setUserSubscription(r.email, "cancel"))}>
                           Cancelar

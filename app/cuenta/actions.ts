@@ -10,7 +10,7 @@ async function email(): Promise<string> {
   return e;
 }
 
-export async function changeSubscription(action: "pause" | "reactivate" | "cancel") {
+export async function changeSubscription(action: "no_renovar" | "cancel") {
   await backendPost("/api/subscription/action", { email: await email(), action }, "web");
   revalidatePath("/cuenta");
 }
