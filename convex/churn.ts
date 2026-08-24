@@ -11,9 +11,10 @@ export type MesRow = {
   churnPct: number;
 };
 
-// ponytail: solo "active" cuenta como activa — "pending" es intención de pago, no ingreso.
-// Si algún día se quiere medir el embudo, se agrega una serie aparte, no se mezcla acá.
-const BAJA = new Set(["paused", "cancelled", "deleted"]);
+// "ending" NO es baja: la persona sigue activa y pagada hasta el fin del período. La baja
+// se registra cuando llega subscription_deactivated. Contarla acá adelantaría la baja al
+// mes equivocado y la contaría dos veces.
+const BAJA = new Set(["cancelled", "deleted"]);
 
 // El reporte lo lee un negocio chileno: el corte de mes es en hora local, no UTC —
 // si no, una baja del 31 a las 21:30 en Santiago aparece en el mes siguiente.

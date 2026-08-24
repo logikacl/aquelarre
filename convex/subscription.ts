@@ -1,7 +1,6 @@
 // Lógica pura de suscripción (sin Convex) → testeable con subscription.check.ts.
-import type { MpStatus } from "./mercadopago";
 
-export type SubStatus = "pending" | "active" | "paused" | "cancelled";
+export type SubStatus = "pending" | "active" | "ending" | "cancelled";
 
 // Deep-link: Telegram envía "/start <param>". Devuelve el param o null.
 export function parseStartToken(text: string): string | null {
@@ -9,23 +8,32 @@ export function parseStartToken(text: string): string | null {
   return m?.[1] ?? null;
 }
 
-// Estado de MercadoPago → nuestro estado interno.
-export function mapPreapprovalStatus(mp: MpStatus): SubStatus {
-  switch (mp) {
-    case "authorized":
+// Evento de webhook de Reveniu + estado actual → estado nuevo, o null si no cambia nada.
+// Recibe el estado actual porque el orden de llegada de los webhooks no está garantizado y
+// hay transiciones que no deben ocurrir hacia atrás.
+export function nextStatus(event: string, current: SubStatus): SubStatus | null {
+  switch (event) {
+    case "subscription_activated":
       return "active";
-    case "paused":
-      return "paused";
-    case "cancelled":
+    case "subscription_payment_succeeded":
+      // Confirma un cobro, pero no resucita una suscripción dada de baja: si el usuario
+      // canceló y el cobro del período en curso llega después, mandaría el estado atrás.
+      return current === "ending" || current === "cancelled" ? null : "active";
+    case "subscription_renewal_cancelled":
+      return "ending"; // sigue activa hasta el fin del período pagado
+    case "subscription_deactivated":
       return "cancelled";
     default:
-      return "pending";
+      // subscription_payment_in_recovery cae acá a propósito: Reveniu pide no suspender
+      // el servicio mientras su motor de reintentos trabaja. Los eventos desconocidos
+      // también — un evento nuevo de su lado no puede mover el estado de nadie.
+      return null;
   }
 }
 
-// El chat solo pasa si la suscripción existe y está activa.
+// El chat pasa si la suscripción está activa o en su último período pagado.
 export function subscriptionAllows(sub: { status: SubStatus } | null | undefined): boolean {
-  return sub?.status === "active";
+  return sub?.status === "active" || sub?.status === "ending";
 }
 
 // Token de enlace de un solo uso. 24 chars alfanuméricos (subconjunto de lo que

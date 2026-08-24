@@ -44,7 +44,7 @@ assert.deepStrictEqual(
 
 // Alta un mes, baja al siguiente → 100% de churn en febrero.
 assert.deepStrictEqual(
-  churnMensual([ev("a@x.cl", "active", utc(2026, 1, 5)), ev("a@x.cl", "paused", utc(2026, 2, 3))]),
+  churnMensual([ev("a@x.cl", "active", utc(2026, 1, 5)), ev("a@x.cl", "cancelled", utc(2026, 2, 3))]),
   [
     { mes: "2026-01", activasInicio: 0, nuevas: 1, bajas: 0, activasFin: 1, churnPct: 0 },
     { mes: "2026-02", activasInicio: 1, nuevas: 0, bajas: 1, activasFin: 0, churnPct: 100 },
