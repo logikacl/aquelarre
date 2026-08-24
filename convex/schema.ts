@@ -82,7 +82,11 @@ export default defineSchema({
   settings: defineTable({
     key: v.string(),
     priceClp: v.number(),
-    reason: v.string(), // texto que ve el usuario en el cobro
+    // ponytail: quedó huérfano al migrar a Reveniu — el texto que ve el usuario en el
+    // cobro sale del título del plan (REVENIU_PLAN_ID), no de acá. Se sigue leyendo en
+    // /admin y en /api/public/oracles. Borrarlo es una limpieza de 5 archivos; hacerla
+    // cuando se confirme que el cliente no lo quiere como copy editable.
+    reason: v.string(),
   }).index("by_key", ["key"]),
 
   // Perfiles de astrólogos, gestionables desde el admin. El chat usa `system`;
