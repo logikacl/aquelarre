@@ -166,7 +166,7 @@ export const linkChat = internalMutation({
   },
 });
 
-// Cambia el estado interno por email (cancel/reactivate). El cambio en
+// Cambia el estado interno por email (no_renovar/cancel). El cambio en
 // Reveniu lo hace la httpAction antes de llamar esto.
 export const setStatusByEmail = internalMutation({
   args: { email: v.string(), status: statusValidator },
