@@ -37,17 +37,17 @@ export default defineSchema({
     at: v.number(),
   }).index("by_chat", ["chatId"]),
 
-  // Suscripción mensual (MercadoPago). Vive aquí (fuente única): el gate del chat la lee
+  // Suscripción mensual (Reveniu). Vive aquí (fuente única): el gate del chat la lee
   // directo y la supresión (Ley 21.719) borra todo en un solo sistema.
   subscriptions: defineTable({
     email: v.string(),
     status: v.union(
       v.literal("pending"),
       v.literal("active"),
-      v.literal("paused"),
+      v.literal("ending"), // canceló la renovación; activa hasta el fin del período
       v.literal("cancelled"),
     ),
-    mpPreapprovalId: v.optional(v.string()),
+    reveniuId: v.optional(v.number()),
     chatId: v.optional(v.number()), // ausente hasta que el deep-link lo enlaza
     linkToken: v.optional(v.string()), // token de un solo uso; se borra al enlazar
     createdAt: v.number(),
@@ -55,7 +55,8 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_chat", ["chatId"])
-    .index("by_token", ["linkToken"]),
+    .index("by_token", ["linkToken"])
+    .index("by_reveniu", ["reveniuId"]),
 
   // Historial de cambios de estado. El estado actual no tiene memoria: sin esto
   // no hay reporte de churn posible.
@@ -64,10 +65,14 @@ export default defineSchema({
     status: v.union(
       v.literal("pending"),
       v.literal("active"),
-      v.literal("paused"),
+      v.literal("ending"),
       v.literal("cancelled"),
       v.literal("deleted"),
     ),
+    // Los da el webhook subscription_renewal_cancelled. Material de churn que viene gratis:
+    // Reveniu le pregunta al usuario por qué se va y nos pasa la respuesta.
+    cancelReason: v.optional(v.string()),
+    feedback: v.optional(v.string()),
     at: v.number(),
   })
     .index("by_email", ["email"])
@@ -77,7 +82,7 @@ export default defineSchema({
   settings: defineTable({
     key: v.string(),
     priceClp: v.number(),
-    reason: v.string(), // texto que ve el usuario en MercadoPago
+    reason: v.string(), // texto que ve el usuario en el cobro
   }).index("by_key", ["key"]),
 
   // Perfiles de astrólogos, gestionables desde el admin. El chat usa `system`;

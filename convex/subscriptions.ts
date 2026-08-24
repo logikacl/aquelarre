@@ -1,19 +1,22 @@
 import { internalMutation, internalQuery, type MutationCtx } from "./_generated/server";
 import { v } from "convex/values";
-import { newLinkToken, mapPreapprovalStatus, subscriptionAllows, type SubStatus } from "./subscription";
-import type { MpStatus } from "./mercadopago";
+import { newLinkToken, subscriptionAllows, nextStatus, type SubStatus } from "./subscription";
 
 const now = () => Date.now();
 
 // Historial para el reporte de churn. Solo se registra cuando el estado cambia:
-// el webhook de MercadoPago puede repetirse y los duplicados inflarían las métricas.
-const logEvent = (ctx: MutationCtx, email: string, status: SubStatus | "deleted") =>
-  ctx.db.insert("subscriptionEvents", { email, status, at: now() });
+// los webhooks de Reveniu llegan repetidos y los duplicados inflarían las métricas.
+const logEvent = (
+  ctx: MutationCtx,
+  email: string,
+  status: SubStatus | "deleted",
+  motivo?: { cancelReason?: string; feedback?: string },
+) => ctx.db.insert("subscriptionEvents", { email, status, at: now(), ...motivo });
 
 const statusValidator = v.union(
   v.literal("pending"),
   v.literal("active"),
-  v.literal("paused"),
+  v.literal("ending"),
   v.literal("cancelled"),
 );
 
@@ -91,15 +94,49 @@ export const createPending = internalMutation({
   },
 });
 
-// Webhook: aplica el estado real de MercadoPago a una suscripción (localizada por _id).
-export const applyPreapproval = internalMutation({
-  args: { subId: v.id("subscriptions"), mpPreapprovalId: v.string(), mpStatus: v.string() },
-  handler: async (ctx, { subId, mpPreapprovalId, mpStatus }) => {
-    const sub = await ctx.db.get(subId);
-    if (!sub) return;
-    const status = mapPreapprovalStatus(mpStatus as MpStatus);
-    await ctx.db.patch(subId, { mpPreapprovalId, status, updatedAt: now() });
-    if (sub.status !== status) await logEvent(ctx, sub.email, status);
+// Guarda el id de Reveniu apenas se crea la suscripción allá, para que el webhook pueda
+// resolver la fila por índice.
+export const setReveniuId = internalMutation({
+  args: { subId: v.id("subscriptions"), reveniuId: v.number() },
+  handler: (ctx, { subId, reveniuId }) =>
+    ctx.db.patch(subId, { reveniuId, updatedAt: now() }),
+});
+
+// Webhook: aplica un evento de Reveniu a la suscripción que corresponda.
+// Resuelve primero por reveniuId (lo escribimos nosotros, es la vía autoritativa) y cae al
+// externalId — nuestro propio _id — para cubrir un caso real: el usuario abandona un
+// checkout, empieza otro (lo que sobreescribe reveniuId) y después completa la pestaña
+// vieja. Sin el fallback esa persona paga y no recibe nada.
+export const applyReveniuEvent = internalMutation({
+  args: {
+    event: v.string(),
+    reveniuId: v.number(),
+    externalId: v.optional(v.string()),
+    cancelReason: v.optional(v.string()),
+    feedback: v.optional(v.string()),
+  },
+  handler: async (ctx, { event, reveniuId, externalId, cancelReason, feedback }) => {
+    let sub = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_reveniu", (q) => q.eq("reveniuId", reveniuId))
+      .unique();
+
+    if (!sub && externalId) {
+      // normalizeId devuelve null si el string no es un Id de esta tabla — protege de que
+      // Reveniu nos devuelva el external_id transformado (su doc lo tipa como integer).
+      const id = ctx.db.normalizeId("subscriptions", externalId);
+      if (id) sub = await ctx.db.get(id);
+    }
+    if (!sub) return false;
+
+    const status = nextStatus(event, sub.status);
+    if (status === null) return true; // evento conocido que no mueve el estado
+
+    await ctx.db.patch(sub._id, { status, reveniuId, updatedAt: now() });
+    if (sub.status !== status) {
+      await logEvent(ctx, sub.email, status, { cancelReason, feedback });
+    }
+    return true;
   },
 });
 
@@ -129,8 +166,8 @@ export const linkChat = internalMutation({
   },
 });
 
-// Cambia el estado interno por email (pause/cancel/reactivate). El cambio en
-// MercadoPago lo hace la httpAction antes de llamar esto.
+// Cambia el estado interno por email (cancel/reactivate). El cambio en
+// Reveniu lo hace la httpAction antes de llamar esto.
 export const setStatusByEmail = internalMutation({
   args: { email: v.string(), status: statusValidator },
   handler: async (ctx, { email, status }) => {
@@ -176,7 +213,7 @@ export const suppressByEmail = internalMutation({
       .query("subscriptions")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
-    if (!sub) return { chatId: null, mpPreapprovalId: null };
+    if (!sub) return { chatId: null, reveniuId: null };
     // ponytail: solo se borra el chat que esta suscripción tiene vinculado *ahora*. Si el
     // usuario compartió su chat de Telegram con otra cuenta, linkChat le quitó el chatId a
     // la suscripción anterior y esos `messages` quedan huérfanos, sin email que los alcance.
@@ -192,8 +229,8 @@ export const suppressByEmail = internalMutation({
         await Promise.all(rows.map((r) => ctx.db.delete(r._id)));
       }
     }
-    const mpPreapprovalId = sub.mpPreapprovalId ?? null;
+    const reveniuId = sub.reveniuId ?? null;
     await ctx.db.delete(sub._id);
-    return { chatId, mpPreapprovalId };
+    return { chatId, reveniuId };
   },
 });
