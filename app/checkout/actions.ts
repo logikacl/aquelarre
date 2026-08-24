@@ -29,10 +29,7 @@ export async function registerAndCheckout(formData: FormData) {
   }
   if (!signedIn) redirect("/ingresar?error=1");
 
-  const { initPoint } = await backendPost<{ initPoint: string; linkToken: string }>(
-    "/api/checkout",
-    { email },
-    "web",
-  );
-  redirect(initPoint); // a MercadoPago
+  // El backend se llama desde /suscripcion/pagar, que necesita renderizar el form POST
+  // hacia Transbank: desde acá no se puede, un redirect() solo hace GET.
+  redirect("/suscripcion/pagar");
 }

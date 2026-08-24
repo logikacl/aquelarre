@@ -73,7 +73,7 @@ export default async function Checkout() {
                 <span aria-hidden="true">✨</span>
               </button>
               <p className="md:col-span-2 text-xs text-on-surface-variant text-center">
-                Serás redirigido a MercadoPago para completar el pago de forma segura.
+                Serás redirigido a Reveniu para completar el pago de forma segura.
               </p>
               <p className="md:col-span-2 text-sm text-on-surface-variant text-center">
                 ¿Ya tienes cuenta?{" "}
