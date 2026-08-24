@@ -7,7 +7,7 @@ import { natalChart } from "./astro";
 import { buscarCiudad } from "./cities";
 import { parseStartToken } from "./subscription";
 import {
-  checkout, subscription, subscriptionAction, subscriptionDelete, mercadopagoWebhook,
+  checkout, subscription, subscriptionAction, subscriptionDelete, reveniuWebhook,
 } from "./webapi";
 import {
   getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
@@ -149,7 +149,7 @@ http.route({ path: "/api/checkout", method: "POST", handler: checkout });
 http.route({ path: "/api/subscription", method: "POST", handler: subscription });
 http.route({ path: "/api/subscription/action", method: "POST", handler: subscriptionAction });
 http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
-http.route({ path: "/mercadopago", method: "POST", handler: mercadopagoWebhook });
+http.route({ path: "/reveniu", method: "POST", handler: reveniuWebhook });
 http.route({ path: "/api/admin/config", method: "POST", handler: getConfig });
 http.route({ path: "/api/admin/config/set", method: "POST", handler: setConfig });
 http.route({ path: "/api/admin/oracles", method: "POST", handler: listOracles });

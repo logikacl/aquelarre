@@ -1,6 +1,6 @@
 import { httpAction, type ActionCtx } from "./_generated/server";
 import { internal } from "./_generated/api";
-import { createPreapproval, getPreapproval, setPreapprovalStatus } from "./mercadopago";
+import { createSubscription, disableRenew, disable } from "./reveniu";
 import type { SubStatus } from "./subscription";
 
 const json = (data: unknown, status = 200) =>
@@ -13,24 +13,36 @@ function checkSecret(req: Request): Response | null {
   return null;
 }
 
-// POST /api/checkout { email } → { initPoint, linkToken }
-// Crea la suscripción pendiente y el preapproval en MercadoPago (precio desde settings).
+// El re-checkout de alguien que ya paga crearía una segunda suscripción viva en Reveniu:
+// dos cobros mensuales al mismo usuario. Es camino de dinero, se corta acá.
+export function yaTieneSuscripcion(sub: { status: string } | null | undefined): boolean {
+  return sub?.status === "active" || sub?.status === "ending";
+}
+
+// POST /api/checkout { email, name } → { completionUrl, securityToken, linkToken }
+//                                    | { alreadyActive: true }
+// Crea la suscripción pendiente y la suscripción en Reveniu (precio desde settings).
 export const checkout = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
-  const { email } = await req.json();
+  const { email, name } = await req.json();
   if (typeof email !== "string" || !email.includes("@")) return json({ error: "email inválido" }, 400);
+
+  const actual = await ctx.runQuery(internal.subscriptions.getByEmail, { email });
+  // 200 y no 409 a propósito: el front lo trata como una bifurcación normal ("andá a tu
+  // cuenta"), no como un error que backendPost tendría que hacer throw y parsear.
+  if (yaTieneSuscripcion(actual)) return json({ alreadyActive: true });
 
   const config = await ctx.runQuery(internal.settings.getSubscriptionConfig, {});
   const { id, linkToken } = await ctx.runMutation(internal.subscriptions.createPending, { email });
-  const pre = await createPreapproval({
+  const sub = await createSubscription({
     email,
+    name: typeof name === "string" && name ? name : email,
     amountClp: config.priceClp,
-    reason: config.reason,
-    externalReference: id,
-    backUrl: `${process.env.WEB_BASE_URL}/suscripcion/listo`,
+    externalId: id,
   });
-  return json({ initPoint: pre.init_point, linkToken });
+  await ctx.runMutation(internal.subscriptions.setReveniuId, { subId: id, reveniuId: sub.id });
+  return json({ completionUrl: sub.completionUrl, securityToken: sub.securityToken, linkToken });
 });
 
 // POST /api/subscription { email } → { status, chatId, linkToken }
@@ -43,48 +55,44 @@ export const subscription = httpAction(async (ctx, req) => {
   return json({ status: sub.status, chatId: sub.chatId ?? null, linkToken: sub.linkToken ?? null });
 });
 
-type MpAction = Parameters<typeof setPreapprovalStatus>[1];
-
-// Map y no objeto literal a propósito: con un objeto, ACTIONS["toString"] devuelve un
-// método heredado de Object.prototype — truthy — y una acción fabricada pasaría el guard
-// para llegar a MercadoPago con `mp` undefined. Un Map solo conoce sus propias claves.
-export const ACTIONS = new Map<string, { mp: MpAction; internal: SubStatus }>([
-  ["pause", { mp: "paused", internal: "paused" }],
-  ["reactivate", { mp: "authorized", internal: "active" }],
-  ["cancel", { mp: "cancelled", internal: "cancelled" }],
+// `op` como string y no la función misma para que webapi.check.ts pueda verificar el mapa
+// sin tocar la red.
+export const ACTIONS = new Map<string, { op: "disablerenew" | "disable"; internal: SubStatus }>([
+  ["no_renovar", { op: "disablerenew", internal: "ending" }],
+  ["cancel", { op: "disable", internal: "cancelled" }],
 ]);
 
-// Pausar/reactivar/cancelar en MercadoPago + reflejarlo en Convex. Vive aquí y no en la
-// httpAction porque el admin hace exactamente lo mismo con otro guard: es camino de dinero,
-// un solo lugar. Devuelve el resultado y cada llamador arma su Response.
+// Aplica la acción en Reveniu + la refleja en Convex. Vive aquí y no en la httpAction
+// porque el admin hace exactamente lo mismo con otro guard: es camino de dinero, un solo
+// lugar. Devuelve el resultado y cada llamador arma su Response.
 export async function applySubscriptionAction(
   ctx: ActionCtx,
   email: string,
   action: string,
 ): Promise<{ ok: true; status: SubStatus } | { ok: false; error: string; code: number }> {
   const sub = await ctx.runQuery(internal.subscriptions.getByEmail, { email });
-  if (!sub?.mpPreapprovalId) return { ok: false, error: "sin suscripción activa", code: 404 };
+  if (!sub?.reveniuId) return { ok: false, error: "sin suscripción activa", code: 404 };
   const m = ACTIONS.get(action);
   if (!m) return { ok: false, error: "acción inválida", code: 400 };
 
-  await setPreapprovalStatus(sub.mpPreapprovalId, m.mp);
+  await (m.op === "disablerenew" ? disableRenew : disable)(sub.reveniuId);
   await ctx.runMutation(internal.subscriptions.setStatusByEmail, { email, status: m.internal });
   return { ok: true, status: m.internal };
 }
 
-// Supresión Ley 21.719: borra el rastro local y cancela el cobro en MercadoPago.
+// Supresión Ley 21.719: borra el rastro local y corta el cobro en Reveniu.
 export async function suppressSubscription(ctx: ActionCtx, email: string) {
-  const { mpPreapprovalId } = await ctx.runMutation(internal.subscriptions.suppressByEmail, { email });
-  if (mpPreapprovalId) {
+  const { reveniuId } = await ctx.runMutation(internal.subscriptions.suppressByEmail, { email });
+  if (reveniuId) {
     try {
-      await setPreapprovalStatus(mpPreapprovalId, "cancelled");
+      await disable(reveniuId);
     } catch {
-      // ponytail: el dato local ya se borró; reintento manual si MercadoPago falla.
+      // ponytail: el dato local ya se borró; reintento manual si Reveniu falla.
     }
   }
 }
 
-// POST /api/subscription/action { email, action: "pause"|"reactivate"|"cancel" } → { status }
+// POST /api/subscription/action { email, action: "no_renovar"|"cancel" } → { status }
 export const subscriptionAction = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
@@ -102,22 +110,25 @@ export const subscriptionDelete = httpAction(async (ctx, req) => {
   return json({ deleted: true });
 });
 
-// POST /mercadopago (webhook, sin secreto propio: se verifica leyendo el preapproval en MP).
-export const mercadopagoWebhook = httpAction(async (ctx, req) => {
+// POST /reveniu (webhook). Reveniu manda nuestro propio secreto en el header: sin eso,
+// cualquiera podría activarle la suscripción a quien quisiera.
+export const reveniuWebhook = httpAction(async (ctx, req) => {
+  if (req.headers.get("Reveniu-Secret-Key") !== process.env.REVENIU_API_SECRET) {
+    return new Response("unauthorized", { status: 401 });
+  }
   const body = await req.json().catch(() => null);
-  const id = body?.data?.id;
-  const type = body?.type ?? body?.topic;
-  if (type !== "subscription_preapproval" || typeof id !== "string") {
-    return new Response(null, { status: 200 });
+  const event = body?.event;
+  const d = body?.data;
+  if (typeof event !== "string" || typeof d?.subscription_id !== "number") {
+    return new Response(null, { status: 200 }); // payload que no entendemos: no reintentar
   }
-  const pre = await getPreapproval(id); // fuente de verdad
-  const subId = pre.external_reference;
-  if (subId) {
-    await ctx.runMutation(internal.subscriptions.applyPreapproval, {
-      subId: subId as any, // Id<"subscriptions"> viaja como string en external_reference
-      mpPreapprovalId: id,
-      mpStatus: pre.status,
-    });
-  }
+  await ctx.runMutation(internal.subscriptions.applyReveniuEvent, {
+    event,
+    reveniuId: d.subscription_id,
+    externalId: d.subscription_external_id ?? undefined,
+    cancelReason: d.cancel_reason ?? undefined,
+    feedback: d.feedback ?? undefined,
+  });
+  // 200 aunque no hayamos encontrado la fila: reintentar no ayudaría y solo llenaría su cola.
   return new Response(null, { status: 200 });
 });
