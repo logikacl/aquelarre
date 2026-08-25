@@ -1,0 +1,962 @@
+[
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Aries",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Aries",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Aries",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Aries",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Aries",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Aries",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Aries",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Aries",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el fuego cardinal que impulsa a la iniciativa enérgica, la autoafirmación directa y la acción pionera e impaciente.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono vigoroso, directo, impaciente y altamente competitivo, donde las respuestas emocionales son veloces y con un corto tiempo de contención.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la toma de decisiones rápidas, el inicio de aventuras individuales y la autoafirmación valiente sin esperar el consenso ajeno.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Tauro",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Tauro",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Tauro",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Tauro",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Tauro",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Tauro",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Tauro",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Tauro",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con la tierra fija que consolida, busca la estabilidad material, la lealtad firme y el disfrute sensorial y pausado de la realidad física.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono sereno, firme, lento y posesivo, con una profunda necesidad de seguridad táctil, comodidad material y contacto con la naturaleza.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la consolidación de recursos, inversiones a largo plazo, el disfrute de placeres sencillos y la comunión tranquila con la tierra.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Géminis",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Géminis",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Géminis",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Géminis",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Géminis",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Géminis",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Géminis",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Géminis",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el aire mutable que dinamiza el intelecto, busca conexiones mentales, promueve la comunicación fluida y estimula la curiosidad insaciable.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono lúdico, rápido, locuaz y cambiante, donde el desasosiego mental se procesa a través del diálogo verbal y la variedad de estímulos.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el intercambio de ideas, la escritura, el aprendizaje de nuevas habilidades, las conversaciones estimulantes y el análisis lógico de conexiones.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Cáncer",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Cáncer",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Cáncer",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Cáncer",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Cáncer",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Cáncer",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Cáncer",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Cáncer",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el agua cardinal que nutre de manera protectora, busca la seguridad emocional en el hogar, el nido y las raíces familiares.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono sensible, vulnerable, maternal y fluctuante en sus estados de ánimo, con un fuerte espíritu de apego, melancolía y autoprotección.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el cuidado de los seres amados, rituales de renovación doméstica, la intimidad familiar, la preparación de alimentos y el cobijo del hogar.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Leo",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Leo",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Leo",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Leo",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Leo",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Leo",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Leo",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Leo",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el fuego fijo que irradia vitalidad cálida, busca el reconocimiento creativo, el orgullo digno y la autoexpresión generosa y teatral.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono cálido, dramático, orgulloso y digno, con una necesidad infantil de atención, aplauso y validación de la propia singularidad.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la creación artística, el liderazgo dinámico, las demostraciones generosas de afecto y las actividades recreativas que enaltezcan la autoimagen.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Virgo",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Virgo",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Virgo",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Virgo",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Virgo",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Virgo",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Virgo",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Virgo",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con la tierra mutable que refina con agudo discernimiento, busca la utilidad práctica, el perfeccionamiento analítico y el espíritu humilde de servicio.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono analítico, reservado, autocrítico y propenso a la culpa, con una fuerte necesidad de orden físico, eficiencia en el trabajo y salud corporal.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el trabajo minucioso, la reorganización de espacios, la atención a la salud mediante dietas purificadoras, y las tareas de servicio desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Libra",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Libra",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Libra",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Libra",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Libra",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Libra",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Libra",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Libra",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el aire cardinal que armoniza polaridades, busca la belleza simétrica, la justicia diplomática y el encuentro cooperativo en relaciones.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono sociable, agradable, refinado y estético, pero con una indecisión latente por el excesivo afán de sopesar opciones y complacer a los demás.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el diálogo diplomático para resolver tensiones, la participación en eventos artísticos o estéticos, y la toma de acuerdos de mutuo beneficio.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Escorpio",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Escorpio",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Escorpio",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Escorpio",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Escorpio",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Escorpio",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Escorpio",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Escorpio",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el agua fija que penetra en la experiencia mediante un intenso poder emocional, pasión transformadora, deseos compulsivos y reserva hermética.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono intenso, apasionado, receloso y celoso, con sentimientos extremos de poder o vulnerabilidad, y un temor subyacente a perder el control.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la introspección psicológica profunda, la terapia o sanación alquímica, el manejo estratégico de recursos compartidos y la intimidad sexual fusionante.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Sagitario",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Sagitario",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Sagitario",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Sagitario",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Sagitario",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Sagitario",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Sagitario",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Sagitario",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el fuego mutable que expande la conciencia hacia ideales lejanos, metas optimistas, creencias filosóficas y el anhelo incesante de aventura.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono entusiasta, alegre, liberal e idealista, con una predisposición abierta e independiente, aunque propenso a excesos dogmáticos o sermoneadores.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la planificación de viajes largos, la investigación de temas filosóficos o religiosos, el contacto con el aire libre y la difusión generosa de ideales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Capricornio",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Capricornio",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Capricornio",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Capricornio",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Capricornio",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Capricornio",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Capricornio",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Capricornio",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con la tierra cardinal que impone autocontrol serio, planificación a largo plazo, determinación impersonal y la conquista pragmática del éxito.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono autocontrolado, cauteloso, sobrio y reservado, con una fuerte tendencia al negativismo o pesimismo defensivo para asegurar la respetabilidad.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el trabajo disciplinado que requiera paciencia, la asunción de responsabilidades colectivas, y la consolidación de metas prácticas y profesionales.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Acuario",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Acuario",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Acuario",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Acuario",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Acuario",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Acuario",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Acuario",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Acuario",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el aire fijo que coordina desapegadamente conceptos y personas, promoviendo la libertad individualista, la reforma social y la innovación.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono independiente, altruista, desapegado y excéntrico, con una sutil alienación de los sentimientos personales en favor de la conciencia grupal.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante la participación en asambleas grupales o causas humanitarias, el desarrollo de teorías científicas o astrológicas, y la experimentación no convencional.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "nueva",
+  "signo": "Piscis",
+  "energia": "Invita a iniciar y sembrar intenciones de forma subjetiva e impulsiva, dando origen a una nueva dirección personal en su estado más puro y germinal, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta un estado de subjetividad extrema, ensimismamiento y una de las más fuertes identificaciones inconscientes con las propias necesidades y deseos que pujan por nacer, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en establecer propósitos íntimos, meditar en silencio sobre lo que se desea ver nacer de forma autónoma y confiar en los propios impulsos, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_inicial",
+  "signo": "Piscis",
+  "energia": "Invita a movilizar la energía acumulada, confrontar la inercia de viejos hábitos y desafiar activamente la resistencia del entorno con autoconfianza, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una notable tensión interna entre el impulso de avanzar y el temor a que los condicionamientos pasados impidan el progreso del nuevo yo, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en dar los primeros pasos firmes hacia la meta, enfrentar miedos iniciales y exorcizar activamente las dudas limitantes del pasado, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_creciente",
+  "signo": "Piscis",
+  "energia": "Invita a una crisis de acción y reestructuración ejecutiva; exige tomar decisiones definitivas, construir nuevos marcos de operación y cortar con lo obsoleto, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta un sentimiento de urgencia y resolución combativa, donde la necesidad de romper con antiguas amarras se vuelve imperativa para no detener el avance, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en tomar decisiones difíciles pero necesarias, reestructurar la rutina cotidiana y realizar cortes limpios con dinámicas o personas que drenan energía, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "creciente_gibosa",
+  "signo": "Piscis",
+  "energia": "Invita a ajustar, pulir y perseverar; invita a perfeccionar los detalles prácticos y aplicar autodisciplina en el perfeccionamiento del plan inicial, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una actitud de concentración meticulosa y orientación selectiva, con una autocrítica latente que busca corregir imperfecciones con perseverancia, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en revisar con minuciosidad el trabajo realizado, pulir las técnicas o procesos, corregir errores prácticos y mantener un ritmo de esfuerzo disciplinado, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "llena",
+  "signo": "Piscis",
+  "energia": "Invita a culminar, iluminar y revelar; es la cima del ciclo donde el propósito inicial florece, trayendo una clara objetividad y autoconciencia, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una intensa claridad mental y emocional que permite ver los resultados de forma objetiva, aunque con una susceptibilidad mayor a la tensión, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en celebrar los frutos alcanzados, tomar conciencia plena de las revelaciones y entablar diálogos objetivos para resolver conflictos en las relaciones, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_gibosa",
+  "signo": "Piscis",
+  "energia": "Invita a diseminar, compartir y enseñar; invita a demostrar el valor de lo aprendido y expandir la visión personal en un marco social o causa colectiva, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una gran generosidad intelectual y social, con un fuerte sentido de pertenencia que impulsa a buscar comprensión mutua y compañerismo, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en enseñar, publicar o compartir ideas, reunirse con grupos afines para debatir conceptos y colaborar de forma activa en proyectos comunitarios, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "cuarto_menguante",
+  "signo": "Piscis",
+  "energia": "Invita a una crisis de conciencia y reorientación ideológica; invita a soltar supuestos obsoletos, deconstruir viejos esquemas y sembrar semillas futuras, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una necesidad urgente de desapego, cuestionando la validez de antiguas creencias con un enfoque analítico y una profunda reevaluación ética, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en realizar una limpieza mental o de espacios físicos, soltar roles o posiciones que han perdido su propósito, y reformular los ideales fundamentales, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ },
+ {
+  "categoria": "fase_lunar",
+  "faseLunar": "menguante_final",
+  "signo": "Piscis",
+  "energia": "Invita a un estado de cierre, entrega y disolución; es la fase de semilla profética donde se sacrifica el ego para prepararse para la renovación del ciclo, sintonizando con el agua mutable que disuelve barreras a través de la compasión curativa, la sensibilidad poética, el escapismo imaginativo y la fusión mística.",
+  "tono": "Se experimenta una introspección profunda, vulnerabilidad sensible y un anhelo sutil de fusión mística con el todo, acompañados de cierta sensación de vacío o final, el cual se ve profundamente coloreado por un tono compasivo, nebuloso, vulnerable, empático y evasivo, con sentimientos que fluyen fácilmente pero carecen de una autoimagen sólida y definida.",
+  "accion": "Se aconseja centrar la atención en descansar físicamente, entregarse a la meditación, realizar rituales de cierre o purificación, y registrar intuiciones o sueños significativos, canalizando estas dinámicas mediante el aislamiento reflexivo en la naturaleza, la contemplación mística o meditación silenciosa, la expresión artística poética, y el servicio compasivo desinteresado.",
+  "fuente": "arroyo+greene+sasportas+rudhyar",
+  "version": 1
+ }
+]
