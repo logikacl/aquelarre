@@ -16,6 +16,7 @@ import {
 } from "./admin";
 import { register, login } from "./authapi";
 import { publicOracles, publicContent } from "./publicapi";
+import { DAILY_LIMIT } from "./quota";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -44,6 +45,13 @@ Dímela como 14:30 — o escribe "no sé" si no la tienes.`;
 
 const ok = () => new Response(null, { status: 200 });
 
+// Único filtro de entrada: largo. No hay lista negra de "ignora tus instrucciones" — daría
+// falsos positivos en consultas reales y no aporta: el modelo no tiene herramientas, ni
+// secretos en el prompt más allá de la persona, y el peor caso (jailbreak) lo acota la cuota.
+const MAX_LEN = 2000;
+const TOO_LONG = `Ese mensaje es muy largo para una lectura. Resúmelo en menos de ${MAX_LEN} caracteres y te leo.`;
+const NO_QUOTA = `Llegaste a tus ${DAILY_LIMIT} consultas de hoy. Mañana seguimos — a veces conviene dejar que lo hablado repose.`;
+
 const handler = httpAction(async (ctx, req) => {
   // Verifica que el POST venga de Telegram (secret token del webhook).
   if (req.headers.get("X-Telegram-Bot-Api-Secret-Token") !== process.env.TELEGRAM_WEBHOOK_SECRET) {
@@ -57,6 +65,11 @@ const handler = httpAction(async (ctx, req) => {
   const chatId = msg.chat.id as number;
   const text = (msg.text as string).trim();
   const nombre = (msg.from?.first_name || msg.from?.username || "consultante") as string;
+
+  if (text.length > MAX_LEN) {
+    await sendTelegram(chatId, TOO_LONG);
+    return ok();
+  }
 
   if (text === "/start" || text.startsWith("/start ") || text.startsWith("/start@")) {
     await ctx.runMutation(internal.messages.ensureConversation, { chatId });
@@ -135,6 +148,12 @@ const handler = httpAction(async (ctx, req) => {
   if (text === "/nueva") {
     await ctx.runMutation(internal.messages.resetSession, { chatId });
     await sendTelegram(chatId, "Empecemos una lectura nueva. ¿Qué quieres mirar?");
+    return ok();
+  }
+
+  // Cuota diaria: solo las consultas al oráculo la gastan (comandos y onboarding no).
+  if (!(await ctx.runMutation(internal.messages.consumeQuota, { chatId }))) {
+    await sendTelegram(chatId, NO_QUOTA);
     return ok();
   }
 

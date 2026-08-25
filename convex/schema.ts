@@ -21,6 +21,10 @@ export default defineSchema({
     birthPlace: v.optional(v.string()),
     birthDate: v.optional(v.string()), // ISO YYYY-MM-DD
     birthTime: v.optional(v.union(v.string(), v.null())), // "HH:MM" o null si no la sabe
+    // Cuota diaria: día chileno (YYYY-MM-DD) + consultas gastadas en él. Vive acá y no se
+    // cuenta sobre `messages` porque /nueva borra el historial y reiniciaría la cuota.
+    quotaDay: v.optional(v.string()),
+    quotaCount: v.optional(v.number()),
     updatedAt: v.number(),
   }).index("by_chat", ["chatId"]),
 

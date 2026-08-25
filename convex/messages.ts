@@ -1,6 +1,7 @@
 import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { DEFAULT_ORACLE } from "./personas";
+import { DAILY_LIMIT, chileDay, usedToday } from "./quota";
 
 // ponytail: ventana fija de 20 turnos. Cambiar a presupuesto de tokens si el contexto se desborda.
 const HISTORY_LIMIT = 20;
@@ -97,6 +98,19 @@ export const finishOnboarding = internalMutation({
       onboarding: undefined,
       updatedAt: Date.now(),
     });
+  },
+});
+
+// Gasta una consulta del día. Devuelve false si ya se acabaron (el chat responde y corta).
+export const consumeQuota = internalMutation({
+  args: { chatId: v.number() },
+  handler: async (ctx, { chatId }) => {
+    const convo = await ensure(ctx, chatId);
+    const day = chileDay();
+    const used = usedToday(day, convo.quotaDay, convo.quotaCount);
+    if (used >= DAILY_LIMIT) return false;
+    await ctx.db.patch(convo._id, { quotaDay: day, quotaCount: used + 1 });
+    return true;
   },
 });
 
