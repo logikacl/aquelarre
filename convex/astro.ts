@@ -3,7 +3,7 @@
 // Check ejecutable: astro.check.ts
 // Interop: Convex (esbuild) ve named exports; Node/tsx lo trata como CJS bajo .default.
 import * as AstronomyNS from "astronomy-engine";
-const { SunPosition, EclipticGeoMoon, SiderealTime, MakeTime } =
+const { SunPosition, EclipticGeoMoon, SiderealTime, MakeTime, GeoVector, Ecliptic, Body } =
   ((AstronomyNS as any).default ?? AstronomyNS) as typeof AstronomyNS;
 
 const SIGNOS = [
@@ -25,6 +25,13 @@ export function sunLon(date: Date): number {
 }
 export function moonLon(date: Date): number {
   return EclipticGeoMoon(date).lon;
+}
+
+// Longitud eclíptica GEOcéntrica de fecha, que es la que usa la astrología.
+// OJO: `EclipticLongitude` de astronomy-engine es heliocéntrica — con esa, vista
+// desde el Sol, ningún planeta retrograda nunca.
+export function planetLon(body: AstronomyNS.Body, date: Date): number {
+  return Ecliptic(GeoVector(body, date, true)).elon;
 }
 
 // Oblicuidad media de la eclíptica (grados), IAU 1980.
@@ -68,6 +75,68 @@ export function zonedToUtc(dateIso: string, hhmm: string, tz = "America/Santiago
   // dos pasadas cubren los saltos de DST
   const off = tzOffsetMs(new Date(guess - tzOffsetMs(new Date(guess), tz)), tz);
   return new Date(guess - off);
+}
+
+// ─── Cielo de hoy ────────────────────────────────────────────────────────────
+// Compartido por todos los consultantes: no depende de la carta natal, así que
+// se puede usar aunque la persona no haya dado hora de nacimiento.
+
+// Los cinco lentos que cubre el corpus `planeta_signo`.
+const LENTOS = {
+  jupiter: Body.Jupiter, saturno: Body.Saturn, urano: Body.Uranus,
+  neptuno: Body.Neptune, pluton: Body.Pluto,
+} as const;
+
+// Los ocho que retrogradan (el Sol y la Luna nunca lo hacen).
+const RETROGRADABLES = {
+  mercurio: Body.Mercury, venus: Body.Venus, marte: Body.Mars, ...LENTOS,
+} as const;
+
+// Las ocho fases de la lunación, en orden de elongación creciente. Las claves son
+// las que declara la bóveda para `calcularFaseLunar`, para que el corpus indexe directo.
+const FASES = [
+  "nueva", "creciente_inicial", "cuarto_creciente", "creciente_gibosa",
+  "llena", "menguante_gibosa", "cuarto_menguante", "menguante_final",
+] as const;
+export type FaseLunar = (typeof FASES)[number];
+
+// Fase por elongación Luna−Sol. Los tramos van centrados en el ángulo exacto
+// (nueva = 337.5°–22.5°), no arrancando en él: así "llena" cae sobre los 180°
+// reales y no tres días después.
+export function faseLunar(date: Date): FaseLunar {
+  const elong = norm360(moonLon(date) - sunLon(date));
+  return FASES[Math.floor(((elong + 22.5) % 360) / 45)];
+}
+
+// Retrógrado = la longitud eclíptica decrece. Se compara contra un día antes;
+// el delta se normaliza a ±180 para que el cruce por 0° no lo dé vuelta.
+// ponytail: dos efemérides por planeta y por mensaje. Si pesa, cachear el cielo
+// una vez al día con un cron de Convex — el dato cambia lento.
+const UN_DIA = 24 * 60 * 60 * 1000;
+export function esRetrogrado(body: AstronomyNS.Body, date: Date): boolean {
+  const delta = norm360(planetLon(body, date) - planetLon(body, new Date(date.getTime() - UN_DIA)));
+  return (delta > 180 ? delta - 360 : delta) < 0;
+}
+
+export type Cielo = {
+  fase: FaseLunar;
+  lunaSigno: string;
+  lentos: { planeta: keyof typeof LENTOS; signo: string }[];
+  retrogrados: (keyof typeof RETROGRADABLES)[];
+};
+
+export function cieloDeHoy(date = new Date()): Cielo {
+  return {
+    fase: faseLunar(date),
+    lunaSigno: signo(moonLon(date)),
+    lentos: Object.entries(LENTOS).map(([planeta, body]) => ({
+      planeta: planeta as keyof typeof LENTOS,
+      signo: signo(planetLon(body, date)),
+    })),
+    retrogrados: Object.entries(RETROGRADABLES)
+      .filter(([, body]) => esRetrogrado(body, date))
+      .map(([planeta]) => planeta as keyof typeof RETROGRADABLES),
+  };
 }
 
 export type Carta = { sun: string; moon: string; asc?: string };

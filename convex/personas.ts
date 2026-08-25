@@ -10,9 +10,10 @@ salvo que pidan algo más largo. No das consejos médicos, legales ni financiero
 
 type Astro = { sun?: string; moon?: string; asc?: string } | undefined;
 
-// Puro: recibe el system prompt de la persona (desde la BD) y le adjunta la carta derivada.
+// Puro: recibe el system prompt de la persona (desde la BD) y le adjunta la carta
+// derivada y el cielo de hoy (que arma cielo.ts desde el corpus).
 // Solo signos derivados — nunca datos identificables (minimización, Ley 21.719).
-export function buildSystemPrompt(system: string, astro: Astro): string {
+export function buildSystemPrompt(system: string, astro: Astro, cielo?: string): string {
   let prompt = system;
   if (astro && (astro.sun || astro.moon || astro.asc)) {
     const parts = [
@@ -22,5 +23,6 @@ export function buildSystemPrompt(system: string, astro: Astro): string {
     ].filter(Boolean);
     prompt += `\n\nCarta del consultante: ${parts.join(", ")}.`;
   }
+  if (cielo) prompt += `\n\n${cielo}`;
   return prompt;
 }

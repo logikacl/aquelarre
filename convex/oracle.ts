@@ -2,6 +2,7 @@ import { internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { buildSystemPrompt, DEFAULT_ORACLE, FALLBACK_SYSTEM } from "./personas";
+import { bloqueCielo } from "./cielo";
 import { sendTelegram } from "./telegram";
 
 // gpt-oss-120b con reasoning_effort "low": único de la cuenta que separa el
@@ -18,7 +19,7 @@ export const respond = internalAction({
 
     const slug = convo?.oracle ?? DEFAULT_ORACLE;
     const oracle = await ctx.runQuery(internal.oracles.getBySlug, { slug });
-    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo?.astro);
+    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo?.astro, bloqueCielo());
     const body = {
       model: process.env.FIREWORKS_MODEL ?? DEFAULT_MODEL,
       messages: [
