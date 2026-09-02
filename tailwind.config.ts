@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  // consent/ va incluido aunque no sea "código de la app": el banner de cookies vive ahí, y
+  // sin escanearlo Tailwind no genera sus clases de posición — el diálogo se cae al final
+  // del documento y nadie puede aceptar ni rechazar.
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./consent/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
