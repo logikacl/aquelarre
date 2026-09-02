@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { backendPost } from "@/lib/backend";
+import AutoSubmit from "@/components/AutoSubmit";
 import { redirect } from "next/navigation";
 
 type CheckoutRes =
@@ -28,17 +29,7 @@ export default async function Pagar() {
       <p className="text-on-surface-variant mb-8">
         Si no ocurre nada en unos segundos, usa el botón.
       </p>
-      <form method="POST" action={res.completionUrl}>
-        <input type="hidden" name="TBK_TOKEN" value={res.securityToken} />
-        <button
-          type="submit"
-          className="px-8 py-4 rounded-xl bg-primary text-on-primary font-bold"
-        >
-          Continuar al pago
-        </button>
-      </form>
-      {/* El botón es el camino sin JavaScript; esto lo envía solo cuando sí hay. */}
-      <script dangerouslySetInnerHTML={{ __html: "document.forms[0].submit()" }} />
+      <AutoSubmit action={res.completionUrl} token={res.securityToken} />
     </main>
   );
 }
