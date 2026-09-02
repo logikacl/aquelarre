@@ -88,7 +88,7 @@ export default async function Home() {
       </section>
 
       {/* Astrólogos */}
-      <section className="py-24 bg-surface-container-lowest">
+      <section className="py-24 bg-surface-container-lowest" id="astrologos">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>

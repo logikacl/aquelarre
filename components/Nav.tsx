@@ -13,7 +13,7 @@ export default async function Nav() {
         <nav className="hidden md:flex gap-6">
           <Link
             className="font-headline font-semibold tracking-tight text-primary border-b-2 border-primary pb-1"
-            href="/oraculos"
+            href="/#astrologos"
           >
             Astrólogos
           </Link>
