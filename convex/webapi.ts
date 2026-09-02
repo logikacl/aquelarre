@@ -33,6 +33,11 @@ export const checkout = httpAction(async (ctx, req) => {
   // cuenta"), no como un error que backendPost tendría que hacer throw y parsear.
   if (yaTieneSuscripcion(actual)) return json({ alreadyActive: true });
 
+  // Cada visita al puente de pago crea una suscripción nueva en Reveniu, y `reveniuId` se
+  // pisa con la última: la anterior quedaría viva allá sin que nadie la vuelva a mirar.
+  // `disable/` es idempotente, y si el id ya no existe tampoco puede frenar un checkout.
+  if (actual?.reveniuId) await disable(actual.reveniuId).catch(() => {});
+
   const config = await ctx.runQuery(internal.settings.getSubscriptionConfig, {});
   const { id, linkToken } = await ctx.runMutation(internal.subscriptions.createPending, { email });
   const sub = await createSubscription({
@@ -113,12 +118,17 @@ export const subscriptionDelete = httpAction(async (ctx, req) => {
 // POST /reveniu (webhook). Reveniu manda nuestro propio secreto en el header: sin eso,
 // cualquiera podría activarle la suscripción a quien quisiera.
 export const reveniuWebhook = httpAction(async (ctx, req) => {
-  if (req.headers.get("Reveniu-Secret-Key") !== process.env.REVENIU_API_SECRET) {
-    return new Response("unauthorized", { status: 401 });
-  }
+  // Un webhook de cobro que falla en silencio deja al cliente pagando sin acceso, y sin
+  // rastro no se distingue "no llamaron" de "llamamos mal". Se registra toda llamada,
+  // incluida la que rechazamos.
+  const autorizado = req.headers.get("Reveniu-Secret-Key") === process.env.REVENIU_API_SECRET;
+  console.log(`reveniu webhook: autorizado=${autorizado}`);
+  if (!autorizado) return new Response("unauthorized", { status: 401 });
+
   const body = await req.json().catch(() => null);
   const event = body?.event;
   const d = body?.data;
+  console.log(`reveniu webhook: event=${event} sub=${d?.subscription_id}`);
   if (typeof event !== "string" || typeof d?.subscription_id !== "number") {
     return new Response(null, { status: 200 }); // payload que no entendemos: no reintentar
   }
