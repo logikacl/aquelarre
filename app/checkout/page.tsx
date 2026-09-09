@@ -75,6 +75,18 @@ export default async function Checkout() {
               <p className="md:col-span-2 text-xs text-on-surface-variant text-center">
                 Serás redirigido a Webpay de Transbank para completar el pago de forma segura.
               </p>
+              <p className="md:col-span-2 text-xs text-on-surface-variant text-center">
+                Al crear tu cuenta aceptas los{" "}
+                <Link className="underline" href="/terminos">
+                  Términos y Condiciones
+                </Link>{" "}
+                y la{" "}
+                <Link className="underline" href="/privacidad">
+                  Política de Privacidad
+                </Link>
+                . El consentimiento para procesar tus conversaciones se pide aparte, en el chat, antes de la primera
+                lectura.
+              </p>
               <p className="md:col-span-2 text-sm text-on-surface-variant text-center">
                 ¿Ya tienes cuenta?{" "}
                 <Link className="underline text-primary" href="/ingresar">
