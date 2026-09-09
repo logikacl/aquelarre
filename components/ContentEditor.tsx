@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { COPY_GROUPS, type CopyDef } from "@/lib/copy";
+import { COPY_GROUPS, SECTION_LABELS, type CopyDef } from "@/lib/copy";
 import { setContent } from "@/app/admin/actions";
 import ImageField from "@/components/ImageField";
 import { campoAdmin as campo } from "@/lib/format";
@@ -105,13 +105,58 @@ function Campo({ def, override }: { def: CopyDef; override?: string }) {
   );
 }
 
+// Una pestaña por sección: el segundo segmento de la clave ("home.faq.1.pregunta" → "home.faq").
+// Se arma una sola vez al cargar el módulo porque COPY_GROUPS es constante del código.
+const TABS = COPY_GROUPS.flatMap((g) => {
+  const secciones = new Map<string, CopyDef[]>();
+  for (const item of g.items) {
+    const id = `${g.page}.${item.key.split(".")[1]}`;
+    secciones.set(id, [...(secciones.get(id) ?? []), item]);
+  }
+  return [...secciones].map(([id, items]) => ({
+    id,
+    page: g.page,
+    pageLabel: g.label,
+    label: SECTION_LABELS[id] ?? id.split(".")[1],
+    items,
+  }));
+});
+
 export default function ContentEditor({ overrides }: { overrides: Record<string, string> }) {
+  const [activa, setActiva] = useState(TABS[0].id);
+
+  // Se renderizan todas las secciones y se ocultan las inactivas: cambiar de pestaña
+  // desmontando perdería lo escrito y no guardado, y son 69 inputs, no 6.900.
   return (
-    <div className="space-y-10">
-      {COPY_GROUPS.map((g) => (
-        <div key={g.page} className="space-y-3">
-          <h3 className="text-lg font-headline font-bold border-b border-outline/30 pb-2">{g.label}</h3>
-          {g.items.map((item) => (
+    <div className="space-y-6">
+      <nav className="space-y-2">
+        {COPY_GROUPS.map((g) => (
+          <div key={g.page} className="flex flex-wrap items-center gap-2">
+            <span className="w-32 shrink-0 text-xs uppercase tracking-wide text-on-surface-variant">{g.label}</span>
+            {TABS.filter((t) => t.page === g.page).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setActiva(t.id)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-headline font-semibold border transition-colors ${
+                  activa === t.id
+                    ? "bg-primary text-on-primary border-primary"
+                    : "bg-surface-container border-outline/30 text-on-surface-variant hover:text-primary"
+                }`}
+              >
+                {t.label}
+                <span className="ml-2 opacity-60">{t.items.length}</span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </nav>
+
+      {TABS.map((t) => (
+        <div key={t.id} hidden={t.id !== activa} className="space-y-3">
+          <h3 className="text-lg font-headline font-bold border-b border-outline/30 pb-2">
+            {t.pageLabel} — {t.label}
+          </h3>
+          {t.items.map((item) => (
             <Campo key={item.key} def={item} override={overrides[item.key]} />
           ))}
         </div>

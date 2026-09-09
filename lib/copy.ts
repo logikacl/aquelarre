@@ -205,6 +205,22 @@ export const COPY_GROUPS: { page: string; label: string; items: CopyDef[] }[] = 
   },
 ];
 
+// Nombre visible de cada sección para las pestañas del admin. La sección de una clave
+// es su segundo segmento ("home.faq.1.pregunta" → "home.faq"); si falta acá, la pestaña
+// muestra el segmento crudo, así que agregar claves nuevas nunca rompe el editor.
+export const SECTION_LABELS: Record<string, string> = {
+  "home.hero": "Hero",
+  "home.proceso": "Cómo funciona",
+  "home.astrologos": "Astrólogos",
+  "home.planes": "Planes",
+  "home.faq": "Preguntas frecuentes",
+  "planes.hero": "Hero",
+  "planes.plan": "Plan",
+  "planes.incluye": "Qué incluye",
+  "oraculo.boton_suscripcion": "Botón de suscripción",
+  "oraculo.cta": "CTA final",
+};
+
 export const COPY_DEFAULTS: Record<string, string> = Object.fromEntries(
   COPY_GROUPS.flatMap((g) => g.items.map((i) => [i.key, i.def])),
 );
