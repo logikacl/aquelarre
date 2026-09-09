@@ -87,7 +87,7 @@ const ConsentSettings: React.FC = () => {
         aria-label="Preferencias de cookies"
         className="w-full max-w-[560px] max-h-[85vh] overflow-y-auto bg-white rounded-xl shadow-xl p-6"
       >
-        <h2 className="text-[1.25rem] font-bold text-logika-navy mb-1">Preferencias de cookies</h2>
+        <h2 className="text-[1.25rem] font-bold text-on-surface mb-1">Preferencias de cookies</h2>
         <p className="text-[0.8125rem] text-stone-500 mb-5">
           Elige qué categorías permites. Puedes cambiarlo cuando quieras.
         </p>
@@ -112,8 +112,8 @@ const ConsentSettings: React.FC = () => {
                 />
                 <span
                   className={`w-10 h-6 rounded-full relative transition-colors ${
-                    valueFor(cat.id) ? 'bg-logika-blue' : 'bg-stone-300'
-                  } ${cat.locked ? 'opacity-60' : 'cursor-pointer'} peer-focus:ring-2 peer-focus:ring-logika-blue`}
+                    valueFor(cat.id) ? 'bg-primary-container' : 'bg-stone-300'
+                  } ${cat.locked ? 'opacity-60' : 'cursor-pointer'} peer-focus:ring-2 peer-focus:ring-primary-container`}
                 >
                   <span
                     className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
@@ -137,7 +137,7 @@ const ConsentSettings: React.FC = () => {
           <button
             type="button"
             onClick={handleSave}
-            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold bg-logika-navy text-white hover:bg-logika-blue transition-colors"
+            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold bg-primary text-white hover:bg-primary-container transition-colors"
           >
             Guardar preferencias
           </button>

@@ -19,7 +19,7 @@ const ConsentBanner: React.FC = () => {
         <div className="flex-1 text-[0.875rem] text-stone-600 leading-relaxed">
           Usamos cookies propias y de terceros para analítica y marketing. Puedes aceptarlas
           todas, rechazarlas o elegir por categoría. Consulta nuestra{' '}
-          <a href="#privacidad" className="underline text-logika-navy hover:text-logika-blue">
+          <a href="#privacidad" className="underline text-primary hover:text-primary-container">
             Política de Privacidad
           </a>
           .
@@ -42,7 +42,7 @@ const ConsentBanner: React.FC = () => {
           <button
             type="button"
             onClick={acceptAll}
-            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold bg-logika-navy text-white hover:bg-logika-blue transition-colors"
+            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold bg-primary text-white hover:bg-primary-container transition-colors"
           >
             Aceptar todo
           </button>
