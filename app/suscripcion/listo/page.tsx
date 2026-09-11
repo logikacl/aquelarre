@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { backendPost } from "@/lib/backend";
-import TelegramLink from "@/components/TelegramLink";
+import ChatLink from "@/components/ChatLink";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
@@ -18,7 +18,7 @@ export default async function Page() {
         <>
           <h1 className="text-4xl font-headline font-bold mb-4">¡Suscripción activa!</h1>
           <div className="mt-6">
-            <TelegramLink linkToken={sub.linkToken} chatId={sub.chatId} />
+            <ChatLink linkToken={sub.linkToken} chatId={sub.chatId} numero={process.env.NEXT_WHATSAPP_NUMBER ?? ""} />
           </div>
         </>
       ) : (

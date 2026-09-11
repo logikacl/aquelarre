@@ -27,7 +27,7 @@ export const listUsers = internalQuery({
           createdAt: u.createdAt,
           status: sub?.status ?? ("none" as const),
           // Booleanos y no los valores: la tabla solo pregunta "¿hay?", y el chatId de
-          // Telegram es dato personal y el id de Reveniu es camino de dinero — ninguno
+          // El chat es dato personal y el id de Reveniu es camino de dinero — ninguno
           // necesita viajar hasta el navegador.
           tieneChat: sub?.chatId != null,
           gestionable: sub?.reveniuId != null,

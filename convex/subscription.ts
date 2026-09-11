@@ -2,10 +2,19 @@
 
 export type SubStatus = "pending" | "active" | "ending" | "cancelled";
 
-// Deep-link: Telegram envía "/start <param>". Devuelve el param o null.
+// Deep-link post-pago: el enlace wa.me prellena "/start <token>". Devuelve el token o null.
 export function parseStartToken(text: string): string | null {
   const m = text.trim().match(/^\/start(?:@\w+)?(?:\s+(\S+))?$/);
   return m?.[1] ?? null;
+}
+
+// ¿Este mensaje es un consentimiento explícito? (Ley 21.719)
+// Deliberadamente estrecho: vale "acepto" escrito, el comando, y el id del botón de
+// WhatsApp (que llega como "acepto"). NO valen "ok", "sí", "dale" ni un emoji — son
+// ambiguos, y un consentimiento ambiguo sobre datos que rozan creencias no prueba nada
+// si alguien reclama. La facilidad la da el botón, no aflojar lo que cuenta como sí.
+export function esConsentimiento(text: string): boolean {
+  return /^\s*\/?acepto\b/i.test(text);
 }
 
 // Evento de webhook de Reveniu + estado actual → estado nuevo, o null si no cambia nada.
@@ -36,8 +45,8 @@ export function subscriptionAllows(sub: { status: SubStatus } | null | undefined
   return sub?.status === "active" || sub?.status === "ending";
 }
 
-// Token de enlace de un solo uso. 24 chars alfanuméricos (subconjunto de lo que
-// Telegram permite en el start param, [A-Za-z0-9_-]).
+// Token de enlace de un solo uso. 24 chars alfanuméricos: sobrevive intacto al
+// url-encoding del texto prellenado en el enlace wa.me.
 export function newLinkToken(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(24));
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

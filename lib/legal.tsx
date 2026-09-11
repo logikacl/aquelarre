@@ -8,8 +8,8 @@
 // el régimen de la 19.628 que rige hasta esa fecha: el servicio se compromete al estándar
 // nuevo desde ya.
 //
-// Canal: el servicio migra de Telegram a WhatsApp. Mientras dure la migración conviven los
-// dos, y los documentos lo declaran así. Cuando Telegram se apague, hay que sacarlo de la
+// Canal: WhatsApp es el único canal. Telegram existió como prueba de concepto y se retiró
+// el 2026-09-11 (webhook dado de baja y código eliminado); los documentos ya no lo
 // sección 9 de los Términos y de las tablas 8 y 9 de la Política.
 //
 // ponytail: un solo archivo con los dos documentos como datos + su renderer. Las páginas
@@ -53,7 +53,7 @@ export const TERMINOS: Documento = {
         {
           ul: [
             "Servicio: la plataforma Astros x Chat, incluyendo el sitio web, la cuenta de usuario y la conversación privada con los personajes («oráculos»).",
-            "Canal: la aplicación de mensajería por la que conversas con el oráculo. El canal oficial del servicio es WhatsApp; durante la migración descrita en la sección 9 también puede estar disponible Telegram.",
+            "Canal: la aplicación de mensajería por la que conversas con el oráculo. El canal del servicio es WhatsApp.",
             "Usuario / tú: la persona natural mayor de edad que se registra y usa el Servicio.",
             "Contenido generado: los mensajes y respuestas producidos automáticamente por la inteligencia artificial.",
             "Datos de nacimiento: la ciudad, la fecha y (opcionalmente) la hora que entregas para calcular tu carta.",
@@ -113,11 +113,11 @@ export const TERMINOS: Documento = {
       ],
     },
     {
-      t: "9. Acceso al chat · Canal y migración a WhatsApp",
+      t: "9. Acceso al chat",
       b: [
         "Después de activar tu suscripción, el sitio te entrega un enlace de un solo uso que abre el chat con el oráculo y lo vincula a tu cuenta. Ese enlace es personal e intransferible: quien lo use quedará vinculado a tu suscripción. La cuenta y el chat son para uso personal de una sola persona; no puedes compartirlos, revenderlos ni cederlos.",
-        "El servicio está migrando de Telegram a WhatsApp, que es el canal oficial. Mientras dure la transición ambos pueden estar operativos y la suscripción es la misma en cualquiera de los dos. Ten presente que cada canal tiene su propia conversación: si cambias de canal, tu lectura comienza de cero y el historial anterior no se traslada. Te avisaremos con antelación razonable antes de discontinuar Telegram.",
-        "El uso de WhatsApp se rige además por los términos y la política de privacidad de Meta, y el de Telegram por los suyos. Son servicios ajenos a nosotros y no respondemos por ellos.",
+        "El canal del servicio es WhatsApp. Tu conversación queda vinculada al número de WhatsApp con el que abras el chat: si cambias de número, tu lectura comienza de cero y el historial anterior no se traslada.",
+        "El uso de WhatsApp se rige además por los términos y la política de privacidad de Meta. Es un servicio ajeno a nosotros y no respondemos por él.",
       ],
     },
     {
@@ -207,7 +207,7 @@ export const TERMINOS: Documento = {
     {
       t: "20. Servicios de terceros",
       b: [
-        "El servicio se apoya en proveedores externos: Meta / WhatsApp Business Platform y Telegram (canales de mensajería), Fireworks AI (ejecución del modelo de lenguaje), Convex (base de datos y backend), Vercel (alojamiento del sitio) y Reveniu junto a Transbank (pagos). No respondemos por interrupciones, cambios o fallas atribuibles a estos terceros, sin perjuicio de tus derechos como consumidor frente a nosotros por el servicio contratado.",
+        "El servicio se apoya en proveedores externos: Meta / WhatsApp Business Platform (canal de mensajería), Fireworks AI (ejecución del modelo de lenguaje), Convex (base de datos y backend), Vercel (alojamiento del sitio) y Reveniu junto a Transbank (pagos). No respondemos por interrupciones, cambios o fallas atribuibles a estos terceros, sin perjuicio de tus derechos como consumidor frente a nosotros por el servicio contratado.",
       ],
     },
     {
@@ -298,7 +298,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "2. A quién y a qué aplica",
       b: [
-        "Esta política aplica a todas las personas que se registran o usan Astros x Chat, tanto en el sitio web como en el chat (WhatsApp y, mientras dure la migración, Telegram). No aplica a sitios o servicios de terceros enlazados, que se rigen por sus propias políticas.",
+        "Esta política aplica a todas las personas que se registran o usan Astros x Chat, tanto en el sitio web como en el chat de WhatsApp. No aplica a sitios o servicios de terceros enlazados, que se rigen por sus propias políticas.",
       ],
     },
     {
@@ -320,7 +320,7 @@ export const PRIVACIDAD: Documento = {
         {
           ul: [
             "Datos de cuenta: nombre, correo electrónico y contraseña (almacenada como hash, nunca en texto plano).",
-            "Identificador del canal: tu número de WhatsApp en formato internacional, que es el identificador con el que WhatsApp nos entrega tu conversación. Si usas Telegram durante la migración, el identificador es el número de chat que Telegram asigna, no tu teléfono.",
+            "Identificador del canal: tu número de WhatsApp en formato internacional, que es el identificador con el que WhatsApp nos entrega tu conversación.",
             "Datos de nacimiento: ciudad, fecha y, si la conoces y decides entregarla, hora de nacimiento. La hora es opcional: sin ella no calculamos tu ascendente.",
             "Datos astrológicos derivados: tu signo solar, tu signo lunar y tu ascendente, calculados a partir de lo anterior.",
             "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera el oráculo.",
@@ -422,11 +422,6 @@ export const PRIVACIDAD: Documento = {
                 "Tu número de WhatsApp; mensajes en tránsito",
               ],
               [
-                "Telegram",
-                "Canal en retiro, mientras dure la migración. Responsable independiente respecto de sus propias finalidades",
-                "Identificador de chat; mensajes en tránsito",
-              ],
-              [
                 "Vercel Inc.",
                 `Encargado. Alojar ${E.sitio} y los formularios de registro, inicio de sesión y pago`,
                 "Datos en tránsito durante tu navegación y los que escribes en los formularios",
@@ -465,11 +460,6 @@ export const PRIVACIDAD: Documento = {
                 "Meta Platforms (WhatsApp)",
                 "Estados Unidos y otros países de su infraestructura global",
                 "Es el canal que tú eliges usar, y tu consentimiento expreso. Respecto de sus propias finalidades actúa como responsable independiente, de modo que puedes ejercer tus derechos directamente ante él",
-              ],
-              [
-                "Telegram",
-                "Fuera de Chile, según la política del proveedor",
-                "Canal en retiro. Es el canal que tú eliges usar, y tu consentimiento expreso. Respecto de sus propias finalidades actúa como responsable independiente",
               ],
               [
                 "Vercel Inc.",

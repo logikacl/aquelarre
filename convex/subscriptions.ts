@@ -140,7 +140,7 @@ export const applyReveniuEvent = internalMutation({
   },
 });
 
-// Enlaza un chatId de Telegram a la suscripción vía token de un solo uso.
+// Enlaza un chat de WhatsApp a la suscripción vía token de un solo uso.
 export const linkChat = internalMutation({
   args: { linkToken: v.string(), chatId: v.number() },
   handler: async (ctx, { linkToken, chatId }) => {
@@ -215,7 +215,7 @@ export const suppressByEmail = internalMutation({
       .unique();
     if (!sub) return { chatId: null, reveniuId: null };
     // ponytail: solo se borra el chat que esta suscripción tiene vinculado *ahora*. Si el
-    // usuario compartió su chat de Telegram con otra cuenta, linkChat le quitó el chatId a
+    // usuario compartió su chat de WhatsApp con otra cuenta, linkChat le quitó el chatId a
     // la suscripción anterior y esos `messages` quedan huérfanos, sin email que los alcance.
     // Requiere dos cuentas sobre un mismo chat; el arreglo real es ambiguo (borrar ese chat
     // afectaría al otro usuario), así que se documenta en vez de adivinar.

@@ -3,7 +3,7 @@ import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { buildSystemPrompt, DEFAULT_ORACLE, FALLBACK_SYSTEM } from "./personas";
 import { bloqueCielo } from "./cielo";
-import { sendTelegram } from "./telegram";
+import { send } from "./send";
 
 // gpt-oss-120b con reasoning_effort "low": único de la cuenta que separa el
 // razonamiento y responde limpio. Cambiar vía env FIREWORKS_MODEL (pregunta abierta #1).
@@ -41,7 +41,7 @@ export const respond = internalAction({
     });
 
     if (!res.ok) {
-      await sendTelegram(chatId, "El oráculo está en silencio por ahora. Intenta de nuevo en un momento.");
+      await send(chatId, "El oráculo está en silencio por ahora. Intenta de nuevo en un momento.");
       throw new Error(`Fireworks ${res.status}: ${await res.text()}`);
     }
 
@@ -56,6 +56,6 @@ export const respond = internalAction({
       role: "assistant",
       content: reply,
     });
-    await sendTelegram(chatId, reply);
+    await send(chatId, reply);
   },
 });

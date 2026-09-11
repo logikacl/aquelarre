@@ -10,7 +10,7 @@ const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 
 export const metadata: Metadata = {
   title: "Astros x Chat | Tu destino escrito en las estrellas",
-  description: "Conversa en privado con un oráculo astrólogo por Telegram. Suscripción mensual.",
+  description: "Conversa en privado con un oráculo astrólogo por WhatsApp. Suscripción mensual.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

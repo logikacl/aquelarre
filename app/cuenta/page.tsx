@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { backendPost } from "@/lib/backend";
 import SubscriptionManager from "@/components/SubscriptionManager";
-import TelegramLink from "@/components/TelegramLink";
+import ChatLink from "@/components/ChatLink";
 import { logout } from "@/app/ingresar/actions";
 
 export default async function Cuenta() {
@@ -30,7 +30,7 @@ export default async function Cuenta() {
               página antes de que Reveniu activara se fue sin el enlace, y ésta es la que
               visita al volver. Sin esto, paga y no tiene cómo llegar al bot. */}
           {(sub.status === "active" || sub.status === "ending") && (
-            <TelegramLink linkToken={sub.linkToken} chatId={sub.chatId} />
+            <ChatLink linkToken={sub.linkToken} chatId={sub.chatId} numero={process.env.NEXT_WHATSAPP_NUMBER ?? ""} />
           )}
           <SubscriptionManager status={sub.status} />
         </div>

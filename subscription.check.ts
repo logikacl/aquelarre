@@ -44,3 +44,13 @@ assert.match(t, /^[A-Za-z0-9]{24}$/);
 assert.notStrictEqual(newLinkToken(), newLinkToken());
 
 console.log("subscription.check.ts OK");
+
+// Consentimiento explícito (Ley 21.719): qué cuenta como "sí" y qué no.
+import { esConsentimiento } from "./convex/subscription.ts";
+for (const si of ["acepto", "Acepto", "/acepto", "  acepto  ", "acepto, gracias", "ACEPTO"]) {
+  assert.strictEqual(esConsentimiento(si), true, `debería valer: ${si}`);
+}
+for (const no of ["ok", "sí", "si", "dale", "👍", "ya", "bueno", "no acepto", "aceptó algo"]) {
+  assert.strictEqual(esConsentimiento(no), false, `NO debería valer: ${no}`);
+}
+console.log("consentimiento OK");

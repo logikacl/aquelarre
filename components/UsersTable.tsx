@@ -68,7 +68,7 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
               <th className="py-2 pr-4 font-normal">Email</th>
               <th className="py-2 pr-4 font-normal">Nombre</th>
               <th className="py-2 pr-4 font-normal">Estado</th>
-              <th className="py-2 pr-4 font-normal">Telegram</th>
+              <th className="py-2 pr-4 font-normal">Chat</th>
               <th className="py-2 pr-4 font-normal">Alta</th>
               <th className="py-2 pr-4 font-normal">Suscripción act.</th>
               <th className="py-2 font-normal">Acciones</th>
@@ -113,7 +113,7 @@ export default function UsersTable({ rows }: { rows: UserRow[] }) {
                         onClick={() => {
                           if (
                             confirm(
-                              // "vinculado" y no "todo": si el chat de Telegram quedó
+                              // "vinculado" y no "todo": si el chat quedó
                               // desligado por linkChat, ese historial no se alcanza (ver
                               // suppressByEmail). No prometer lo que no se cumple.
                               `Eliminar a ${r.email}: borra la cuenta, la suscripción y el historial del chat ` +

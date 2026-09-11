@@ -121,7 +121,7 @@ export default async function Checkout() {
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-sm text-on-surface-variant">
                   <span className="text-primary" aria-hidden="true">✓</span>
-                  Conversación ilimitada por Telegram
+                  Conversación ilimitada por WhatsApp
                 </li>
                 <li className="flex items-center gap-3 text-sm text-on-surface-variant">
                   <span className="text-primary" aria-hidden="true">✓</span>

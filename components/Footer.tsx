@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="mb-8 md:mb-0">
           <span className="text-lg font-headline font-bold text-on-surface">Astros x Chat</span>
           <p className="mt-4 text-on-surface-variant text-sm max-w-xs font-body">
-            La sabiduría del cosmos caminando contigo por Telegram. Disponible 24/7.
+            La sabiduría del cosmos caminando contigo por WhatsApp. Disponible 24/7.
           </p>
         </div>
         <div className="flex flex-wrap gap-8 md:gap-12 mb-8 md:mb-0">

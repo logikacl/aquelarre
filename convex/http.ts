@@ -1,11 +1,12 @@
 import { httpRouter } from "convex/server";
-import { httpAction } from "./_generated/server";
+import { httpAction, type ActionCtx } from "./_generated/server";
+import { waChatId, validaFirmaMeta } from "./whatsapp";
 import { internal } from "./_generated/api";
-import { sendTelegram } from "./telegram";
+import { send, pedirConsentimiento } from "./send";
 import { parseFecha, parseHora, fmtHora, noSabeHora, isoFecha } from "./birth";
 import { natalChart } from "./astro";
 import { buscarCiudad } from "./cities";
-import { parseStartToken } from "./subscription";
+import { parseStartToken, esConsentimiento } from "./subscription";
 import {
   checkout, subscription, subscriptionAction, subscriptionDelete, reveniuWebhook,
 } from "./webapi";
@@ -26,9 +27,9 @@ const WELCOME = `Hola. Soy un oráculo: conversamos en privado sobre lo que trae
 
 Antes de empezar: nuestras conversaciones se guardan para darte continuidad, y se procesan con un modelo de IA (incluida transferencia a servidores en EE.UU.). Puedes pedir borrar todo tu historial cuando quieras.
 
-Si estás de acuerdo, escribe /acepto para comenzar.`;
+`;
 
-const NEED_CONSENT = `Para conversar necesito tu consentimiento. Escribe /start para ver de qué se trata y luego /acepto.`;
+const NEED_CONSENT = `Para conversar necesito antes tu consentimiento. Te lo cuento de nuevo:`;
 
 const NEED_SUBSCRIPTION = `Para conversar con el oráculo necesitas una suscripción activa.
 Actívala aquí: ${process.env.WEB_BASE_URL}
@@ -52,47 +53,46 @@ const MAX_LEN = 2000;
 const TOO_LONG = `Ese mensaje es muy largo para una lectura. Resúmelo en menos de ${MAX_LEN} caracteres y te leo.`;
 const NO_QUOTA = `Llegaste a tus ${DAILY_LIMIT} consultas de hoy. Mañana seguimos — a veces conviene dejar que lo hablado repose.`;
 
-const handler = httpAction(async (ctx, req) => {
-  // Verifica que el POST venga de Telegram (secret token del webhook).
-  if (req.headers.get("X-Telegram-Bot-Api-Secret-Token") !== process.env.TELEGRAM_WEBHOOK_SECRET) {
-    return new Response("forbidden", { status: 403 });
-  }
+// El corazón del bot. Recibe un mensaje ya normalizado: el webhook de WhatsApp solo aporta
+// el parseo de su formato, así que nada de acá abajo sabe de la API de Meta.
+type Incoming = { chatId: number; text: string; nombre: string };
 
-  const update = await req.json();
-  const msg = update.message;
-  if (!msg?.text || typeof msg.chat?.id !== "number") return ok(); // ignora updates sin texto
-
-  const chatId = msg.chat.id as number;
-  const text = (msg.text as string).trim();
-  const nombre = (msg.from?.first_name || msg.from?.username || "consultante") as string;
-
+const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming) => {
   if (text.length > MAX_LEN) {
-    await sendTelegram(chatId, TOO_LONG);
+    await send(chatId, TOO_LONG);
     return ok();
   }
 
-  if (text === "/start" || text.startsWith("/start ") || text.startsWith("/start@")) {
+  const convo = await ctx.runQuery(internal.messages.getConversation, { chatId });
+
+  // Arranque. `/start` sigue vivo porque el deep-link post-pago lo usa para traer el token,
+  // pero el disparador real es "esta persona escribe y todavía no existe": en WhatsApp nadie
+  // escribe comandos, y exigirlos era perder gente en el primer contacto.
+  const esStart = text === "/start" || text.startsWith("/start ") || text.startsWith("/start@");
+  if (esStart || !convo) {
     await ctx.runMutation(internal.messages.ensureConversation, { chatId });
     const token = parseStartToken(text);
     if (token) {
       // Deep-link desde la web tras pagar: amarra este chatId a la suscripción.
       await ctx.runMutation(internal.subscriptions.linkChat, { linkToken: token, chatId });
     }
-    await sendTelegram(chatId, WELCOME);
+    await pedirConsentimiento(chatId, WELCOME);
     return ok();
   }
-  if (text === "/acepto") {
+
+  // Consentimiento: el botón de WhatsApp llega como "acepto" y entra por acá igual que el
+  // comando. Solo vale una afirmación inequívoca — "ok" o "sí" no son consentimiento
+  // explícito de Ley 21.719 y no se aceptan por más que sea tentador facilitarlo.
+  if (esConsentimiento(text)) {
     await ctx.runMutation(internal.messages.recordConsent, { chatId, version: CONSENT_VERSION });
     const active = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
-    await sendTelegram(chatId, active ? askBirth(nombre) : NEED_SUBSCRIPTION);
+    await send(chatId, active ? askBirth(nombre) : NEED_SUBSCRIPTION);
     return ok();
   }
 
-  const convo = await ctx.runQuery(internal.messages.getConversation, { chatId });
-
   // Puerta de consentimiento (Ley 21.719): nada llega al oráculo sin consentimiento previo.
-  if (!convo?.consented) {
-    await sendTelegram(chatId, NEED_CONSENT);
+  if (!convo.consented) {
+    await pedirConsentimiento(chatId, `${NEED_CONSENT}\n\n${WELCOME}`);
     return ok();
   }
 
@@ -100,7 +100,7 @@ const handler = httpAction(async (ctx, req) => {
   // ponytail: una query por mensaje en la ruta caliente; indexado by_chat, barato.
   const activeSub = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
   if (!activeSub) {
-    await sendTelegram(chatId, NEED_SUBSCRIPTION);
+    await send(chatId, NEED_SUBSCRIPTION);
     return ok();
   }
 
@@ -113,12 +113,12 @@ const handler = httpAction(async (ctx, req) => {
     if (!fecha) {
       if (ciudad) await ctx.runMutation(internal.messages.saveBirthPlace, { chatId, place: ciudad.name });
       const anote = ciudad ? `Anoté ${titulo(ciudad.name)}. ` : "";
-      await sendTelegram(chatId, `${anote}Me falta tu fecha de nacimiento — dámela como 22/03/1977 o "22 de marzo de 1977".`);
+      await send(chatId, `${anote}Me falta tu fecha de nacimiento — dámela como 22/03/1977 o "22 de marzo de 1977".`);
       return ok();
     }
 
     await ctx.runMutation(internal.messages.saveBirthDate, { chatId, place, date: isoFecha(fecha) });
-    await sendTelegram(chatId, ASK_TIME);
+    await send(chatId, ASK_TIME);
     return ok();
   }
 
@@ -126,7 +126,7 @@ const handler = httpAction(async (ctx, req) => {
   if (convo.onboarding === "time") {
     const hora = parseHora(text);
     if (!hora && !noSabeHora(text)) {
-      await sendTelegram(chatId, '¿Me das la hora como 14:30, o escribe "no sé"?');
+      await send(chatId, '¿Me das la hora como 14:30, o escribe "no sé"?');
       return ok();
     }
     const time = hora ? fmtHora(hora) : null;
@@ -141,29 +141,74 @@ const handler = httpAction(async (ctx, req) => {
         ? " (No reconocí tu ciudad, así que aún no calculo el ascendente.)"
         : " (Sin tu hora exacta no puedo calcular el ascendente todavía.)";
     }
-    await sendTelegram(chatId, `Listo, ${nombre}. ${carta}\n\nCuéntame, ¿qué te trae hoy?`);
+    await send(chatId, `Listo, ${nombre}. ${carta}\n\nCuéntame, ¿qué te trae hoy?`);
     return ok();
   }
 
   if (text === "/nueva") {
     await ctx.runMutation(internal.messages.resetSession, { chatId });
-    await sendTelegram(chatId, "Empecemos una lectura nueva. ¿Qué quieres mirar?");
+    await send(chatId, "Empecemos una lectura nueva. ¿Qué quieres mirar?");
     return ok();
   }
 
   // Cuota diaria: solo las consultas al oráculo la gastan (comandos y onboarding no).
   if (!(await ctx.runMutation(internal.messages.consumeQuota, { chatId }))) {
-    await sendTelegram(chatId, NO_QUOTA);
+    await send(chatId, NO_QUOTA);
     return ok();
   }
 
   await ctx.runMutation(internal.messages.addMessage, { chatId, role: "user", content: text });
   await ctx.scheduler.runAfter(0, internal.oracle.respond, { chatId }); // responde async, 200 inmediato
   return ok();
+};
+
+// Handshake de suscripción del webhook de Meta: responde el challenge en texto plano.
+const whatsappVerify = httpAction(async (_ctx, req) => {
+  const q = new URL(req.url).searchParams;
+  if (q.get("hub.mode") === "subscribe" && q.get("hub.verify_token") === process.env.WHATSAPP_VERIFY_TOKEN) {
+    return new Response(q.get("hub.challenge") ?? "", { status: 200 });
+  }
+  return new Response("forbidden", { status: 403 });
+});
+
+const whatsappHandler = httpAction(async (ctx, req) => {
+  // Meta firma el cuerpo con el app secret (SHA-256 HMAC); sin esto cualquiera
+  // puede POSTear mensajes falsos a esta URL, que es pública.
+  const raw = await req.text();
+  if (!(await validaFirmaMeta(req.headers.get("X-Hub-Signature-256"), raw))) {
+    console.log("[wa] firma inválida — se rechaza");
+    return new Response("forbidden", { status: 403 });
+  }
+
+  const value = JSON.parse(raw).entry?.[0]?.changes?.[0]?.value;
+  const msg = value?.messages?.[0];
+  // Un botón no llega como texto: viene en interactive.button_reply. Se normaliza a su `id`
+  // para que el resto del bot no sepa que existen los botones.
+  const texto: string | undefined =
+    msg?.type === "text"
+      ? msg.text?.body
+      : msg?.type === "interactive"
+        ? msg.interactive?.button_reply?.id ?? msg.interactive?.list_reply?.id
+        : undefined;
+  // Diagnóstico: qué clase de evento llegó, nunca el contenido del mensaje.
+  const est = value?.statuses?.[0];
+  console.log(
+    `[wa] ${msg ? `mensaje tipo=${msg.type}` : est ? `estado=${est.status}${est.errors ? ` err=${JSON.stringify(est.errors)}` : ""}` : "evento sin mensajes ni estados"}`,
+  );
+  // Ignora lo que no sea texto ni botón: los "statuses" (entregado/leído) llegan por el
+  // mismo webhook y son la mayoría del tráfico. Un audio o una foto tampoco tienen qué hacer.
+  if (!texto || typeof msg.from !== "string") return ok();
+
+  return handleMessage(ctx, {
+    chatId: waChatId(msg.from), // wa_id → chatId desplazado, ver whatsapp.ts
+    text: texto.trim(),
+    nombre: value.contacts?.[0]?.profile?.name || "consultante",
+  });
 });
 
 const http = httpRouter();
-http.route({ path: "/telegram", method: "POST", handler });
+http.route({ path: "/whatsapp", method: "GET", handler: whatsappVerify });
+http.route({ path: "/whatsapp", method: "POST", handler: whatsappHandler });
 http.route({ path: "/api/checkout", method: "POST", handler: checkout });
 http.route({ path: "/api/subscription", method: "POST", handler: subscription });
 http.route({ path: "/api/subscription/action", method: "POST", handler: subscriptionAction });

@@ -1,7 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-// Todo se indexa por chat_id numérico de Telegram (único, estable).
+// Todo se indexa por `chatId`: el wa_id de WhatsApp (E.164 sin +, numérico).
 // Nunca usar teléfono/E.164 como clave — fue el bug #1 de la spec original.
 export default defineSchema({
   conversations: defineTable({

@@ -128,6 +128,25 @@ export const addMessage = internalMutation({
 });
 
 // /nueva — reinicia la lectura borrando el historial. Conserva consentimiento y conversación.
+// Supresión por chat (Ley 21.719): borra conversación, historial y registro de consentimiento
+// de un chatId. La supresión que existía iba por email, y quien llega solo por WhatsApp no
+// tiene cuenta web — no había forma de borrarlo.
+export const deleteByChat = internalMutation({
+  args: { chatId: v.number() },
+  handler: async (ctx, { chatId }) => {
+    let borradas = 0;
+    for (const tabla of ["conversations", "messages", "consent"] as const) {
+      const rows = await ctx.db
+        .query(tabla)
+        .withIndex("by_chat", (q) => q.eq("chatId", chatId))
+        .collect();
+      await Promise.all(rows.map((r) => ctx.db.delete(r._id)));
+      borradas += rows.length;
+    }
+    return borradas;
+  },
+});
+
 export const resetSession = internalMutation({
   args: { chatId: v.number() },
   handler: async (ctx, { chatId }) => {

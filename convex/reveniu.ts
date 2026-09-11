@@ -1,5 +1,5 @@
 // Helpers planos (no funciones Convex) para la API de suscripciones de Reveniu.
-// Sin SDK — fetch directo, igual que telegram.ts. CLP sin decimales.
+// Sin SDK — fetch directo, igual que whatsapp.ts. CLP sin decimales.
 // ponytail: Reveniu detrás de esta interfaz mínima; para cambiar de pasarela se reemplaza
 // este archivo sin tocar el resto.
 
