@@ -27,14 +27,47 @@ export const getByEmail = internalQuery({
 });
 
 // Query de ruta caliente para el gate del chat.
-export const isActiveByChat = internalQuery({
+// ¿Este chat puede conversar? Si todavía no tiene suscripción enlazada, busca una cuenta
+// cuyo WhatsApp registrado sea este número y enlaza su suscripción. Escribir desde el número
+// es la prueba de que es suyo; haberlo registrado en la cuenta, la de que la suscripción es
+// suya. No hace falta botón ni código: basta con escribir.
+// También resuelve el cambio de teléfono: si la cuenta cambió de número, la suscripción se
+// mueve al nuevo en cuanto este escribe, y el anterior pierde el acceso.
+// ponytail: es una mutación en la ruta caliente (se llama en cada mensaje), pero en el caso
+// común —chat ya enlazado— sale en la primera lectura sin escribir nada.
+export const activaOVincula = internalMutation({
   args: { chatId: v.number() },
   handler: async (ctx, { chatId }) => {
-    const sub = await ctx.db
+    const enlazadas = await ctx.db
       .query("subscriptions")
       .withIndex("by_chat", (q) => q.eq("chatId", chatId))
-      .unique();
-    return subscriptionAllows(sub);
+      .collect();
+    if (enlazadas.some((s) => subscriptionAllows(s))) return true;
+
+    const cuentas = await ctx.db
+      .query("users")
+      .withIndex("by_phone", (q) => q.eq("phone", chatId))
+      .collect();
+    const candidatas = [];
+    for (const u of cuentas) {
+      const sub = await ctx.db
+        .query("subscriptions")
+        .withIndex("by_email", (q) => q.eq("email", u.email))
+        .unique();
+      if (subscriptionAllows(sub)) candidatas.push(sub!);
+    }
+    if (candidatas.length === 0) return false;
+    // Dos cuentas activas con el mismo número (alguien que se registró dos veces): gana la
+    // que se movió más recientemente, que es la que la persona está usando.
+    const elegida = candidatas.sort((a, b) => b.updatedAt - a.updatedAt)[0];
+
+    // El índice by_chat tiene que quedar único: lo que estuviera enlazado a este chat (una
+    // suscripción vencida, otra cuenta) se suelta antes de enlazar la elegida.
+    await Promise.all(
+      enlazadas.map((s) => ctx.db.patch(s._id, { chatId: undefined, updatedAt: now() })),
+    );
+    await ctx.db.patch(elegida._id, { chatId, linkToken: undefined, updatedAt: now() });
+    return true;
   },
 });
 
@@ -151,7 +184,7 @@ export const linkChat = internalMutation({
     if (!sub) return false;
     // Mantener el índice by_chat único: desvincula cualquier otra suscripción que ya
     // tenga este chatId (re-checkout con otro email, regalo, segundo intento). Sin esto,
-    // isActiveByChat().unique() reventaría y bloquearía el gate de un usuario que paga.
+    // el gate de un usuario que paga quedaría ambiguo entre dos suscripciones.
     const prev = await ctx.db
       .query("subscriptions")
       .withIndex("by_chat", (q) => q.eq("chatId", chatId))

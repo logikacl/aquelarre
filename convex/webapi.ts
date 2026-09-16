@@ -50,14 +50,18 @@ export const checkout = httpAction(async (ctx, req) => {
   return json({ completionUrl: sub.completionUrl, securityToken: sub.securityToken, linkToken });
 });
 
-// POST /api/subscription { email } → { status, chatId, linkToken }
+// POST /api/subscription { email } → { status, chatId, phone }
 export const subscription = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
   const { email } = await req.json();
-  const sub = await ctx.runQuery(internal.subscriptions.getByEmail, { email });
-  if (!sub) return json({ status: "none" });
-  return json({ status: sub.status, chatId: sub.chatId ?? null, linkToken: sub.linkToken ?? null });
+  const [sub, user] = await Promise.all([
+    ctx.runQuery(internal.subscriptions.getByEmail, { email }),
+    ctx.runQuery(internal.users.getByEmail, { email }),
+  ]);
+  const phone = user?.phone ?? null;
+  if (!sub) return json({ status: "none", chatId: null, phone });
+  return json({ status: sub.status, chatId: sub.chatId ?? null, phone });
 });
 
 // `op` como string y no la función misma para que webapi.check.ts pueda verificar el mapa

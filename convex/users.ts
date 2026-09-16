@@ -40,12 +40,24 @@ export const listUsers = internalQuery({
 });
 
 export const create = internalMutation({
-  args: { email: v.string(), name: v.string(), passwordHash: v.string() },
-  handler: async (ctx, { email, name, passwordHash }) => {
+  args: { email: v.string(), name: v.string(), passwordHash: v.string(), phone: v.number() },
+  handler: async (ctx, { email, name, passwordHash, phone }) => {
     const existing = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", email)).unique();
     if (existing) return { ok: false as const, error: "email ya registrado" };
-    await ctx.db.insert("users", { email, name, passwordHash, createdAt: Date.now() });
+    await ctx.db.insert("users", { email, name, passwordHash, phone, createdAt: Date.now() });
     return { ok: true as const };
+  },
+});
+
+// Cambiar el número desde «Mi cuenta». No enlaza nada por sí solo: el enlace se hace cuando
+// ese número escribe (subscriptions.activaOVincula), que es lo que prueba que es suyo.
+export const setPhone = internalMutation({
+  args: { email: v.string(), phone: v.number() },
+  handler: async (ctx, { email, phone }) => {
+    const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", email)).unique();
+    if (!user) return false;
+    await ctx.db.patch(user._id, { phone });
+    return true;
   },
 });
 

@@ -1,42 +1,91 @@
-// Un solo lugar arma el deep-link al chat. Lo usan /suscripcion/listo (justo después de
-// pagar) y /cuenta (la vuelta, cuando la activación llegó tarde y el cliente ya se había
-// ido): lo que se duplicaría entre las dos es el número del bot y la forma del texto
-// prellenado, que es justo donde se esconde el bug.
+// El acceso al chat, en /suscripcion/listo (justo después de pagar) y en /cuenta (la vuelta).
 //
-// El canal es WhatsApp: es donde está la gente en Chile. El backend sigue soportando
-// Telegram para quien ya lo enlazó, pero a los nuevos no se les ofrece — una opción de más
-// en el momento del enganche es gente que duda y se va.
-// `numero` llega como prop desde la página (server component) y no de `process.env` acá:
-// la variable se llama NEXT_WHATSAPP_NUMBER, sin el prefijo NEXT_PUBLIC_, así que solo
-// existe en el servidor. Leerla desde el cliente daría `undefined` sin romper el build.
+// La suscripción se enlaza por el número de WhatsApp de la cuenta: cuando ese número le
+// escribe al bot, queda conectada (subscriptions.activaOVincula). Por eso el botón abre el
+// chat con un simple "Hola": no lleva código que se pueda borrar o dañar sin querer.
+//
+// `numeroBot` llega como prop desde la página y no de process.env acá: la variable se llama
+// NEXT_WHATSAPP_NUMBER, sin el prefijo NEXT_PUBLIC_, y solo existe en el servidor.
+import { formatearTelefono } from "@/convex/telefono";
+import PhoneInput from "@/components/PhoneInput";
+import { guardarTelefono } from "@/app/cuenta/actions";
+
+const inputClass =
+  "w-full bg-background border border-outline/30 rounded-lg py-3 px-4 focus:border-primary focus:ring-0 transition-all text-on-surface";
+
+function FormNumero({ volver, actual }: { volver: string; actual: number | null }) {
+  return (
+    <form action={guardarTelefono} className="space-y-2 text-left">
+      <input name="volver" type="hidden" value={volver} />
+      <label className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant ml-1" htmlFor="telefono">
+        Tu WhatsApp
+      </label>
+      <PhoneInput className={inputClass} defaultValue={actual ? formatearTelefono(actual) : ""} />
+      <button className="px-6 py-3 rounded-xl border border-primary text-primary font-bold" type="submit">
+        Guardar número
+      </button>
+    </form>
+  );
+}
+
 export default function ChatLink({
-  linkToken,
   chatId,
-  numero,
+  phone,
+  numeroBot,
+  volver,
 }: {
-  linkToken: string | null;
   chatId: number | null;
-  numero: string;
+  phone: number | null;
+  numeroBot: string;
+  volver: "/cuenta" | "/suscripcion/listo";
 }) {
-  if (chatId) {
+  // Sin número registrado (cuentas de antes de que se pidiera): lo primero es pedirlo.
+  if (!phone && !chatId) {
     return (
-      <p className="text-on-surface-variant">
-        Tu chat ya está conectado. Ábrelo en WhatsApp y escríbele a tu oráculo.
-      </p>
+      <div className="space-y-4">
+        <p className="text-on-surface-variant">
+          Registra el número de WhatsApp desde el que vas a conversar con el oráculo.
+        </p>
+        <FormNumero actual={null} volver={volver} />
+      </div>
     );
   }
-  if (!linkToken) {
-    return <p className="text-on-surface-variant">Tu chat ya fue enlazado. Ábrelo en WhatsApp.</p>;
-  }
-  // El texto va prellenado: el cliente solo aprieta enviar. `/start <token>` es lo que
-  // `parseStartToken` espera, y es el que amarra este pago a ese chat.
-  const texto = encodeURIComponent(`/start ${linkToken}`);
-  return (
+
+  const abrir = (
     <a
-      href={`https://wa.me/${numero}?text=${texto}`}
       className="inline-block px-8 py-4 rounded-xl bg-primary text-on-primary font-bold"
+      href={`https://wa.me/${numeroBot}?text=${encodeURIComponent("Hola 👋")}`}
     >
       Abrir mi chat en WhatsApp
     </a>
+  );
+
+  return (
+    <div className="space-y-4">
+      {chatId ? (
+        <p className="text-on-surface-variant">
+          Tu chat está conectado con <strong className="text-on-surface">{formatearTelefono(chatId)}</strong>.
+          {phone && phone !== chatId && (
+            <>
+              {" "}
+              Registraste {formatearTelefono(phone)}: la suscripción se pasa a ese número en cuanto le escribas
+              desde ahí.
+            </>
+          )}
+        </p>
+      ) : (
+        <p className="text-on-surface-variant">
+          Escríbele al oráculo desde <strong className="text-on-surface">{formatearTelefono(phone!)}</strong>: tu
+          suscripción se conecta sola con tu primer mensaje.
+        </p>
+      )}
+      {abrir}
+      <details className="text-sm">
+        <summary className="cursor-pointer text-on-surface-variant underline">¿Otro número? Cámbialo aquí</summary>
+        <div className="mt-4">
+          <FormNumero actual={phone} volver={volver} />
+        </div>
+      </details>
+    </div>
   );
 }

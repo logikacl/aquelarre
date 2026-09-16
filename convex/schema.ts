@@ -53,8 +53,12 @@ export default defineSchema({
       v.literal("cancelled"),
     ),
     reveniuId: v.optional(v.number()),
-    chatId: v.optional(v.number()), // ausente hasta que el deep-link lo enlaza
-    linkToken: v.optional(v.string()), // token de un solo uso; se borra al enlazar
+    chatId: v.optional(v.number()), // ausente hasta que el número de la cuenta le escribe al bot
+    // ponytail: enlace por código de un solo uso, reemplazado por el enlace por teléfono
+    // (2026-09-16). La web ya no lo muestra y el bot todavía lo acepta. Para quitarlo: vaciar
+    // este campo en las filas existentes, y recién después sacarlo del esquema (Convex rechaza
+    // un esquema que no calza con los documentos guardados).
+    linkToken: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
@@ -133,6 +137,12 @@ export default defineSchema({
     email: v.string(),
     name: v.string(),
     passwordHash: v.string(), // formato "saltB64:hashB64"
+    // WhatsApp desde el que va a conversar, ya como wa_id (ver convex/telefono.ts). Se pide al
+    // registrarse y es lo que enlaza la suscripción con el chat: cuando este número escribe,
+    // el bot encuentra la cuenta. Opcional solo por las cuentas anteriores a este cambio.
+    phone: v.optional(v.number()),
     createdAt: v.number(),
-  }).index("by_email", ["email"]),
+  })
+    .index("by_email", ["email"])
+    .index("by_phone", ["phone"]),
 });

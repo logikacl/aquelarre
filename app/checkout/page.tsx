@@ -3,6 +3,7 @@ import { backendGet } from "@/lib/backend";
 import { clp } from "@/lib/format";
 import { registerAndCheckout } from "./actions";
 import PasswordFields from "@/components/PasswordFields";
+import PhoneInput from "@/components/PhoneInput";
 
 type PublicData = { priceClp: number };
 
@@ -16,6 +17,7 @@ const ERRORES: Record<string, string> = {
   distintas: "Las contraseñas no coinciden.",
   debil: "La contraseña no cumple los requisitos: al menos 10 caracteres, mayúsculas, minúsculas y un número.",
   registro: "No pudimos crear tu cuenta. Intenta de nuevo en un momento.",
+  telefono: "Revisa tu número de WhatsApp: escribe tu celular, por ejemplo 9 1234 5678.",
 };
 
 export default async function Checkout({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
@@ -74,6 +76,16 @@ export default async function Checkout({ searchParams }: { searchParams: Promise
                   required
                   type="email"
                 />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <label className={labelClass} htmlFor="telefono">
+                  Tu WhatsApp
+                </label>
+                <PhoneInput className={inputClass} />
+                <p className="text-xs text-on-surface-variant ml-1">
+                  Es el número desde el que vas a conversar con el oráculo: tu suscripción se conecta sola en
+                  cuanto le escribas desde ahí.
+                </p>
               </div>
               <PasswordFields inputClass={inputClass} labelClass={labelClass} />
               <button

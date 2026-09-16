@@ -118,7 +118,7 @@ export const TERMINOS: Documento = {
     {
       t: "9. Acceso al chat",
       b: [
-        "Después de activar tu suscripción, el sitio te entrega un enlace de un solo uso que abre el chat con el oráculo y lo vincula a tu cuenta. Ese enlace es personal e intransferible: quien lo use quedará vinculado a tu suscripción. La cuenta y el chat son para uso personal de una sola persona; no puedes compartirlos, revenderlos ni cederlos.",
+        "Tu suscripción se vincula al número de WhatsApp que registras en tu cuenta: cuando le escribes al oráculo desde ese número, el chat queda conectado. Puedes cambiar el número desde «Mi cuenta»; al escribir desde el nuevo, la suscripción pasa a ese número y el anterior deja de tener acceso. Debe ser un número de tu titularidad. La cuenta y el chat son para uso personal de una sola persona; no puedes compartirlos, revenderlos ni cederlos.",
         "El canal del servicio es WhatsApp. Tu conversación queda vinculada al número de WhatsApp con el que abras el chat: si cambias de número, tu lectura comienza de cero y el historial anterior no se traslada.",
         "El uso de WhatsApp se rige además por los términos y la política de privacidad de Meta. Es un servicio ajeno a nosotros y no respondemos por él.",
       ],
@@ -323,7 +323,7 @@ export const PRIVACIDAD: Documento = {
         {
           ul: [
             "Datos de cuenta: nombre, correo electrónico y contraseña (almacenada como hash, nunca en texto plano).",
-            "Identificador del canal: tu número de WhatsApp en formato internacional, que es el identificador con el que WhatsApp nos entrega tu conversación.",
+            "Número de WhatsApp: el que nos indicas al registrarte o en «Mi cuenta», en formato internacional. Es también el identificador con el que WhatsApp nos entrega tu conversación, y lo usamos para conectar tu suscripción con tu chat.",
             "Datos de nacimiento: ciudad, fecha y, si la conoces y decides entregarla, hora de nacimiento. La hora es opcional: sin ella no calculamos tu ascendente.",
             "Datos astrológicos derivados: tu signo solar, tu signo lunar y tu ascendente, calculados a partir de lo anterior.",
             "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera el oráculo.",
@@ -353,7 +353,7 @@ export const PRIVACIDAD: Documento = {
           tabla: {
             head: ["Finalidad", "Base de licitud"],
             rows: [
-              ["Crear y administrar tu cuenta y autenticarte", "Ejecución del contrato"],
+              ["Crear y administrar tu cuenta, autenticarte y conectar tu suscripción con tu chat de WhatsApp", "Ejecución del contrato"],
               [
                 "Enviarte los correos necesarios para tu cuenta, como el enlace para recuperar tu contraseña cuando lo pides",
                 "Ejecución del contrato",

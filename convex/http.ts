@@ -1,6 +1,7 @@
 import { httpRouter } from "convex/server";
 import { httpAction, type ActionCtx } from "./_generated/server";
 import { waChatId, validaFirmaMeta } from "./whatsapp";
+import { formatearTelefono } from "./telefono";
 import { internal } from "./_generated/api";
 import { send, pedirConsentimiento } from "./send";
 import { parseFecha, parseHora, fmtHora, noSabeHora, isoFecha } from "./birth";
@@ -15,7 +16,7 @@ import {
   listUsersAdmin, userAction, userDelete, churnReport,
   getContent, setContent, uploadImage,
 } from "./admin";
-import { register, login } from "./authapi";
+import { register, login, accountPhone } from "./authapi";
 import { resetRequest, resetConfirm } from "./reset";
 import { publicOracles, publicContent } from "./publicapi";
 import { DAILY_LIMIT } from "./quota";
@@ -32,9 +33,14 @@ Antes de empezar: nuestras conversaciones se guardan para darte continuidad, y s
 
 const NEED_CONSENT = `Para conversar necesito antes tu consentimiento. Te lo cuento de nuevo:`;
 
-const NEED_SUBSCRIPTION = `Para conversar con el oráculo necesitas una suscripción activa.
-Actívala aquí: ${process.env.WEB_BASE_URL}
-Cuando esté lista, vuelve a este chat y escríbeme.`;
+// Le dice desde qué número escribe: el caso más común de quien ya pagó y llega acá es que
+// registró otro número (o lo escribió mal) en su cuenta, y sin ese dato no lo descubre.
+const needSubscription = (chatId: number) => `Para conversar con el oráculo necesitas una suscripción activa.
+
+Estás escribiendo desde ${formatearTelefono(chatId)}.
+
+• Si ya pagaste: entra a ${process.env.WEB_BASE_URL}/cuenta y revisa que ese sea el número de WhatsApp de tu cuenta. Apenas lo corrijas, vuelve a escribirme.
+• Si aún no te suscribes: ${process.env.WEB_BASE_URL}`;
 
 const askBirth = (nombre: string) =>
   `Gracias, ${nombre}. ✨ Para leer tu carta necesito saber dónde y cuándo naciste.
@@ -66,9 +72,9 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
 
   const convo = await ctx.runQuery(internal.messages.getConversation, { chatId });
 
-  // Arranque. `/start` sigue vivo porque el deep-link post-pago lo usa para traer el token,
-  // pero el disparador real es "esta persona escribe y todavía no existe": en WhatsApp nadie
-  // escribe comandos, y exigirlos era perder gente en el primer contacto.
+  // Arranque: "esta persona escribe y todavía no existe". En WhatsApp nadie escribe
+  // comandos, y exigirlos era perder gente en el primer contacto. `/start <código>` se acepta
+  // todavía por el enlace viejo con código (ver el ponytail de linkToken en schema.ts).
   const esStart = text === "/start" || text.startsWith("/start ") || text.startsWith("/start@");
   if (esStart || !convo) {
     await ctx.runMutation(internal.messages.ensureConversation, { chatId });
@@ -86,8 +92,8 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
   // explícito de Ley 21.719 y no se aceptan por más que sea tentador facilitarlo.
   if (esConsentimiento(text)) {
     await ctx.runMutation(internal.messages.recordConsent, { chatId, version: CONSENT_VERSION });
-    const active = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
-    await send(chatId, active ? askBirth(nombre) : NEED_SUBSCRIPTION);
+    const active = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
+    await send(chatId, active ? askBirth(nombre) : needSubscription(chatId));
     return ok();
   }
 
@@ -97,11 +103,11 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
     return ok();
   }
 
-  // Puerta de suscripción: nada de onboarding ni oráculo sin suscripción activa.
-  // ponytail: una query por mensaje en la ruta caliente; indexado by_chat, barato.
-  const activeSub = await ctx.runQuery(internal.subscriptions.isActiveByChat, { chatId });
+  // Puerta de suscripción: nada de onboarding ni oráculo sin suscripción activa. Si el chat
+  // todavía no está enlazado, se enlaza acá por el número registrado en la cuenta.
+  const activeSub = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
   if (!activeSub) {
-    await send(chatId, NEED_SUBSCRIPTION);
+    await send(chatId, needSubscription(chatId));
     return ok();
   }
 
@@ -232,6 +238,7 @@ http.route({ path: "/api/auth/register", method: "POST", handler: register });
 http.route({ path: "/api/auth/login", method: "POST", handler: login });
 http.route({ path: "/api/auth/reset/request", method: "POST", handler: resetRequest });
 http.route({ path: "/api/auth/reset/confirm", method: "POST", handler: resetConfirm });
+http.route({ path: "/api/account/phone", method: "POST", handler: accountPhone });
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
 http.route({ path: "/api/public/content", method: "GET", handler: publicContent });
 export default http;
