@@ -5,7 +5,10 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  if (!session?.user?.email) redirect("/checkout");
+  // Sin sesión se va a iniciar sesión, no a /checkout: quien llega acá acaba de pagar
+  // (volvió de Webpay en otro navegador, o se le venció la sesión), y /checkout lo invitaba a
+  // pagar de nuevo. Tras entrar aterriza en /cuenta, que también muestra el enlace al chat.
+  if (!session?.user?.email) redirect("/ingresar");
   const sub = await backendPost<{ status: string; chatId: number | null; linkToken: string | null }>(
     "/api/subscription",
     { email: session.user.email },

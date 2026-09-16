@@ -12,7 +12,7 @@ set -euo pipefail
 
 : "${REVENIU_API_SECRET:?falta REVENIU_API_SECRET}"
 : "${REVENIU_API_URL:?falta REVENIU_API_URL}"
-: "${WEB_BASE_URL:=https://aquelarre-xi.vercel.app}"
+: "${WEB_BASE_URL:=https://www.silente.cl}"
 : "${PLAN_TITLE:=Astros x Chat}"
 : "${PLAN_PRICE:=3000}"
 
@@ -28,7 +28,7 @@ curl -sS -X POST "${REVENIU_API_URL}/api/v1/plans/" \
   "frequency": 3,
   "cicles": 1,
   "title": "${PLAN_TITLE}",
-  "description": "Conversación ilimitada con tu oráculo por Telegram",
+  "description": "Conversación ilimitada con tu oráculo por WhatsApp",
   "price": ${PLAN_PRICE},
   "is_custom_amount": true,
   "custom_amount_min": 1000,
@@ -38,3 +38,8 @@ curl -sS -X POST "${REVENIU_API_URL}/api/v1/plans/" \
   "redirect_to_failure": "${WEB_BASE_URL}/checkout?error=pago"
 }
 JSON
+
+# Para cambiar la URL de retorno o la descripción de un plan ya creado no hace falta otro
+# plan: PATCH acepta cambios parciales (verificado el 2026-09-16 en sandbox).
+#   curl -X PATCH "${REVENIU_API_URL}/api/v1/plans/<id>/" -H "Reveniu-Secret-Key: ..." \
+#     -H "Content-Type: application/json" -d '{"redirect_to":"https://www.silente.cl/suscripcion/listo"}'
