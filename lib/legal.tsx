@@ -9,20 +9,23 @@
 // nuevo desde ya.
 //
 // Canal: WhatsApp es el único canal. Telegram existió como prueba de concepto y se retiró
-// el 2026-09-11 (webhook dado de baja y código eliminado); los documentos ya no lo
-// sección 9 de los Términos y de las tablas 8 y 9 de la Política.
+// el 2026-09-11 (webhook dado de baja y código eliminado); los documentos ya no lo mencionan.
+//
+// Correo: los correos de la cuenta (recuperación de contraseña) salen por Brevo desde el
+// 2026-09-16. Figura en las tablas de proveedores y transferencias de la Política, y en la
+// sección 20 de los Términos. Si se cambia de proveedor, se cambia en esos tres lugares.
 //
 // ponytail: un solo archivo con los dos documentos como datos + su renderer. Las páginas
 // de /terminos y /privacidad son tres líneas cada una.
 
-export const VERSION = "2026-09-09";
+export const VERSION = "2026-09-16";
 
 export const EMPRESA = {
   razonSocial: "Logika Sistemas SpA",
   rut: "78.313.784-4",
   // ⚠️ COMPLETAR antes de publicar: aparece en los dos documentos.
   domicilio: "«DOMICILIO POR DEFINIR», Chile",
-  sitio: "astrosxchat.cl",
+  sitio: "silente.cl",
   contacto: "contacto@logika.cl",
   // Mismo buzón por ahora. Si se crea uno separado para privacidad, se cambia solo acá.
   dpo: "contacto@logika.cl",
@@ -43,7 +46,7 @@ export const TERMINOS: Documento = {
     {
       t: "1. Aceptación de los Términos",
       b: [
-        "La aceptación se realiza al crear tu cuenta y al usar el servicio. Además, antes de tu primera conversación, el oráculo te explica en el chat qué datos se guardan y cómo se procesan, y solo comienza a conversar cuando respondes «/acepto»: ese es tu consentimiento expreso para el tratamiento descrito en la Política de Privacidad. No hay casillas premarcadas ni aceptaciones tácitas.",
+        "La aceptación se realiza al crear tu cuenta y al usar el servicio. Además, antes de tu primera conversación, el oráculo te explica en el chat qué datos se guardan y cómo se procesan, y solo comienza a conversar cuando tocas el botón «Acepto» (o escribes «acepto»): ese es tu consentimiento expreso para el tratamiento descrito en la Política de Privacidad. No hay casillas premarcadas ni aceptaciones tácitas.",
         "Conservamos registro de la versión de los Términos y de la Política de Privacidad que aceptaste y de la fecha de tu aceptación. Estos Términos constituyen un contrato de adhesión regido por la legislación chilena.",
       ],
     },
@@ -207,7 +210,7 @@ export const TERMINOS: Documento = {
     {
       t: "20. Servicios de terceros",
       b: [
-        "El servicio se apoya en proveedores externos: Meta / WhatsApp Business Platform (canal de mensajería), Fireworks AI (ejecución del modelo de lenguaje), Convex (base de datos y backend), Vercel (alojamiento del sitio) y Reveniu junto a Transbank (pagos). No respondemos por interrupciones, cambios o fallas atribuibles a estos terceros, sin perjuicio de tus derechos como consumidor frente a nosotros por el servicio contratado.",
+        "El servicio se apoya en proveedores externos: Meta / WhatsApp Business Platform (canal de mensajería), Fireworks AI (ejecución del modelo de lenguaje), Convex (base de datos y backend), Vercel (alojamiento del sitio), Brevo (envío de los correos de tu cuenta) y Reveniu junto a Transbank (pagos). No respondemos por interrupciones, cambios o fallas atribuibles a estos terceros, sin perjuicio de tus derechos como consumidor frente a nosotros por el servicio contratado.",
       ],
     },
     {
@@ -326,6 +329,7 @@ export const PRIVACIDAD: Documento = {
             "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera el oráculo.",
             "Datos de suscripción: estado (pendiente, activa, por terminar, cancelada), fechas de cambio de estado, identificador de la suscripción en la pasarela de pago y, si la cancelas, el motivo y comentario que entregues en el formulario de baja. No almacenamos el número de tu tarjeta ni su código de seguridad (ver sección 11).",
             "Uso del servicio: la cuenta de consultas que llevas en el día, para aplicar el límite diario.",
+            "Recuperación de contraseña: si pides recuperar tu clave, guardamos por una hora una huella criptográfica del enlace que te enviamos, asociada a tu correo. El enlace en sí no se guarda.",
             "Datos técnicos y de seguridad: registros de acceso y de auditoría generados por nuestros proveedores de infraestructura.",
           ],
         },
@@ -336,7 +340,7 @@ export const PRIVACIDAD: Documento = {
       t: "6. Datos personales sensibles y consentimiento",
       b: [
         "El contenido de tus conversaciones puede revelar tus creencias filosóficas o convicciones, y eventualmente información sobre tu salud, tus relaciones o tu vida íntima si decides compartirla. Son datos personales sensibles conforme a la Ley 21.719 y reciben un nivel de protección reforzado: se tratan solo con tu consentimiento expreso, para las finalidades declaradas aquí, y nunca se usan para elaborar perfiles con fines comerciales.",
-        "El consentimiento lo otorgas mediante un acto afirmativo inequívoco: antes de la primera conversación, el chat te explica que las conversaciones se guardan y se procesan con un modelo de IA, incluida su transferencia a servidores fuera de Chile, y solo comienza cuando escribes «/acepto». Registramos la fecha y la versión de ese consentimiento, de modo que podemos acreditar cuándo y a qué texto consentiste. Puedes retirarlo en cualquier momento escribiendo a " +
+        "El consentimiento lo otorgas mediante un acto afirmativo inequívoco: antes de la primera conversación, el chat te explica que las conversaciones se guardan y se procesan con un modelo de IA, incluida su transferencia a servidores fuera de Chile, y solo comienza cuando tocas el botón «Acepto» que acompaña esa explicación, o escribes «acepto». Un «ok», un «sí» o un emoji no cuentan como consentimiento. Registramos la fecha y la versión de ese consentimiento, de modo que podemos acreditar cuándo y a qué texto consentiste. Puedes retirarlo en cualquier momento escribiendo a " +
           E.dpo +
           " o eliminando tu cuenta desde «Mi cuenta»; el retiro es tan simple como el otorgamiento, no afecta la licitud del tratamiento previo e implica el cese del servicio.",
         "Te recomendamos no compartir en el chat información sensible que no desees procesar mediante un sistema de inteligencia artificial ubicado fuera de Chile.",
@@ -350,6 +354,10 @@ export const PRIVACIDAD: Documento = {
             head: ["Finalidad", "Base de licitud"],
             rows: [
               ["Crear y administrar tu cuenta y autenticarte", "Ejecución del contrato"],
+              [
+                "Enviarte los correos necesarios para tu cuenta, como el enlace para recuperar tu contraseña cuando lo pides",
+                "Ejecución del contrato",
+              ],
               [
                 "Calcular tu carta a partir de tus datos de nacimiento",
                 "Ejecución del contrato y tu consentimiento",
@@ -427,6 +435,11 @@ export const PRIVACIDAD: Documento = {
                 "Datos en tránsito durante tu navegación y los que escribes en los formularios",
               ],
               [
+                "Brevo",
+                "Encargado. Enviar los correos de tu cuenta, como el enlace para recuperar tu contraseña",
+                "Tu correo electrónico y el contenido de ese correo. Nunca el contenido de tus conversaciones ni tus datos de nacimiento",
+              ],
+              [
                 "Reveniu y Transbank",
                 "Responsables independientes respecto de los datos de tu medio de pago. Procesar el cobro de la suscripción (ver sección 11)",
                 "Correo electrónico, monto, y los datos de tu tarjeta, que ellos capturan directamente",
@@ -467,6 +480,11 @@ export const PRIVACIDAD: Documento = {
                 "Contrato de servicio con el proveedor y tu consentimiento expreso",
               ],
               [
+                "Brevo",
+                "Unión Europea (proveedor con sede en Francia)",
+                "Contrato de servicio con el proveedor. Solo recibe tu correo cuando tú pides un correo de tu cuenta, como recuperar tu contraseña, y la transferencia es necesaria para entregártelo. El proveedor está sujeto al Reglamento General de Protección de Datos europeo, lo que no equivale a una declaración de adecuación de la Agencia",
+              ],
+              [
                 "Reveniu · Transbank",
                 "Chile",
                 "El cobro se procesa en Chile; no hay transferencia internacional en el pago",
@@ -501,6 +519,10 @@ export const PRIVACIDAD: Documento = {
                 "Hasta que escribas «/nueva» en el chat, que lo borra de inmediato y empieza una lectura desde cero",
               ],
               [
+                "Enlace de recuperación de contraseña",
+                "Deja de servir a la hora, al usarlo o al pedir uno nuevo. El registro vencido se elimina en la siguiente limpieza automática, y también al eliminar tu cuenta",
+              ],
+              [
                 "Registros de altas y bajas de suscripción",
                 "Se conservan de forma seudonimizada para medir el servicio de manera agregada: al eliminar tu cuenta, tu correo se reemplaza por un código sin vínculo contigo",
               ],
@@ -521,7 +543,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "14. Cómo protegemos tus datos",
       b: [
-        "Aplicamos cifrado en tránsito (TLS) en todas las comunicaciones, y tus datos se almacenan cifrados en reposo por nuestro proveedor de base de datos. Las contraseñas se guardan como hash con derivación de clave (PBKDF2), nunca en texto plano. Los webhooks de los canales y de la pasarela de pago se validan criptográficamente antes de aceptarlos. El acceso administrativo está restringido a una lista cerrada de cuentas y los endpoints internos exigen credenciales propias. El panel de administración muestra cuentas y estado de suscripción, pero no da acceso al contenido de las conversaciones. Cada conversación queda aislada por su identificador de canal.",
+        "Aplicamos cifrado en tránsito (TLS) en todas las comunicaciones, y tus datos se almacenan cifrados en reposo por nuestro proveedor de base de datos. Las contraseñas se guardan como hash con derivación de clave (PBKDF2), nunca en texto plano. Los enlaces para recuperar una contraseña sirven una sola vez, vencen en una hora y se guardan solo como huella criptográfica, de modo que una copia de nuestra base de datos no permite usarlos. Los webhooks de los canales y de la pasarela de pago se validan criptográficamente antes de aceptarlos. El acceso administrativo está restringido a una lista cerrada de cuentas y los endpoints internos exigen credenciales propias. El panel de administración muestra cuentas y estado de suscripción, pero no da acceso al contenido de las conversaciones. Cada conversación queda aislada por su identificador de canal.",
         "Quienes intervienen en el tratamiento están sujetos a deber de secreto, que se mantiene después de terminado el vínculo. Ningún sistema es 100% infalible, pero adoptamos medidas técnicas y organizativas razonables y proporcionales al riesgo, y las revisamos cuando cambia el servicio.",
       ],
     },

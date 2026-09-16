@@ -98,6 +98,7 @@ export const resetRequest = httpAction(async (ctx, req) => {
       await sendEmail({
         to: correo,
         subject: "Recupera tu contraseña · Astros x Chat",
+        tag: "recuperar-clave",
         text: `Hola,
 
 Recibimos una solicitud para cambiar la contraseña de tu cuenta en Astros x Chat.
