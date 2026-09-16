@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { reglasPassword } from "@/convex/passwordRules";
+import PasswordInput from "@/components/PasswordInput";
 
 // Contraseña + confirmación con aviso en vivo. El bloqueo del envío lo hace el navegador
 // (setCustomValidity): así el formulario sigue siendo una server action simple y nadie pierde
@@ -32,7 +33,7 @@ export default function PasswordFields({ inputClass, labelClass }: { inputClass:
         <label className={labelClass} htmlFor="password">
           Contraseña
         </label>
-        <input
+        <PasswordInput
           aria-describedby="password-reglas"
           autoComplete="new-password"
           className={inputClass}
@@ -45,7 +46,6 @@ export default function PasswordFields({ inputClass, labelClass }: { inputClass:
           placeholder="••••••••••"
           ref={pwRef}
           required
-          type="password"
           value={pw}
         />
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs ml-1" id="password-reglas">
@@ -61,7 +61,7 @@ export default function PasswordFields({ inputClass, labelClass }: { inputClass:
         <label className={labelClass} htmlFor="confirm">
           Repite la contraseña
         </label>
-        <input
+        <PasswordInput
           aria-describedby="confirm-estado"
           autoComplete="new-password"
           className={inputClass}
@@ -74,7 +74,6 @@ export default function PasswordFields({ inputClass, labelClass }: { inputClass:
           placeholder="••••••••••"
           ref={confirmRef}
           required
-          type="password"
           value={confirm}
         />
         <p aria-live="polite" className="text-xs ml-1 min-h-4" id="confirm-estado">

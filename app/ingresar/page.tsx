@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { login } from "./actions";
+import PasswordInput from "@/components/PasswordInput";
 
 const input =
   "w-full bg-background border border-outline/30 rounded-lg py-3 px-4 focus:border-primary focus:ring-0 transition-all text-on-surface";
@@ -46,14 +47,13 @@ export default async function Ingresar({
             <label className={label} htmlFor="password">
               Contraseña
             </label>
-            <input
+            <PasswordInput
               autoComplete="current-password"
               className={input}
               id="password"
               name="password"
               placeholder="••••••••"
               required
-              type="password"
             />
             <p className="text-right">
               <Link className="text-xs underline text-primary" href="/recuperar">
