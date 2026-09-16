@@ -7,16 +7,24 @@ export async function registerAndCheckout(formData: FormData) {
   const name = String(formData.get("name") ?? "");
   const email = String(formData.get("email") ?? "").toLowerCase();
   const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
 
-  const reg = await backendPost<{ ok: boolean; error?: string }>(
-    "/api/auth/register",
-    { name, email, password },
-    "web",
-  );
-  // Si ya estaba registrado, seguimos igual (puede reintentar el pago); otros errores se lanzan.
-  if (!reg.ok && reg.error && !reg.error.includes("ya registrado")) {
-    throw new Error(reg.error);
+  // El formulario ya lo impide en vivo; esto es para quien lo salte (sin JS, o a mano).
+  if (password !== confirm) redirect("/checkout?error=distintas");
+
+  // backendPost lanza ante cualquier status no-2xx, y Convex responde 409 si el correo ya
+  // existe: hay que atraparlo acá. Antes no se atrapaba, así que quien ya tenía cuenta y
+  // volvía a pagar veía la página de error en vez de seguir. Los redirect van fuera del try
+  // para no comerse su NEXT_REDIRECT.
+  let fallo = "";
+  try {
+    await backendPost("/api/auth/register", { name, email, password }, "web");
+  } catch (e) {
+    fallo = String(e);
   }
+  if (fallo.includes("débil")) redirect("/checkout?error=debil");
+  // Si ya estaba registrado, seguimos: es alguien volviendo a pagar, se valida con su clave.
+  if (fallo && !fallo.includes("ya registrado")) redirect("/checkout?error=registro");
 
   // El email ya existía y la clave no coincide → no es un registro, es un login fallido:
   // mandarlo a /ingresar en vez de cobrarle. Ver nota en app/ingresar/actions.ts.

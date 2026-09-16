@@ -2,11 +2,26 @@ import Link from "next/link";
 import { backendGet } from "@/lib/backend";
 import { clp } from "@/lib/format";
 import { registerAndCheckout } from "./actions";
+import PasswordFields from "@/components/PasswordFields";
 
 type PublicData = { priceClp: number };
 
-export default async function Checkout() {
+const inputClass =
+  "w-full bg-background border border-outline/30 rounded-lg py-3 px-4 focus:border-primary focus:ring-0 transition-all text-on-surface";
+const labelClass = "text-xs font-semibold uppercase tracking-wider text-on-surface-variant ml-1";
+
+// `?error=` lo ponen la server action y Reveniu (pago fallido → redirect_to_failure del plan).
+const ERRORES: Record<string, string> = {
+  pago: "El pago no se completó. Puedes intentarlo de nuevo.",
+  distintas: "Las contraseñas no coinciden.",
+  debil: "La contraseña no cumple los requisitos: al menos 10 caracteres, mayúsculas, minúsculas y un número.",
+  registro: "No pudimos crear tu cuenta. Intenta de nuevo en un momento.",
+};
+
+export default async function Checkout({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const { priceClp } = await backendGet<PublicData>("/api/public/oracles");
+  const { error } = await searchParams;
+  const mensajeError = error ? ERRORES[error] : undefined;
 
   return (
     <main className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
@@ -28,6 +43,14 @@ export default async function Checkout() {
               <h2 className="text-xl font-bold text-on-surface">Datos de registro</h2>
             </div>
             <form action={registerAndCheckout} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {mensajeError && (
+                <p
+                  className="md:col-span-2 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg py-3 px-4"
+                  role="alert"
+                >
+                  {mensajeError}
+                </p>
+              )}
               <div className="space-y-2">
                 <label className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant ml-1">
                   Nombre completo
@@ -52,19 +75,7 @@ export default async function Checkout() {
                   type="email"
                 />
               </div>
-              <div className="md:col-span-2 space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant ml-1">
-                  Contraseña
-                </label>
-                <input
-                  className="w-full bg-background border border-outline/30 rounded-lg py-3 px-4 focus:border-primary focus:ring-0 transition-all text-on-surface"
-                  minLength={8}
-                  name="password"
-                  placeholder="••••••••"
-                  required
-                  type="password"
-                />
-              </div>
+              <PasswordFields inputClass={inputClass} labelClass={labelClass} />
               <button
                 className="md:col-span-2 w-full bg-primary text-on-primary font-bold py-4 rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2"
                 type="submit"

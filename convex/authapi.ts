@@ -1,6 +1,7 @@
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { hashPassword, verifyPassword } from "./password";
+import { passwordValida } from "./passwordRules";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
@@ -17,8 +18,16 @@ export const register = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
   const { name, email, password } = await req.json();
-  if (typeof email !== "string" || !email.includes("@") || typeof password !== "string" || password.length < 8) {
-    return json({ ok: false, error: "email inválido o password menor a 8 caracteres" }, 400);
+  if (typeof email !== "string" || !email.includes("@") || typeof password !== "string") {
+    return json({ ok: false, error: "email inválido" }, 400);
+  }
+  // Existencia antes que fortaleza: el checkout también lo usa quien ya tiene cuenta para
+  // volver a pagar, y su clave de antes de estas reglas tiene que seguir sirviendo.
+  if (await ctx.runQuery(internal.users.getByEmail, { email })) {
+    return json({ ok: false, error: "email ya registrado" }, 409);
+  }
+  if (!passwordValida(password, email)) {
+    return json({ ok: false, error: "contraseña débil" }, 400);
   }
   const passwordHash = await hashPassword(password);
   const res = await ctx.runMutation(internal.users.create, {
