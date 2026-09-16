@@ -16,6 +16,7 @@ import {
   getContent, setContent, uploadImage,
 } from "./admin";
 import { register, login } from "./authapi";
+import { resetRequest, resetConfirm } from "./reset";
 import { publicOracles, publicContent } from "./publicapi";
 import { DAILY_LIMIT } from "./quota";
 
@@ -229,6 +230,8 @@ http.route({ path: "/api/admin/content/set", method: "POST", handler: setContent
 http.route({ path: "/api/admin/upload", method: "POST", handler: uploadImage });
 http.route({ path: "/api/auth/register", method: "POST", handler: register });
 http.route({ path: "/api/auth/login", method: "POST", handler: login });
+http.route({ path: "/api/auth/reset/request", method: "POST", handler: resetRequest });
+http.route({ path: "/api/auth/reset/confirm", method: "POST", handler: resetConfirm });
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
 http.route({ path: "/api/public/content", method: "GET", handler: publicContent });
 export default http;

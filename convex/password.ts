@@ -34,3 +34,10 @@ export async function verifyPassword(password: string, stored: string): Promise<
   const hash = await derive(password, unb64(saltB64));
   return hash === hashB64;
 }
+
+// Huella de un token de un solo uso (recuperación de contraseña). SHA-256 simple y no PBKDF2:
+// el token ya trae ~140 bits de azar, no hay diccionario que atacar.
+export async function sha256hex(s: string): Promise<string> {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(d), (b) => b.toString(16).padStart(2, "0")).join("");
+}

@@ -1,8 +1,9 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-// Todo se indexa por `chatId`: el wa_id de WhatsApp (E.164 sin +, numérico).
-// Nunca usar teléfono/E.164 como clave — fue el bug #1 de la spec original.
+// Todo se indexa por `chatId`: el wa_id de WhatsApp (E.164 sin +, numérico). Es el teléfono,
+// cosa que la spec original prohibía, pero en WhatsApp no hay otro identificador estable.
+// Ver convex/whatsapp.ts para las consecuencias.
 export default defineSchema({
   conversations: defineTable({
     chatId: v.number(),
@@ -114,6 +115,18 @@ export default defineSchema({
     value: v.string(),
     updatedAt: v.number(),
   }).index("by_key", ["key"]),
+
+  // Enlaces de recuperación de contraseña. Se guarda el SHA-256 del token, no el token: una
+  // copia de la base no sirve para resetear cuentas. Un solo uso, vence en una hora.
+  passwordResets: defineTable({
+    tokenHash: v.string(),
+    email: v.string(),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+  })
+    .index("by_token", ["tokenHash"])
+    .index("by_email", ["email"])
+    .index("by_expires", ["expiresAt"]),
 
   // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
   users: defineTable({

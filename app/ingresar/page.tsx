@@ -55,6 +55,11 @@ export default async function Ingresar({
               required
               type="password"
             />
+            <p className="text-right">
+              <Link className="text-xs underline text-primary" href="/recuperar">
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </p>
           </div>
           <button
             className="w-full bg-primary text-on-primary font-bold py-4 rounded-xl hover:opacity-90 transition-all active:scale-95"

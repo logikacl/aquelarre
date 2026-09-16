@@ -50,7 +50,8 @@ export const create = internalMutation({
 });
 
 // Reset de password sobre una cuenta existente (seed/soporte). Interno a propósito:
-// no hay ruta HTTP que lo exponga. ponytail: sin flujo de "olvidé mi clave" hasta que se pida.
+// no hay ruta HTTP que lo exponga directo; la recuperación (convex/reset.ts) lo llama recién
+// después de validar el token.
 export const setPassword = internalMutation({
   args: { email: v.string(), password: v.string() },
   handler: async (ctx, { email, password }) => {

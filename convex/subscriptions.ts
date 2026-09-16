@@ -192,6 +192,12 @@ export const suppressByEmail = internalMutation({
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
     if (user) await ctx.db.delete(user._id);
+    // Un enlace de recuperación pendiente es el correo guardado en otra tabla.
+    const resets = await ctx.db
+      .query("passwordResets")
+      .withIndex("by_email", (q) => q.eq("email", email))
+      .collect();
+    await Promise.all(resets.map((r) => ctx.db.delete(r._id)));
 
     // El historial sobrevive a la supresión, pero no la identidad: se seudonimiza con un
     // token opaco (Ley 21.719). El token es nuevo en cada supresión, así que este ciclo de
