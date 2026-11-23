@@ -1,21 +1,27 @@
-import type { Metadata } from "next";
-import { EB_Garamond, Manrope } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Syne } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ConsentClient from "@/components/ConsentClient";
 
-const garamond = EB_Garamond({ subsets: ["latin"], variable: "--font-garamond" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const syne = Syne({ subsets: ["latin"], variable: "--font-syne", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Astros x Chat | Tu destino escrito en las estrellas",
-  description: "Conversa en privado con un oráculo astrólogo por WhatsApp. Suscripción mensual.",
+  title: "Silente",
+  description: "Hay cosas que necesitas saber. Hay cosas que necesitas hablar. Conversa con Luna por WhatsApp.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#121B26",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${garamond.variable} ${manrope.variable}`}>
+    <html lang="es" className={syne.variable}>
       <body className="bg-background text-on-surface font-body">
         <ConsentClient>
           <Nav />

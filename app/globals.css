@@ -1,3 +1,167 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Sistema visual Silente, portado de ElCopyPaste/silente-web (diseño de Esteban).
+   Los mismos colores existen como tokens de Tailwind (tailwind.config.ts); estas variables
+   las usan los componentes portados tal cual (clases bg-[var(--silente-…)]). */
+:root {
+  --silente-night: #121b26;
+  --silente-secondary: #172331;
+  --silente-gold: #d5aa4b;
+  --silente-gold-light: #e5c46a;
+  --silente-ivory: #f3ebdd;
+  --silente-muted: #c0c4c7;
+  --silente-border: #293746;
+}
+html { scroll-behavior: smooth; }
+button { touch-action: manipulation; }
+::selection { background: var(--silente-gold); color: var(--silente-night); }
+
+/* Home: cada sección encaja por su inicio y conserva el scroll nativo si es más alta. */
+html:has(.silente-home) { scroll-snap-type: y proximity; }
+.silente-home > section { min-block-size: 100svh; scroll-snap-align: start; scroll-snap-stop: always; }
+.silente-home > section:not(.silente-hero) {
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(24px, 5svh, 64px);
+}
+.silente-home > section:not(.silente-hero) > div { width: 100%; }
+
+@media (max-width: 767px) {
+  .silente-home > section:not(.silente-hero) { padding: 24px 20px; }
+  .silente-home > section:not(.silente-hero) h2 { font-size: 28px; line-height: 1.12; letter-spacing: -.025em; margin-top: 10px; text-wrap: balance; }
+  .silente-home > section:not(.silente-hero) > div { gap: 20px; }
+  .silente-home > section:not(.silente-hero) h2 ~ p { margin-top: 12px; font-size: 16px; line-height: 24px; }
+  .silente-home > section:not(.silente-hero) > div > div > p:first-child { font-size: 11px; line-height: 18px; letter-spacing: .16em; }
+  #como-funciona > div > div:last-child > p { margin-bottom: 12px; font-size: 11px; line-height: 18px; }
+  #como-funciona [role="img"] { border-radius: 16px; padding: 16px; }
+  #como-funciona [role="img"] span { width: 44px; height: 44px; }
+  #como-funciona [role="img"] p { margin-top: 8px; }
+  #elige-tu-plan .plan-card { padding: 16px; }
+  #elige-tu-plan .plan-card h3 { font-size: 21px; line-height: 26px; }
+  #elige-tu-plan .plan-price { margin-top: 16px; padding-block: 12px; }
+  #elige-tu-plan .plan-price > p { margin-top: 0; font-size: 36px; line-height: 42px; }
+  #elige-tu-plan .plan-price > p > span { font-size: 14px; }
+  #elige-tu-plan .plan-card ul { margin-top: 16px; }
+  #elige-tu-plan .plan-card li { line-height: 24px; }
+  #elige-tu-plan .plan-card li + li { margin-top: 8px; }
+  #elige-tu-plan .plan-card > a { margin-top: 16px; min-height: 48px; padding-block: 12px; }
+  #elige-tu-plan .plan-card > p { margin-top: 12px; }
+  #preguntas-frecuentes > div { gap: 24px; }
+  #preguntas-frecuentes details { padding-block: 12px; }
+  #preguntas-frecuentes summary { font-size: 16px; line-height: 24px; }
+  #testimonios > div > div:nth-child(2) { margin-top: 24px; }
+  #testimonios .testimonial-slide { min-height: 310px; gap: 12px; padding: 20px; }
+  #testimonios blockquote { font-size: 17px; line-height: 26px; }
+  #testimonios .testimonial-slide p { margin-top: 16px; }
+  #testimonios article + div { margin-top: 16px; gap: 8px; }
+}
+
+/* Hero. El header de Esteban vivía dentro del hero; acá el Nav es global y el hero deja
+   un espaciador de su altura (.hero-nav-spacer). */
+.silente-hero { padding-block: max(12px, env(safe-area-inset-top)) 24px; padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right)); }
+.silente-hero .hero-content { margin-top: 12px; width: 100%; }
+.silente-hero .hero-intro { font-size: 14px; line-height: 20px; margin-top: 8px; }
+.silente-hero .hero-content > p:first-of-type { margin-top: 8px; }
+.silente-hero .hero-orbit { height: clamp(260px, 28svh, 320px); margin-block: 8px 16px; max-width: 680px; }
+.silente-hero .hero-symbol-anchor { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: flex; align-items: center; justify-content: center; }
+.silente-hero .silente-symbol { width: clamp(96px, 28vw, 150px); }
+.silente-hero .question-mobile { position: absolute; width: 47%; max-width: 250px; min-height: 56px; padding: 10px; font-size: clamp(.8125rem, 3.5vw, 1rem); background: rgba(7, 17, 29, .88); backdrop-filter: none; text-shadow: none; }
+.silente-hero .question-mobile.question-capsule-0 { left: 0; top: 0; }
+.silente-hero .question-mobile.question-capsule-1 { right: 0; top: 0; }
+.silente-hero .question-mobile.question-capsule-2 { left: 0; top: 50%; translate: 0 -50%; width: 31%; }
+.silente-hero .question-mobile.question-capsule-3 { right: 0; top: 50%; translate: 0 -50%; width: 31%; }
+.silente-hero .question-mobile.question-capsule-4 { left: 0; bottom: 0; }
+.silente-hero .question-mobile.question-capsule-5 { right: 0; bottom: 0; }
+.silente-hero .hero-content > ul { margin-top: 16px; }
+.silente-hero .hero-content > ul > li { min-height: 72px; }
+.hero-background { transform: scale(1.02); }
+
+@media (max-width: 360px) {
+  .silente-hero .hero-content { margin-top: 8px; }
+  .silente-hero .hero-intro { font-size: 13px; line-height: 18px; }
+  .silente-hero .hero-orbit { height: 220px; }
+}
+@media (min-width: 768px) {
+  .silente-hero { padding-inline: 32px; }
+  .silente-hero .hero-orbit { gap: 14px; max-width: 680px; }
+  .silente-hero .silente-symbol { width: 120px; }
+}
+@media (min-width: 1024px) {
+  .silente-hero h1 { font-size: clamp(40px, 6svh, 64px); line-height: 1.1; letter-spacing: -.03em; }
+  .silente-hero h1 > span { display: inline; margin-top: 0; }
+  .silente-hero .hero-content > p:first-of-type { font-size: clamp(24px, 3.3svh, 32px); margin-top: 12px; }
+  .silente-hero .hero-intro { max-width: 760px; font-size: 16px; line-height: 24px; margin-top: 12px; }
+  .silente-hero .hero-orbit { display: block; max-width: 1100px; height: clamp(240px, calc(60svh - 212px), 400px); margin-block: 0; }
+  .silente-hero .hero-symbol-anchor { position: absolute; left: 50%; top: 50%; translate: -50% -50%; padding: 0; }
+  .silente-hero .silente-symbol { width: clamp(180px, 24svh, 240px); animation: silente-breathe 8s ease-in-out infinite; }
+  .silente-hero .question-capsule { width: 260px; max-width: 260px; font-size: 16px; line-height: 24px; padding: 12px 18px; }
+  .silente-hero .hero-background { inset: 0; transform: none; }
+  .silente-hero .hero-cta { margin-top: 0; max-width: 480px; min-height: 56px; font-size: 18px; }
+  .silente-hero .hero-content > ul { max-width: 660px; margin-top: 20px; }
+  .silente-hero .hero-content > ul > li { min-height: 68px; font-size: 14px; }
+}
+
+.silente-stars { position: relative; isolation: isolate; background-color: #07111d; }
+.silente-stars::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(3, 9, 15, .16) 0%, rgba(3, 9, 15, .04) 42%, rgba(3, 9, 15, .48) 100%),
+    radial-gradient(ellipse at center, transparent 22%, rgba(2, 8, 14, .42) 100%);
+  pointer-events: none;
+}
+
+.silente-symbol { animation: silente-breathe 8s ease-in-out infinite; }
+@keyframes silente-breathe {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(229, 196, 106, .14)); }
+  50% { filter: drop-shadow(0 0 18px rgba(229, 196, 106, .34)); }
+}
+
+/* Alternancia SABER/HABLAR: Esteban usaba la librería motion solo para este fundido.
+   Un keyframe hace lo mismo sin la dependencia; el componente cambia la `key` para
+   reiniciar la animación. */
+.silente-swap { animation: silente-swap-in .8s ease-in-out both; }
+@keyframes silente-swap-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.question-capsule {
+  z-index: 2; position: absolute;
+  border: 1px solid rgba(229, 196, 106, .48); border-radius: 9999px;
+  background: rgba(7, 17, 29, .58);
+  box-shadow: inset 0 0 20px rgba(3, 9, 15, .36), 0 0 14px rgba(3, 9, 15, .22);
+  backdrop-filter: blur(5px);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .96), 0 0 26px rgba(0, 0, 0, .78);
+  transition: color .4s ease, text-shadow .4s ease, border-color .4s ease;
+}
+@property --question-frame-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.question-capsule::after {
+  content: ""; position: absolute; z-index: 1; inset: -1px; padding: 1.5px; border-radius: inherit;
+  background: conic-gradient(from var(--question-frame-angle), transparent 0deg 351deg, rgba(213, 170, 75, .35) 354deg, #e5c46a 357deg, #fff0bf 359deg, #e5c46a 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 5px rgba(229, 196, 106, .68));
+  pointer-events: none;
+  animation: question-frame-light 5.5s linear infinite;
+}
+@keyframes question-frame-light { to { --question-frame-angle: 360deg; } }
+.question-capsule:hover, .question-capsule:focus-visible { color: var(--silente-gold-light); text-shadow: 0 2px 18px rgba(0, 0, 0, .98), 0 0 22px rgba(213, 170, 75, .3); }
+.question-capsule:focus-visible { outline: 1px solid rgba(229, 196, 106, .8); outline-offset: 6px; }
+
+.hero-cta {
+  background: linear-gradient(105deg, #f6ce7c 0%, #e8b950 48%, #f4c76d 100%);
+  box-shadow: 0 6px 36px rgba(236, 181, 72, .28), inset 0 1px 0 rgba(255, 246, 222, .52);
+}
+.testimonial-slide { animation: silente-testimonial-in .65s ease-out both; }
+@keyframes silente-testimonial-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .silente-symbol, .silente-hero .hero-background, .silente-swap { animation: none; }
+  html { scroll-behavior: auto; }
+  .question-capsule, .hero-cta { transition: none; }
+  .question-capsule::after { animation: none; }
+  .testimonial-slide { animation: none; }
+}
