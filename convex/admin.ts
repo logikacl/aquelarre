@@ -33,8 +33,8 @@ export const listPlansAdmin = httpAction(async (ctx, req) => {
 });
 
 // POST /api/admin/plans/upsert { slug, name, priceClp, dailyLimit, bullets, published, order }
-// Crea el plan en Reveniu si todavía no tiene uno, y le actualiza el título allá si cambió
-// el nombre (es lo que Reveniu muestra al cobrar). Reveniu primero, Convex después: si
+// Crea el plan en Reveniu si todavía no tiene uno, y si ya lo tiene le fija el título
+// (es lo que Reveniu muestra al cobrar). Reveniu primero, Convex después: si
 // Reveniu falla no queda un plan a la venta sin dónde cobrarlo.
 export const upsertPlanAdmin = httpAction(async (ctx, req) => {
   const bad = checkAdmin(req);
@@ -58,7 +58,9 @@ export const upsertPlanAdmin = httpAction(async (ctx, req) => {
   try {
     if (!reveniuPlanId) {
       reveniuPlanId = await createPlan({ title: titulo, priceClp: plan.priceClp, min: MONTO_MIN, max: MONTO_MAX });
-    } else if (actual && actual.name !== plan.name) {
+    } else {
+      // En cada guardado y no solo al renombrar: es idempotente, y así un plan creado antes
+      // (el 13336 nació como "Astros x Chat") queda con el título de la marca.
       await updatePlanTitle(reveniuPlanId, titulo);
     }
   } catch (e) {

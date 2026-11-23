@@ -67,3 +67,17 @@ export const upsert = internalMutation({
     return ctx.db.insert("plans", { ...args, updatedAt: Date.now() });
   },
 });
+
+// Solo desde la CLI o el dashboard (`npx convex run plans:remove '{"slug":"x"}'`): no hay
+// botón de borrar a propósito, porque un plan con suscriptores debe despublicarse, no
+// borrarse (su cuota caería a la del plan por defecto). Sirve para limpiar planes de prueba.
+export const remove = internalMutation({
+  args: { slug: v.string() },
+  handler: async (ctx, { slug }) => {
+    const row = await ctx.db.query("plans").withIndex("by_slug", (q) => q.eq("slug", slug)).unique();
+    const enUso = await ctx.db.query("subscriptions").filter((q) => q.eq(q.field("plan"), slug)).first();
+    if (enUso) throw new Error(`el plan ${slug} tiene suscripciones: despublícalo en vez de borrarlo`);
+    if (row) await ctx.db.delete(row._id);
+    return Boolean(row);
+  },
+});
