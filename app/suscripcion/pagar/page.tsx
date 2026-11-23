@@ -12,13 +12,15 @@ type CheckoutRes =
 //
 // El token se pide acá, en el render del server component, y no viaja por query params a
 // propósito: en la URL quedaría en el historial del navegador y en los logs de Vercel.
-export default async function Pagar() {
+export default async function Pagar({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
+  const { plan } = await searchParams;
   const session = await auth();
-  if (!session?.user?.email) redirect("/checkout");
+  if (!session?.user?.email) redirect(`/checkout${plan ? `?plan=${encodeURIComponent(plan)}` : ""}`);
 
+  // Sin plan (o uno que ya no se vende) el backend usa el primero publicado.
   const res = await backendPost<CheckoutRes>(
     "/api/checkout",
-    { email: session.user.email, name: session.user.name ?? "" },
+    { email: session.user.email, name: session.user.name ?? "", plan },
     "web",
   );
   if ("alreadyActive" in res) redirect("/cuenta");

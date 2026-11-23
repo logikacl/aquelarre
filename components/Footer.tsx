@@ -1,57 +1,41 @@
 import CookiePrefsButton from "@/components/CookiePrefsButton";
 import { EMPRESA } from "@/lib/legal";
 
-const heading = "font-bold text-xs uppercase tracking-widest text-primary mb-2";
-const link =
-  "font-body text-sm text-on-surface-variant hover:text-tertiary transition-colors opacity-80 hover:opacity-100 text-left";
+// Pie de Silente (silente-web/components/SiteFooter.tsx) + los datos de la sociedad, que
+// la ley de consumidor pide visibles. "Preferencias de cookies" abre nuestro CMP.
+const h = "text-xs font-semibold uppercase tracking-[.18em] text-[var(--silente-gold)]";
+const a = "transition-colors hover:text-[var(--silente-ivory)]";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-primary/10 bg-background py-12">
-      <div className="flex flex-col md:flex-row justify-between items-center px-8 w-full max-w-7xl mx-auto">
-        <div className="mb-8 md:mb-0">
-          <span className="text-lg font-headline font-bold text-on-surface">Astros x Chat</span>
-          <p className="mt-4 text-on-surface-variant text-sm max-w-xs font-body">
-            La sabiduría del cosmos caminando contigo por WhatsApp. Disponible 24/7.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-8 md:gap-12 mb-8 md:mb-0">
-          <nav className="flex flex-col gap-2">
-            <span className={heading}>Compañía</span>
-            <a className={link} href={`mailto:${EMPRESA.contacto}`}>
+    <footer className="border-t border-[var(--silente-border)] px-5 py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:px-8">
+      <div className="mx-auto max-w-6xl rounded-3xl border border-[rgba(213,170,75,.3)] bg-[rgba(23,35,49,.72)] p-6 md:p-9">
+        <a href="/" className="block text-center tracking-[.18em] text-[var(--silente-gold)]">SILENTE</a>
+        <div className="mt-8 grid gap-8 text-center sm:grid-cols-3 sm:text-left">
+          <section>
+            <h2 className={h}>Compañía</h2>
+            <a className="mt-4 block text-sm text-[var(--silente-ivory)] transition-colors hover:text-[var(--silente-gold-light)]" href={`mailto:${EMPRESA.contacto}`}>
               Contacto
             </a>
             <CookiePrefsButton />
-          </nav>
-          <nav className="flex flex-col gap-2">
-            <span className={heading}>Legal</span>
-            <a className={link} href="/terminos">
-              Términos de Uso
-            </a>
-            <a className={link} href="/privacidad">
-              Privacidad
-            </a>
-            <a className={link} href="/reembolsos">
-              Política de Reembolso
-            </a>
-          </nav>
-          <nav className="flex flex-col gap-2">
-            <span className={heading}>Social</span>
-            <a className={link} href="#">
-              Instagram
-            </a>
-            <a className={link} href="#">
-              Facebook
-            </a>
-          </nav>
+          </section>
+          <section>
+            <h2 className={h}>Legal</h2>
+            <nav aria-label="Información legal" className="mt-4 flex flex-col items-center gap-3 text-sm text-[var(--silente-muted)] sm:items-start">
+              <a className={a} href="/terminos">Términos</a>
+              <a className={a} href="/privacidad">Privacidad</a>
+              <a className={a} href="/reembolsos">Reembolsos</a>
+            </nav>
+          </section>
+          <section>
+            <h2 className={h}>Redes sociales</h2>
+            {/* ponytail: las cuentas todavía no existen. Al crearlas, poner acá sus URLs. */}
+            <p className="mt-4 text-sm text-[var(--silente-muted)]">Muy pronto en Instagram, TikTok y Facebook.</p>
+          </section>
         </div>
-        <div className="text-center md:text-right">
-          <p className="font-body text-sm text-on-surface-variant">© 2026 Astros x Chat. Todos los derechos reservados.</p>
-          <p className="mt-1 text-xs text-on-surface-variant opacity-70">
-            {EMPRESA.razonSocial} · RUT {EMPRESA.rut}
-          </p>
-          <p className="mt-2 text-xs text-on-surface-variant opacity-50">Hecho con el corazón en las estrellas.</p>
-        </div>
+        <p className="mt-8 border-t border-[var(--silente-border)] pt-6 text-center text-xs text-[var(--silente-muted)]">
+          © 2026 Silente · {EMPRESA.razonSocial} · RUT {EMPRESA.rut}
+        </p>
       </div>
     </footer>
   );

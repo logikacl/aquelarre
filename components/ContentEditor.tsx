@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { COPY_GROUPS, SECTION_LABELS, type CopyDef } from "@/lib/copy";
+import { COPY_GROUPS, SECTION_LABELS, encendido, type CopyDef } from "@/lib/copy";
 import { setContent } from "@/app/admin/actions";
 import ImageField from "@/components/ImageField";
 import { campoAdmin as campo } from "@/lib/format";
@@ -61,7 +61,20 @@ function Campo({ def, override }: { def: CopyDef; override?: string }) {
         )}
       </div>
 
-      {def.kind === "image" ? (
+      {def.kind === "bool" ? (
+        // Se guarda al tocar: un interruptor con botón "Guardar" aparte confunde. "no" y no
+        // "" para apagar, porque "" borra el override y vuelve al default (que puede ser "sí").
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={encendido(valor)}
+            disabled={ocupado}
+            onChange={(e) => enviar(e.target.checked ? "sí" : "no")}
+            className="h-5 w-5 accent-primary"
+          />
+          {encendido(valor) ? "Visible en el sitio" : "Oculto"}
+        </label>
+      ) : def.kind === "image" ? (
         <ImageField label="Subir imagen" value={valor} onChange={editar} />
       ) : def.kind === "long" ? (
         <textarea value={valor} onChange={(e) => editar(e.target.value)} rows={3} className={campo} />
@@ -69,26 +82,14 @@ function Campo({ def, override }: { def: CopyDef; override?: string }) {
         <input value={valor} onChange={(e) => editar(e.target.value)} className={campo} />
       )}
 
-      {/* Se mira también el default: la advertencia tiene que seguir ahí justo cuando alguien borra el placeholder. */}
-      {def.def.includes("{nombre}") &&
-        (valor.includes("{nombre}") ? (
-          <p className="text-xs text-on-surface-variant">
-            {"{nombre}"} se reemplaza por el nombre del oráculo al mostrar la página: consérvalo tal cual.
-          </p>
-        ) : (
-          <p className="text-xs text-error">
-            Falta {"{nombre}"}, que se reemplaza por el nombre del oráculo. Sin él el texto queda igual para todos.
-          </p>
-        ))}
-
       <div className="flex flex-wrap items-center gap-3">
-        <button
+        {def.kind !== "bool" && <button
           onClick={() => enviar(valor)}
           disabled={ocupado}
           className="px-4 py-1.5 rounded-lg bg-primary text-on-primary text-sm font-bold disabled:opacity-40"
         >
           {ocupado ? "Guardando…" : "Guardar"}
-        </button>
+        </button>}
         {sobrescrito && (
           <button
             onClick={() => enviar("")}
@@ -126,7 +127,7 @@ export default function ContentEditor({ overrides }: { overrides: Record<string,
   const [activa, setActiva] = useState(TABS[0].id);
 
   // Se renderizan todas las secciones y se ocultan las inactivas: cambiar de pestaña
-  // desmontando perdería lo escrito y no guardado, y son 69 inputs, no 6.900.
+  // desmontando perdería lo escrito y no guardado, y son unas 60 entradas, no 6.900.
   return (
     <div className="space-y-6">
       <nav className="space-y-2">

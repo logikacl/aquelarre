@@ -1,51 +1,32 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import NavMenu from "@/components/NavMenu";
 
+// Header de Silente (silente-web/components/Header.tsx): logo centrado y menú a la derecha.
+// Va absoluto sobre la página para que el hero de la home quede debajo, como en el diseño;
+// las demás páginas ya dejan su margen superior (pt-28/pt-32).
 export default async function Nav() {
   const session = await auth();
+  const cuenta = session ? { href: "/cuenta", label: "Mi cuenta" } : { href: "/ingresar", label: "Iniciar sesión" };
+  const isAdmin = Boolean((session as { isAdmin?: boolean } | null)?.isAdmin);
 
   return (
-    <header className="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full mx-auto bg-surface/60 backdrop-blur-xl border-b border-primary/10">
-      <div className="flex items-center gap-8">
-        <Link className="text-xl font-headline font-bold text-primary tracking-tight" href="/">
-          Astros x Chat
-        </Link>
-        <nav className="hidden md:flex gap-6">
-          <Link
-            className="font-headline font-semibold tracking-tight text-primary border-b-2 border-primary pb-1"
-            href="/#astrologos"
-          >
-            Astrólogos
-          </Link>
-          <Link
-            className="font-headline font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors"
-            href="/planes"
-          >
-            Planes
-          </Link>
-          <Link
-            className="font-headline font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors"
-            href="/#faq"
-          >
-            FAQ
-          </Link>
-        </nav>
-      </div>
-      <div className="flex items-center gap-3">
-        {(session as any)?.isAdmin && (
-          <Link
-            className="hidden md:inline font-headline font-semibold tracking-tight text-on-surface-variant hover:text-primary transition-colors"
-            href="/admin"
-          >
-            Admin
-          </Link>
-        )}
+    <header className="absolute inset-x-0 top-0 z-30 px-4 md:px-8">
+      <div className="relative mx-auto flex h-20 max-w-6xl items-center justify-center md:h-24">
         <Link
-          className="px-6 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 font-headline font-semibold hover:bg-primary hover:text-on-primary transition-all duration-300 scale-95 active:scale-90"
-          href={session ? "/cuenta" : "/ingresar"}
+          href={cuenta.href}
+          className="absolute left-0 top-1/2 hidden -translate-y-1/2 rounded-full border border-[rgba(213,170,75,.4)] px-4 py-2 text-sm text-[var(--silente-gold-light)] transition-colors hover:border-[var(--silente-gold-light)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--silente-gold-light)] md:inline-flex"
         >
-          {session ? "Mi cuenta" : "Iniciar Sesión"}
+          {cuenta.label}
         </Link>
+        <Link
+          href="/"
+          aria-label="Silente, inicio"
+          className="flex items-center justify-center focus-visible:rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--silente-gold-light)]"
+        >
+          <img src="/logo-silente.webp" alt="Silente" width={640} height={692} className="h-[64px] w-auto object-contain md:h-[84px]" />
+        </Link>
+        <NavMenu cuenta={cuenta} isAdmin={isAdmin} />
       </div>
     </header>
   );

@@ -1,6 +1,6 @@
 import { LegalDoc, TERMINOS } from "@/lib/legal";
 
-export const metadata = { title: "Términos y Condiciones · Astros x Chat" };
+export const metadata = { title: "Términos y Condiciones · Silente" };
 
 export default function Terminos() {
   return <LegalDoc doc={TERMINOS} />;

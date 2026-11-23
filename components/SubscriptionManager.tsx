@@ -8,25 +8,25 @@ const TEXTO: Record<string, string> = {
   cancelled: "Cancelada",
 };
 
-export default function SubscriptionManager({ status }: { status: string }) {
+export default function SubscriptionManager({ status, plan }: { status: string; plan?: string }) {
   return (
     <div className="space-y-4">
       <p>Estado: <strong>{TEXTO[status] ?? status}</strong></p>
       <div className="flex flex-wrap gap-3">
         {status === "active" && (
-          <button onClick={() => changeSubscription("no_renovar")} className="px-5 py-3 rounded-lg border border-primary/30">No renovar</button>
+          <button onClick={() => changeSubscription("no_renovar")} className="px-5 py-3 rounded-full border border-primary/40 text-primary">No renovar</button>
         )}
         {(status === "active" || status === "ending") && (
-          <button onClick={() => changeSubscription("cancel")} className="px-5 py-3 rounded-lg border border-tertiary/40 text-tertiary">Cancelar ahora</button>
+          <button onClick={() => changeSubscription("cancel")} className="px-5 py-3 rounded-full border border-tertiary/40 text-tertiary">Cancelar ahora</button>
         )}
         {/* Reveniu no reactiva una suscripción dada de baja: hay que registrar la tarjeta
             de nuevo, y eso es un checkout. */}
         {(status === "cancelled" || status === "pending") && (
-          <a href="/suscripcion/pagar" className="px-5 py-3 rounded-lg bg-primary text-on-primary">Suscribirme de nuevo</a>
+          <a href={`/suscripcion/pagar${plan ? `?plan=${encodeURIComponent(plan)}` : ""}`} className="px-5 py-3 rounded-full bg-primary text-on-primary font-semibold">Suscribirme de nuevo</a>
         )}
         <button
           onClick={() => { if (confirm("Esto borra tu cuenta y todo tu historial. ¿Seguro?")) deleteAccount(); }}
-          className="px-5 py-3 rounded-lg border border-error/40 text-error"
+          className="px-5 py-3 rounded-full border border-error/40 text-error"
         >
           Eliminar todos mis datos
         </button>

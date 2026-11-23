@@ -8,7 +8,7 @@ export default function CookiePrefsButton() {
     <button
       type="button"
       onClick={openSettings}
-      className="text-on-surface-variant hover:text-primary transition-colors text-sm text-left"
+      className="mt-3 block min-h-11 w-full rounded text-center text-sm leading-5 text-[var(--silente-muted)] transition-colors hover:text-[var(--silente-gold-light)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--silente-gold-light)] sm:text-left"
     >
       Preferencias de cookies
     </button>

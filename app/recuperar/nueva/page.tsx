@@ -5,7 +5,7 @@ import { fijarClave } from "../actions";
 
 // El token viaja en la URL: sin referrer, si la página cargara algo externo, no se filtra.
 export const metadata = {
-  title: "Contraseña nueva · Astros x Chat",
+  title: "Contraseña nueva · Silente",
   robots: { index: false },
   referrer: "no-referrer" as const,
 };
@@ -36,7 +36,7 @@ export default async function NuevaClave({
       </h1>
       <p className="text-on-surface-variant mt-2 mb-8">Después de guardarla entras directo a tu cuenta.</p>
 
-      <section className="bg-surface-container p-6 md:p-8 rounded-xl border border-outline/30">
+      <section className="bg-surface-container p-6 md:p-9 rounded-3xl border border-outline-variant">
         <form action={fijarClave} className="space-y-4">
           {error && ERRORES[error] && (
             <p
@@ -49,7 +49,7 @@ export default async function NuevaClave({
           <input name="token" type="hidden" value={token} />
           <PasswordFields inputClass={inputClass} labelClass={labelClass} />
           <button
-            className="w-full bg-primary text-on-primary font-bold py-4 rounded-xl hover:opacity-90 transition-all active:scale-95"
+            className="w-full bg-primary text-on-primary font-bold py-4 rounded-full hover:opacity-90 transition-all active:scale-95"
             type="submit"
           >
             Guardar y entrar

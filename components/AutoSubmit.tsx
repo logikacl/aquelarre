@@ -15,7 +15,7 @@ export default function AutoSubmit({ action, token }: { action: string; token: s
   return (
     <form ref={form} method="POST" action={action}>
       <input type="hidden" name="TBK_TOKEN" value={token} />
-      <button type="submit" className="px-8 py-4 rounded-xl bg-primary text-on-primary font-bold">
+      <button type="submit" className="px-8 py-4 rounded-full bg-primary text-on-primary font-bold">
         Continuar al pago
       </button>
     </form>

@@ -21,7 +21,7 @@ function FormNumero({ volver, actual }: { volver: string; actual: number | null 
         Tu WhatsApp
       </label>
       <PhoneInput className={inputClass} defaultValue={actual ? formatearTelefono(actual) : ""} />
-      <button className="px-6 py-3 rounded-xl border border-primary text-primary font-bold" type="submit">
+      <button className="px-6 py-3 rounded-full border border-primary text-primary font-bold" type="submit">
         Guardar número
       </button>
     </form>
@@ -44,7 +44,7 @@ export default function ChatLink({
     return (
       <div className="space-y-4">
         <p className="text-on-surface-variant">
-          Registra el número de WhatsApp desde el que vas a conversar con el oráculo.
+          Registra el número de WhatsApp desde el que vas a conversar con Luna.
         </p>
         <FormNumero actual={null} volver={volver} />
       </div>
@@ -53,7 +53,7 @@ export default function ChatLink({
 
   const abrir = (
     <a
-      className="inline-block px-8 py-4 rounded-xl bg-primary text-on-primary font-bold"
+      className="inline-block px-8 py-4 rounded-full bg-primary text-on-primary font-bold"
       href={`https://wa.me/${numeroBot}?text=${encodeURIComponent("Hola 👋")}`}
     >
       Abrir mi chat en WhatsApp
@@ -75,7 +75,7 @@ export default function ChatLink({
         </p>
       ) : (
         <p className="text-on-surface-variant">
-          Escríbele al oráculo desde <strong className="text-on-surface">{formatearTelefono(phone!)}</strong>: tu
+          Escríbele a Luna desde <strong className="text-on-surface">{formatearTelefono(phone!)}</strong>: tu
           suscripción se conecta sola con tu primer mensaje.
         </p>
       )}

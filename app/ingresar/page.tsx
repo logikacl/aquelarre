@@ -22,7 +22,7 @@ export default async function Ingresar({
         Entra a tu cuenta para gestionar tu suscripción.
       </p>
 
-      <section className="bg-surface-container p-6 md:p-8 rounded-xl border border-outline/30">
+      <section className="bg-surface-container p-6 md:p-9 rounded-3xl border border-outline-variant">
         <form action={login} className="space-y-4">
           {error && (
             <p className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg py-3 px-4">
@@ -38,7 +38,7 @@ export default async function Ingresar({
               className={input}
               id="email"
               name="email"
-              placeholder="alex@cosmos.com"
+              placeholder="tu@correo.cl"
               required
               type="email"
             />
@@ -62,7 +62,7 @@ export default async function Ingresar({
             </p>
           </div>
           <button
-            className="w-full bg-primary text-on-primary font-bold py-4 rounded-xl hover:opacity-90 transition-all active:scale-95"
+            className="w-full bg-primary text-on-primary font-bold py-4 rounded-full hover:opacity-90 transition-all active:scale-95"
             type="submit"
           >
             Entrar

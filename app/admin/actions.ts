@@ -8,12 +8,11 @@ async function assertAdmin() {
   if (!(session as any)?.isAdmin) throw new Error("no autorizado");
 }
 
-// Las páginas de marketing leen precio, oráculos y copy con un caché de 60s: sin esto,
-// lo que el admin acaba de guardar no se ve hasta que expire.
+// Las páginas públicas leen planes y copy con un caché de 60s: sin esto, lo que el admin
+// acaba de guardar no se ve hasta que expire.
 function revalidarPublico() {
   revalidatePath("/");
-  revalidatePath("/planes");
-  revalidatePath("/oraculos/[slug]", "page");
+  revalidatePath("/checkout");
 }
 
 // El admin necesita el motivo real del fallo (p. ej. el 400 "system es obligatorio", o el
@@ -32,9 +31,14 @@ async function backend(path: string, body: unknown) {
 // y dejaba /admin/oraculos sirviendo datos viejos tras guardar.
 const revalidarAdmin = () => revalidatePath("/admin", "layout");
 
-export async function setPrice(priceClp: number) {
+export type PlanInput = {
+  slug: string; name: string; priceClp: number; dailyLimit: number;
+  bullets: string[]; published: boolean; order: number;
+};
+
+export async function upsertPlan(plan: PlanInput) {
   await assertAdmin();
-  const err = await backend("/api/admin/config/set", { priceClp });
+  const err = await backend("/api/admin/plans/upsert", plan);
   if (err) return err;
   revalidarAdmin();
   revalidarPublico();

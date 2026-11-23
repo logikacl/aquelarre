@@ -4,7 +4,7 @@ import ChatLink from "@/components/ChatLink";
 import { redirect } from "next/navigation";
 
 const AVISOS: Record<string, { texto: string; error?: boolean }> = {
-  "ok=telefono": { texto: "Número guardado. Escríbele al oráculo desde ese WhatsApp y tu suscripción se conecta sola." },
+  "ok=telefono": { texto: "Número guardado. Escríbele a Luna desde ese WhatsApp y tu suscripción se conecta sola." },
   "error=telefono": { texto: "No pudimos guardar ese número. Escribe tu celular, por ejemplo 9 1234 5678.", error: true },
 };
 

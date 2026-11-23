@@ -1,206 +1,139 @@
 // Copy por defecto de las páginas públicas. Vive en código para que el sitio
 // funcione con la BD vacía; la BD solo guarda overrides por clave.
 // Sin "server-only": el editor del admin (Client Component) importa este mismo archivo.
+//
+// Los textos son los de Esteban (marketing, repo ElCopyPaste/silente-web), con dos ajustes
+// de veracidad: el beneficio «Conversación ilimitada*» contradecía la cuota diaria de cada
+// plan, y el FAQ de cobro ya no da por hecho que hay un solo plan. Precio, mensajes por día y
+// beneficios de cada plan NO están acá: viven en la tabla `plans` (/admin → Planes).
 
-export type CopyKind = "text" | "long" | "image";
+export type CopyKind = "text" | "long" | "image" | "bool";
 export type CopyDef = { key: string; label: string; kind: CopyKind; def: string };
 
-// ponytail: la cantidad de bullets, pasos y preguntas del FAQ es fija. Agregar o
-// quitar ítems requiere editar este archivo y el JSX. Upgrade: si el cliente pide
-// listas de largo variable, mover esos bloques a una tabla propia en Convex.
+// Un `bool` guarda "sí" para encendido y "" para apagado. Vacío borra el override, así que
+// un bool con default "sí" no se puede apagar guardando "": se guarda "no".
+export const encendido = (v: string) => v.trim().toLowerCase() === "sí";
+
+// ponytail: la cantidad de preguntas, beneficios y testimonios es fija. Agregar o quitar
+// ítems requiere editar este archivo y el componente. Upgrade: si marketing pide listas de
+// largo variable, mover esos bloques a una tabla propia en Convex.
 export const COPY_GROUPS: { page: string; label: string; items: CopyDef[] }[] = [
   {
     page: "home",
     label: "Portada",
     items: [
+      { key: "home.hero.titulo", label: "Hero: título (antes de la palabra que alterna)", kind: "text", def: "Hay cosas que necesitas" },
+      { key: "home.hero.palabra1", label: "Hero: palabra 1", kind: "text", def: "saber." },
+      { key: "home.hero.palabra2", label: "Hero: palabra 2", kind: "text", def: "hablar." },
+      { key: "home.hero.frase1", label: "Hero: frase con la palabra 1", kind: "text", def: "Silente te espera." },
+      { key: "home.hero.frase2", label: "Hero: frase con la palabra 2", kind: "text", def: "Silente te escucha." },
       {
-        key: "home.hero.imagen",
-        label: "Hero — imagen de fondo (URL)",
-        kind: "image",
-        def: "https://lh3.googleusercontent.com/aida-public/AB6AXuBRjZeQfZHnA0yX0Uw_eZ2_E_ppxCFoX1Lchmss_Jx3gFAuZijsbCWcyb32AvNf-gtvJMmGGn9Cd-kddJS2cw4ViKJl9BCL2ttkN7SkRwqQJgG1TydXy3X8XJc3Gbfwc_XlHRoP24-C-HbCzcqbQAxJzMT7LfurUkm8xwbOzlUaFD2rbbQ1QvhsQSaKIkdz3lhUCnPc1jz2HeAtiXiCvWBJP_e7dMXmYo1RIZlLppcpoy-E_sLzrwON0g",
-      },
-      { key: "home.hero.badge", label: "Hero — etiqueta superior", kind: "text", def: "Tu guía celestial 24/7" },
-      { key: "home.hero.titulo1", label: "Hero — título (línea 1)", kind: "text", def: "Tu destino escrito" },
-      { key: "home.hero.titulo2", label: "Hero — título (línea 2, destacada)", kind: "text", def: "en las estrellas" },
-      {
-        key: "home.hero.parrafo",
-        label: "Hero — párrafo",
+        key: "home.hero.intro",
+        label: "Hero: bajada",
         kind: "long",
-        def: "Recibe sabiduría ancestral a través de WhatsApp. Una inmersión interactiva con los astrólogos más influyentes, disponible en cualquier momento.",
+        def: "Conversa con Luna por WhatsApp. Pregúntale por tu horóscopo y por lo que quieras saber sobre amor, dinero, trabajo y suerte.",
       },
-      { key: "home.hero.cta1", label: "Hero — botón principal", kind: "text", def: "Comenzar Lectura" },
-      { key: "home.hero.cta2", label: "Hero — botón secundario", kind: "text", def: "Saber Más" },
+      { key: "home.hero.pregunta.1", label: "Hero: pregunta 1", kind: "text", def: "¿Qué siente realmente por mí?" },
+      { key: "home.hero.pregunta.2", label: "Hero: pregunta 2", kind: "text", def: "¿Estoy tomando la decisión correcta?" },
+      { key: "home.hero.pregunta.3", label: "Hero: pregunta 3", kind: "text", def: "¿Acaso me está engañando?" },
+      { key: "home.hero.pregunta.4", label: "Hero: pregunta 4", kind: "text", def: "¿Qué me pasará el próximo mes?" },
+      { key: "home.hero.pregunta.5", label: "Hero: pregunta 5", kind: "text", def: "¿Encontraré el amor?" },
+      { key: "home.hero.pregunta.6", label: "Hero: pregunta 6", kind: "text", def: "¿Por qué me va mal?" },
+      { key: "home.hero.cta", label: "Hero: botón", kind: "text", def: "Chatear con Silente" },
+      { key: "home.hero.beneficio.1", label: "Hero: beneficio 1", kind: "text", def: "Conversación todos los días" },
+      { key: "home.hero.beneficio.2", label: "Hero: beneficio 2", kind: "text", def: "Disponible 24/7" },
+      { key: "home.hero.beneficio.3", label: "Hero: beneficio 3", kind: "text", def: "Totalmente privada" },
 
-      { key: "home.proceso.eyebrow", label: "Cómo funciona — antetítulo", kind: "text", def: "El Proceso" },
-      { key: "home.proceso.titulo", label: "Cómo funciona — título", kind: "text", def: "Conexión instantánea" },
-      { key: "home.proceso.1.numero", label: "Paso 1 — número", kind: "text", def: "01" },
-      { key: "home.proceso.1.titulo", label: "Paso 1 — título", kind: "text", def: "Elige tu Guía Astral" },
+      { key: "home.quees.eyebrow", label: "Qué es: antetítulo", kind: "text", def: "Qué es Silente" },
+      { key: "home.quees.titulo", label: "Qué es: título", kind: "text", def: "Una conversación para encontrar claridad." },
       {
-        key: "home.proceso.1.texto",
-        label: "Paso 1 — descripción",
+        key: "home.quees.parrafo1",
+        label: "Qué es: párrafo 1",
         kind: "long",
-        def: "Contamos con expertos en diferentes ramas de la astrología: védica, occidental, kármica y predictiva.",
+        def: "Silente te ofrece un espacio para explorar tus preguntas sobre amor, relaciones, decisiones y futuro. Sus lecturas se inspiran en la videncia, la astrología y distintas mancias, y consideran tu carta natal y los tránsitos planetarios.",
       },
-      { key: "home.proceso.2.numero", label: "Paso 2 — número", kind: "text", def: "02" },
-      { key: "home.proceso.2.titulo", label: "Paso 2 — título", kind: "text", def: "Por WhatsApp" },
       {
-        key: "home.proceso.2.texto",
-        label: "Paso 2 — descripción",
+        key: "home.quees.parrafo2",
+        label: "Qué es: párrafo 2",
         kind: "long",
-        def: "Sin aplicaciones pesadas. Todo sucede en tu chat favorito, con total privacidad.",
+        def: "Luna es la guía digital de Silente. Conversa con ella por WhatsApp, en privado y a tu ritmo. Haz una pregunta, profundiza en su respuesta y abre nuevos temas cuando quieras.",
       },
-      { key: "home.proceso.3.numero", label: "Paso 3 — número", kind: "text", def: "03" },
-      { key: "home.proceso.3.titulo", label: "Paso 3 — título", kind: "text", def: "24/7 Disponible" },
+      { key: "home.quees.video.eyebrow", label: "Qué es: antetítulo del video", kind: "text", def: "Una conversación por WhatsApp" },
       {
-        key: "home.proceso.3.texto",
-        label: "Paso 3 — descripción",
-        kind: "long",
-        def: "El cosmos no descansa, y nosotros tampoco. Recibe respuestas al instante.",
-      },
-      { key: "home.proceso.4.numero", label: "Paso 4 — número", kind: "text", def: "04" },
-      { key: "home.proceso.4.titulo", label: "Paso 4 — título", kind: "text", def: "Reflexión Profunda" },
-      {
-        key: "home.proceso.4.texto",
-        label: "Paso 4 — descripción",
-        kind: "long",
-        def: "No son respuestas genéricas. Son diálogos basados en tu carta astral y el tránsito actual de los planetas.",
-      },
-
-      { key: "home.astrologos.eyebrow", label: "Astrólogos — antetítulo", kind: "text", def: "Nuestros Expertos" },
-      { key: "home.astrologos.titulo", label: "Astrólogos — título", kind: "text", def: "Voces Espirituales" },
-      {
-        key: "home.astrologos.parrafo",
-        label: "Astrólogos — párrafo",
-        kind: "long",
-        def: "Cada astrólogo tiene una especialidad única para ayudarte a navegar los desafíos de la vida moderna con la luz de los astros.",
-      },
-
-      { key: "home.planes.eyebrow", label: "Planes — antetítulo", kind: "text", def: "Membresías" },
-      { key: "home.planes.titulo", label: "Planes — título", kind: "text", def: "Elige tu camino astral" },
-      { key: "home.planes.etiqueta", label: "Planes — etiqueta de la tarjeta", kind: "text", def: "Suscripción mensual" },
-      { key: "home.planes.nombre", label: "Planes — nombre del plan", kind: "text", def: "Acceso a tu oráculo" },
-      { key: "home.planes.periodo", label: "Planes — período junto al precio", kind: "text", def: "/ mes" },
-      { key: "home.planes.bullet.1", label: "Planes — bullet 1", kind: "text", def: "Conversación ilimitada por WhatsApp" },
-      { key: "home.planes.bullet.2", label: "Planes — bullet 2", kind: "text", def: "Disponibilidad 24/7" },
-      { key: "home.planes.bullet.3", label: "Planes — bullet 3", kind: "text", def: "Carta natal personalizada" },
-      { key: "home.planes.cta", label: "Planes — botón", kind: "text", def: "Suscribirme" },
-
-      { key: "home.faq.eyebrow", label: "FAQ — antetítulo", kind: "text", def: "Preguntas Frecuentes" },
-      { key: "home.faq.titulo", label: "FAQ — título", kind: "text", def: "Dudas estelares" },
-      {
-        key: "home.faq.1.pregunta",
-        label: "FAQ 1 — pregunta",
+        key: "home.quees.video.url",
+        label: "Qué es: video demo (URL de un .mp4; vacío = espacio reservado)",
         kind: "text",
-        def: "¿Es realmente una persona quien responde?",
+        def: "",
       },
+      { key: "home.quees.video.titulo", label: "Qué es: título del espacio reservado", kind: "text", def: "Demo de conversación por WhatsApp" },
+      { key: "home.quees.video.sub", label: "Qué es: subtítulo del espacio reservado", kind: "text", def: "Espacio reservado para el video" },
+
+      { key: "home.plan.eyebrow", label: "Plan: antetítulo", kind: "text", def: "Elige tu plan" },
+      { key: "home.plan.titulo", label: "Plan: título", kind: "text", def: "Un espacio para conversar cuando lo necesitas." },
+      {
+        key: "home.plan.parrafo",
+        label: "Plan: párrafo",
+        kind: "long",
+        def: "Acceso a una experiencia de astrología conversada, en privado y desde WhatsApp.",
+      },
+      { key: "home.plan.cta", label: "Plan: botón", kind: "text", def: "Suscribirme" },
+      { key: "home.plan.nota", label: "Plan: nota bajo el botón", kind: "text", def: "Cobro mensual recurrente mediante Reveniu." },
+
+      { key: "home.faq.eyebrow", label: "FAQ: antetítulo", kind: "text", def: "Antes de empezar" },
+      { key: "home.faq.titulo", label: "FAQ: título", kind: "text", def: "Pregunta lo que necesites." },
+      {
+        key: "home.faq.parrafo",
+        label: "FAQ: párrafo",
+        kind: "long",
+        def: "Queremos que sepas qué experiencia te espera antes de conversar con Silente.",
+      },
+      { key: "home.faq.1.pregunta", label: "FAQ 1: pregunta", kind: "text", def: "¿Me responde una persona?" },
       {
         key: "home.faq.1.respuesta",
-        label: "FAQ 1 — respuesta",
+        label: "FAQ 1: respuesta",
         kind: "long",
-        def: "Es una experiencia interactiva avanzada basada en las obras y conocimientos reales de nuestros astrólogos. No es un chat humano en tiempo real, sino un sistema experto que utiliza la sabiduría documentada de los especialistas para responder con su voz y metodología exacta.",
+        def: "No es un chat con un astrólogo en vivo. Silente es una experiencia interactiva construida a partir del conocimiento de astrólogos y de su forma de interpretar.",
       },
-      { key: "home.faq.2.pregunta", label: "FAQ 2 — pregunta", kind: "text", def: "¿Mis datos están seguros?" },
+      { key: "home.faq.2.pregunta", label: "FAQ 2: pregunta", kind: "text", def: "¿Cómo funciona la conversación?" },
       {
         key: "home.faq.2.respuesta",
-        label: "FAQ 2 — respuesta",
+        label: "FAQ 2: respuesta",
         kind: "long",
-        def: "Absolutamente. Todas las conversaciones son privadas y confidenciales. No compartimos tus lecturas ni datos personales con terceros, y puedes solicitar el borrado de tu historial en cualquier momento.",
+        def: "Después de activar tu suscripción, conversas con Silente por WhatsApp. Puedes plantear tus preguntas y continuar el diálogo cuando quieras.",
       },
-      { key: "home.faq.3.pregunta", label: "FAQ 3 — pregunta", kind: "text", def: "¿Cómo se realiza el pago?" },
+      { key: "home.faq.3.pregunta", label: "FAQ 3: pregunta", kind: "text", def: "¿Qué pasa con mis conversaciones?" },
       {
         key: "home.faq.3.respuesta",
-        label: "FAQ 3 — respuesta",
+        label: "FAQ 3: respuesta",
         kind: "long",
-        def: "Utilizamos Reveniu para cobros recurrentes mensuales. Puedes cancelar tu suscripción en cualquier momento sin compromisos de permanencia.",
+        def: "Tus conversaciones son privadas y confidenciales. No compartimos tus lecturas ni tus datos personales con terceros, y puedes borrar tu historial cuando quieras desde «Mi cuenta».",
       },
-    ],
-  },
-  {
-    page: "planes",
-    label: "Planes",
-    items: [
-      { key: "planes.hero.titulo1", label: "Hero — título (parte 1)", kind: "text", def: "Un solo plan," },
-      { key: "planes.hero.titulo2", label: "Hero — título (parte destacada)", kind: "text", def: "acceso completo" },
+      { key: "home.faq.4.pregunta", label: "FAQ 4: pregunta", kind: "text", def: "¿Cómo se cobra y puedo cancelar?" },
       {
-        key: "planes.hero.parrafo",
-        label: "Hero — párrafo",
+        key: "home.faq.4.respuesta",
+        label: "FAQ 4: respuesta",
         kind: "long",
-        def: "Sin niveles ni letra chica. Suscríbete y conversa con tu oráculo por WhatsApp cuando lo necesites.",
+        def: "Los planes son mensuales y el pago recurrente se realiza mediante Reveniu. Puedes cancelar cuando quieras, sin permanencia.",
       },
 
-      { key: "planes.plan.etiqueta", label: "Plan — etiqueta", kind: "text", def: "Suscripción mensual" },
-      { key: "planes.plan.nombre", label: "Plan — nombre", kind: "text", def: "Acceso a tu oráculo" },
-      { key: "planes.plan.periodo", label: "Plan — período junto al precio", kind: "text", def: "/ mes" },
       {
-        key: "planes.plan.bullet.1",
-        label: "Plan — bullet 1",
-        kind: "text",
-        def: "Conversación 1:1 con tu oráculo por WhatsApp",
+        key: "home.testimonios.mostrar",
+        label: "Testimonios: mostrar la sección (apagar si no son reales)",
+        kind: "bool",
+        def: "sí",
       },
-      { key: "planes.plan.bullet.2", label: "Plan — bullet 2", kind: "text", def: "Historial continuo de tus consultas" },
-      {
-        key: "planes.plan.bullet.3",
-        label: "Plan — bullet 3",
-        kind: "text",
-        def: "Carta natal derivada de tu nacimiento",
-      },
-      { key: "planes.plan.bullet.4", label: "Plan — bullet 4", kind: "text", def: "Disponible 24/7" },
-      { key: "planes.plan.cta", label: "Plan — botón", kind: "text", def: "Suscribirme" },
-
-      { key: "planes.incluye.titulo", label: "Qué incluye — título", kind: "text", def: "Qué incluye" },
-      { key: "planes.incluye.1.emoji", label: "Qué incluye 1 — emoji", kind: "text", def: "💬" },
-      { key: "planes.incluye.1.titulo", label: "Qué incluye 1 — título", kind: "text", def: "Sin esperas" },
-      {
-        key: "planes.incluye.1.texto",
-        label: "Qué incluye 1 — descripción",
-        kind: "long",
-        def: "Tu oráculo responde en tu chat de WhatsApp, a cualquier hora del día.",
-      },
-      { key: "planes.incluye.2.emoji", label: "Qué incluye 2 — emoji", kind: "text", def: "🔒" },
-      { key: "planes.incluye.2.titulo", label: "Qué incluye 2 — título", kind: "text", def: "Privacidad" },
-      {
-        key: "planes.incluye.2.texto",
-        label: "Qué incluye 2 — descripción",
-        kind: "long",
-        def: "Conversaciones privadas, aisladas por chat y nunca compartidas con terceros.",
-      },
-      { key: "planes.incluye.3.emoji", label: "Qué incluye 3 — emoji", kind: "text", def: "🪐" },
-      { key: "planes.incluye.3.titulo", label: "Qué incluye 3 — título", kind: "text", def: "Contexto real" },
-      {
-        key: "planes.incluye.3.texto",
-        label: "Qué incluye 3 — descripción",
-        kind: "long",
-        def: "Respuestas basadas en tu carta natal derivada y el tránsito astral actual.",
-      },
-      { key: "planes.incluye.4.emoji", label: "Qué incluye 4 — emoji", kind: "text", def: "🗂️" },
-      { key: "planes.incluye.4.titulo", label: "Qué incluye 4 — título", kind: "text", def: "Memoria continua" },
-      {
-        key: "planes.incluye.4.texto",
-        label: "Qué incluye 4 — descripción",
-        kind: "long",
-        def: "Retoma la conversación donde la dejaste, o empieza de cero con /nueva.",
-      },
-    ],
-  },
-  {
-    page: "oraculo",
-    label: "Perfil de oráculo",
-    items: [
-      // {nombre} se reemplaza por el nombre del oráculo al renderizar. Dejar el placeholder.
-      {
-        key: "oraculo.boton_suscripcion",
-        label: "Botón de suscripción (usa {nombre})",
-        kind: "text",
-        def: "Suscribirme para hablar con {nombre}",
-      },
-      { key: "oraculo.cta.titulo", label: "CTA — título", kind: "text", def: "¿Listo para conocer tu destino?" },
-      {
-        key: "oraculo.cta.parrafo",
-        label: "CTA — párrafo (usa {nombre})",
-        kind: "long",
-        def: "El universo habla un lenguaje que solo {nombre} puede traducir para ti hoy mismo.",
-      },
-      { key: "oraculo.cta.boton", label: "CTA — botón", kind: "text", def: "Comenzar Lectura Ahora" },
+      { key: "home.testimonios.eyebrow", label: "Testimonios: antetítulo", kind: "text", def: "Una experiencia para compartir" },
+      { key: "home.testimonios.titulo", label: "Testimonios: título", kind: "text", def: "Lo que podría contarte alguien como tú." },
+      ...[
+        ["Carlos, 30 años", "La lectura me ayudó a poner en perspectiva una decisión que venía postergando. Me sentí acompañado y pude ordenar mis ideas."],
+        ["Verónica, 40 años", "Me sorprendió lo clara y cercana que fue la conversación. Pude preguntar a mi ritmo y volver sobre lo que necesitaba."],
+        ["Martina, 22 años", "Llegué con muchas dudas sobre mi relación y la lectura me ayudó a mirar lo que estaba sintiendo con más calma."],
+        ["Elena, 63 años", "Me gustó poder conversar en privado y sin apuro. Cada respuesta me dio una nueva perspectiva para reflexionar."],
+      ].flatMap(([nombre, cita], i): CopyDef[] => [
+        { key: `home.testimonios.${i + 1}.nombre`, label: `Testimonio ${i + 1}: nombre`, kind: "text", def: nombre },
+        { key: `home.testimonios.${i + 1}.foto`, label: `Testimonio ${i + 1}: foto`, kind: "image", def: `/testimonials/portrait-0${i + 1}.jpg` },
+        { key: `home.testimonios.${i + 1}.cita`, label: `Testimonio ${i + 1}: cita`, kind: "long", def: cita },
+      ]),
     ],
   },
 ];
@@ -210,15 +143,10 @@ export const COPY_GROUPS: { page: string; label: string; items: CopyDef[] }[] = 
 // muestra el segmento crudo, así que agregar claves nuevas nunca rompe el editor.
 export const SECTION_LABELS: Record<string, string> = {
   "home.hero": "Hero",
-  "home.proceso": "Cómo funciona",
-  "home.astrologos": "Astrólogos",
-  "home.planes": "Planes",
+  "home.quees": "Qué es Silente",
+  "home.plan": "Elige tu plan",
   "home.faq": "Preguntas frecuentes",
-  "planes.hero": "Hero",
-  "planes.plan": "Plan",
-  "planes.incluye": "Qué incluye",
-  "oraculo.boton_suscripcion": "Botón de suscripción",
-  "oraculo.cta": "CTA final",
+  "home.testimonios": "Testimonios",
 };
 
 export const COPY_DEFAULTS: Record<string, string> = Object.fromEntries(

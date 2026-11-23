@@ -5,7 +5,7 @@ import ChatLink from "@/components/ChatLink";
 import { logout } from "@/app/ingresar/actions";
 
 const AVISOS: Record<string, { texto: string; error?: boolean }> = {
-  "ok=telefono": { texto: "Número guardado. Escríbele al oráculo desde ese WhatsApp y tu suscripción se conecta sola." },
+  "ok=telefono": { texto: "Número guardado. Escríbele a Luna desde ese WhatsApp y tu suscripción se conecta sola." },
   "error=telefono": { texto: "No pudimos guardar ese número. Escribe tu celular, por ejemplo 9 1234 5678.", error: true },
 };
 
@@ -29,7 +29,12 @@ type Params = Promise<{ ok?: string; error?: string }>;
 export default async function Cuenta({ searchParams }: { searchParams: Params }) {
   const session = await auth();
   const { ok, error } = await searchParams;
-  const sub = await backendPost<{ status: string; chatId: number | null; phone: number | null }>(
+  const sub = await backendPost<{
+    status: string;
+    chatId: number | null;
+    phone: number | null;
+    plan: { slug: string; name: string; dailyLimit: number } | null;
+  }>(
     "/api/subscription",
     { email: session!.user!.email },
     "web",
@@ -61,7 +66,12 @@ export default async function Cuenta({ searchParams }: { searchParams: Params })
               volver="/cuenta"
             />
           )}
-          <SubscriptionManager status={sub.status} />
+          {sub.plan && (
+            <p className="text-sm text-on-surface-variant">
+              Plan: <strong className="text-on-surface">{sub.plan.name}</strong> · {sub.plan.dailyLimit} mensajes al día
+            </p>
+          )}
+          <SubscriptionManager status={sub.status} plan={sub.plan?.slug} />
         </div>
       )}
     </main>

@@ -10,10 +10,13 @@ export async function registerAndCheckout(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const confirm = String(formData.get("confirm") ?? "");
   const telefono = String(formData.get("telefono") ?? "");
+  const plan = String(formData.get("plan") ?? "");
+  // Los errores vuelven al checkout del mismo plan.
+  const volver = (error: string) => redirect(`/checkout?error=${error}&plan=${encodeURIComponent(plan)}`);
 
   // El formulario ya lo impide en vivo; esto es para quien lo salte (sin JS, o a mano).
-  if (password !== confirm) redirect("/checkout?error=distintas");
-  if (normalizarTelefono(telefono) === null) redirect("/checkout?error=telefono");
+  if (password !== confirm) volver("distintas");
+  if (normalizarTelefono(telefono) === null) volver("telefono");
 
   // backendPost lanza ante cualquier status no-2xx, y Convex responde 409 si el correo ya
   // existe: hay que atraparlo acá. Antes no se atrapaba, así que quien ya tenía cuenta y
@@ -25,10 +28,10 @@ export async function registerAndCheckout(formData: FormData) {
   } catch (e) {
     fallo = String(e);
   }
-  if (fallo.includes("débil")) redirect("/checkout?error=debil");
-  if (fallo.includes("teléfono")) redirect("/checkout?error=telefono");
+  if (fallo.includes("débil")) volver("debil");
+  if (fallo.includes("teléfono")) volver("telefono");
   // Si ya estaba registrado, seguimos: es alguien volviendo a pagar, se valida con su clave.
-  if (fallo && !fallo.includes("ya registrado")) redirect("/checkout?error=registro");
+  if (fallo && !fallo.includes("ya registrado")) volver("registro");
 
   // El email ya existía y la clave no coincide → no es un registro, es un login fallido:
   // mandarlo a /ingresar en vez de cobrarle. Ver nota en app/ingresar/actions.ts.
@@ -50,5 +53,5 @@ export async function registerAndCheckout(formData: FormData) {
 
   // El backend se llama desde /suscripcion/pagar, que necesita renderizar el form POST
   // hacia Transbank: desde acá no se puede, un redirect() solo hace GET.
-  redirect("/suscripcion/pagar");
+  redirect(`/suscripcion/pagar?plan=${encodeURIComponent(plan)}`);
 }

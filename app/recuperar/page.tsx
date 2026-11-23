@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { pedirEnlace } from "./actions";
 
-export const metadata = { title: "Recuperar contraseña · Astros x Chat", robots: { index: false } };
+export const metadata = { title: "Recuperar contraseña · Silente", robots: { index: false } };
 
 const input =
   "w-full bg-background border border-outline/30 rounded-lg py-3 px-4 focus:border-primary focus:ring-0 transition-all text-on-surface";
@@ -26,7 +26,7 @@ export default async function Recuperar({
       </h1>
 
       {enviado ? (
-        <section className="mt-8 bg-surface-container p-6 md:p-8 rounded-xl border border-outline/30 space-y-3">
+        <section className="mt-8 bg-surface-container p-6 md:p-9 rounded-3xl border border-outline-variant space-y-3">
           {/* Mismo mensaje exista o no la cuenta: el formulario no sirve para averiguar quién
               está registrado. */}
           <p className="text-on-surface" role="status">
@@ -48,7 +48,7 @@ export default async function Recuperar({
           <p className="text-on-surface-variant mt-2 mb-8">
             Escribe el correo con que te registraste y te mandamos un enlace para crear una nueva.
           </p>
-          <section className="bg-surface-container p-6 md:p-8 rounded-xl border border-outline/30">
+          <section className="bg-surface-container p-6 md:p-9 rounded-3xl border border-outline-variant">
             <form action={pedirEnlace} className="space-y-4">
               {error && ERRORES[error] && (
                 <p
@@ -67,13 +67,13 @@ export default async function Recuperar({
                   className={input}
                   id="email"
                   name="email"
-                  placeholder="alex@cosmos.com"
+                  placeholder="tu@correo.cl"
                   required
                   type="email"
                 />
               </div>
               <button
-                className="w-full bg-primary text-on-primary font-bold py-4 rounded-xl hover:opacity-90 transition-all active:scale-95"
+                className="w-full bg-primary text-on-primary font-bold py-4 rounded-full hover:opacity-90 transition-all active:scale-95"
                 type="submit"
               >
                 Enviarme el enlace
