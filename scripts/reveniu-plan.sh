@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Crea (una sola vez por ambiente) el plan mensual de Astros x Chat en Reveniu.
-# El id que devuelve va a la env REVENIU_PLAN_ID de Convex.
+# Crea (una sola vez por ambiente) un plan mensual de Silente en Reveniu (lo normal es crearlo desde /admin → Planes).
+# Desde /admin el id queda guardado en la tabla plans; REVENIU_PLAN_ID solo lo usa el plan de respaldo.
 #
 # Sandbox:
 #   REVENIU_API_SECRET=$REVENIU_API_SECRET_SANDBOX \
@@ -13,13 +13,13 @@ set -euo pipefail
 : "${REVENIU_API_SECRET:?falta REVENIU_API_SECRET}"
 : "${REVENIU_API_URL:?falta REVENIU_API_URL}"
 : "${WEB_BASE_URL:=https://www.silente.cl}"
-: "${PLAN_TITLE:=Astros x Chat}"
+: "${PLAN_TITLE:=Silente}"
 : "${PLAN_PRICE:=3000}"
 
 # frequency 3 = Monthly. cicles 1 + auto_renew = suscripción indefinida (así lo modela
 # Reveniu: un plan indefinido y autorrenovable siempre reporta cicles 1).
 # is_custom_amount deja que el monto lo mande cada suscripción, para que el precio siga
-# viviendo en la tabla `settings` de Convex y se edite desde /admin.
+# viviendo en la tabla `plans` de Convex y se edite desde /admin.
 curl -sS -X POST "${REVENIU_API_URL}/api/v1/plans/" \
   -H "Reveniu-Secret-Key: ${REVENIU_API_SECRET}" \
   -H "Content-Type: application/json" \
@@ -28,7 +28,7 @@ curl -sS -X POST "${REVENIU_API_URL}/api/v1/plans/" \
   "frequency": 3,
   "cicles": 1,
   "title": "${PLAN_TITLE}",
-  "description": "Conversación ilimitada con tu oráculo por WhatsApp",
+  "description": "Conversación privada con Luna por WhatsApp",
   "price": ${PLAN_PRICE},
   "is_custom_amount": true,
   "custom_amount_min": 1000,
