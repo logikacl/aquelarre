@@ -76,7 +76,7 @@ const ConsentSettings: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40"
+      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) closeSettings(); }}
     >
       <div
@@ -85,10 +85,10 @@ const ConsentSettings: React.FC = () => {
         role="dialog"
         aria-modal="true"
         aria-label="Preferencias de cookies"
-        className="w-full max-w-[560px] max-h-[85vh] overflow-y-auto bg-white rounded-xl shadow-xl p-6"
+        className="my-auto max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-[var(--silente-border)] bg-[var(--silente-night)] p-6 text-[var(--silente-ivory)] shadow-2xl md:p-8"
       >
-        <h2 className="text-[1.25rem] font-bold text-on-surface mb-1">Preferencias de cookies</h2>
-        <p className="text-[0.8125rem] text-stone-500 mb-5">
+        <h2 className="mb-1 text-2xl font-semibold">Preferencias de cookies</h2>
+        <p className="mb-6 text-sm leading-6 text-[var(--silente-muted)]">
           Elige qué categorías permites. Puedes cambiarlo cuando quieras.
         </p>
 
@@ -96,13 +96,13 @@ const ConsentSettings: React.FC = () => {
           {consentConfig.categories.map((cat) => (
             <div
               key={cat.id}
-              className="flex items-start justify-between gap-4 border border-stone-200 rounded-lg p-4"
+              className="flex items-start justify-between gap-5 rounded-2xl border border-[var(--silente-border)] bg-[rgba(23,35,49,.55)] p-4"
             >
               <div className="flex-1">
-                <div className="text-[0.9375rem] font-semibold text-stone-800">{cat.label}</div>
-                <div className="text-[0.8125rem] text-stone-500 mt-1">{cat.description}</div>
+                <div className="font-semibold">{cat.label}</div>
+                <div className="mt-1 text-sm leading-6 text-[var(--silente-muted)]">{cat.description}</div>
               </div>
-              <label className="inline-flex items-center shrink-0 mt-1">
+              <label className="inline-flex min-h-11 shrink-0 items-center">
                 <input
                   type="checkbox"
                   className="sr-only peer"
@@ -112,11 +112,11 @@ const ConsentSettings: React.FC = () => {
                 />
                 <span
                   className={`w-10 h-6 rounded-full relative transition-colors ${
-                    valueFor(cat.id) ? 'bg-primary-container' : 'bg-stone-300'
-                  } ${cat.locked ? 'opacity-60' : 'cursor-pointer'} peer-focus:ring-2 peer-focus:ring-primary-container`}
+                    valueFor(cat.id) ? 'bg-[var(--silente-gold)]' : 'bg-white/20'
+                  } ${cat.locked ? 'opacity-60' : 'cursor-pointer'} peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--silente-gold-light)]`}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-[var(--silente-night)] rounded-full transition-transform ${
                       valueFor(cat.id) ? 'translate-x-4' : ''
                     }`}
                   />
@@ -126,18 +126,18 @@ const ConsentSettings: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="mt-7 flex flex-col-reverse justify-end gap-3 sm:flex-row">
           <button
             type="button"
             onClick={closeSettings}
-            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold border border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors"
+            className="min-h-11 rounded-full border border-[var(--silente-border)] px-5 text-sm font-medium text-[var(--silente-ivory)] transition-colors hover:border-[var(--silente-gold)]"
           >
             Cancelar
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="px-4 py-2 rounded-lg text-[0.875rem] font-semibold bg-primary text-white hover:bg-primary-container transition-colors"
+            className="min-h-11 rounded-full bg-[var(--silente-gold)] px-5 text-sm font-semibold text-[var(--silente-night)] transition-colors hover:bg-[var(--silente-gold-light)]"
           >
             Guardar preferencias
           </button>

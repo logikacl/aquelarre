@@ -1,10 +1,11 @@
 import type { ConsentConfig } from './core/types';
 
 export const consentConfig: ConsentConfig = {
-  policyVersion: 1,
-  cookieName: 'axc_consent',
+  // 2 desde la marca Silente (2026-11-22): cookie y origen nuevos, así que se vuelve a preguntar.
+  policyVersion: 2,
+  cookieName: 'silente_consent',
   logEndpoint: process.env.NEXT_PUBLIC_CONSENT_LOG_URL || undefined,
-  origin: 'astrosxchat',
+  origin: 'silente',
   categories: [
     {
       id: 'necessary',
