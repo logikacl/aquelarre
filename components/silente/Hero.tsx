@@ -64,6 +64,9 @@ export default function Hero({ copy }: { copy: HeroCopy }) {
 
   // El ancho de la palabra lo reserva la más larga de las dos, para que el título no salte.
   const larga = copy.palabras[0].length >= copy.palabras[1].length ? copy.palabras[0] : copy.palabras[1];
+  const partes = copy.titulo.trim().split(/\s+/);
+  const ultima = partes.pop() ?? "";
+  const inicio = partes.join(" ");
 
   return (
     <section className="silente-hero silente-stars relative isolate min-h-[100svh] overflow-hidden bg-[#07111d] px-4 pb-10 pt-3 md:px-8 md:pb-14 md:pt-5">
@@ -80,11 +83,16 @@ export default function Hero({ copy }: { copy: HeroCopy }) {
 
       <div className="hero-content relative z-10 mx-auto mt-6 max-w-6xl text-center md:mt-7">
         <h1 className="w-full text-center text-[clamp(1.75rem,8.4vw,2.5rem)] font-normal leading-[1.08] tracking-[-.035em] text-[var(--silente-ivory)] md:text-[clamp(2.75rem,5vw,4.5rem)]">
-          {copy.titulo}{" "}
-          <span className="relative inline-block whitespace-nowrap align-baseline">
-            <span aria-hidden="true" className="invisible">{larga}</span>
-            <span key={i} className="silente-swap absolute left-0 top-0 whitespace-nowrap">
-              {copy.palabras[i]}
+          {/* Como en el diseño: en móvil la última palabra del título baja junto a la que
+              alterna ("Hay cosas que / necesitas saber."); desde lg el CSS los pone en línea. */}
+          <span className="block whitespace-nowrap">{inicio}</span>{" "}
+          <span className="mt-1 block whitespace-nowrap">
+            {ultima}{" "}
+            <span className="relative inline-block align-baseline">
+              <span aria-hidden="true" className="invisible">{larga}</span>
+              <span key={i} className="silente-swap absolute left-0 top-0 whitespace-nowrap">
+                {copy.palabras[i]}
+              </span>
             </span>
           </span>
         </h1>
