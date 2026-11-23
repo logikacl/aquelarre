@@ -20,15 +20,10 @@ export const publicPlans = httpAction(async (ctx) => {
   });
 });
 
-// GET /api/public/oracles → { oracles:[{slug,name,specialty,bio,photoUrl}], priceClp }
+// GET /api/public/oracles → { oracles:[{slug,name,specialty,bio,photoUrl}] }
 // Sin secreto: solo lo publicado, sin el system prompt.
-// ponytail: `priceClp` (precio del primer plan) es compatibilidad con el front publicado
-// antes de los planes; el front nuevo usa /api/public/plans. Quitarlo cuando main lo tenga.
 export const publicOracles = httpAction(async (ctx) => {
-  const [oracles, plan] = await Promise.all([
-    ctx.runQuery(internal.oracles.list, { onlyPublished: true }),
-    ctx.runQuery(internal.plans.forSlug, {}),
-  ]);
+  const oracles = await ctx.runQuery(internal.oracles.list, { onlyPublished: true });
   const safe = oracles.map((o) => ({
     slug: o.slug,
     name: o.name,
@@ -37,7 +32,7 @@ export const publicOracles = httpAction(async (ctx) => {
     photoUrl: o.photoUrl ?? null,
   }));
   return new Response(
-    JSON.stringify({ oracles: safe, priceClp: plan?.priceClp ?? 0 }),
+    JSON.stringify({ oracles: safe }),
     { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" } },
   );
 });

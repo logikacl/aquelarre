@@ -15,16 +15,6 @@ function checkAdmin(req: Request): Response | null {
   return null;
 }
 
-// POST /api/admin/config → { priceClp } del plan por defecto.
-// ponytail: compatibilidad con el front publicado antes de los planes (lee esto en /admin).
-// Borrar junto con su ruta en http.ts cuando main tenga el admin de planes.
-export const getConfig = httpAction(async (ctx, req) => {
-  const bad = checkAdmin(req);
-  if (bad) return bad;
-  const plan = await ctx.runQuery(internal.plans.forSlug, {});
-  return json({ priceClp: plan?.priceClp ?? 0, reason: plan?.name ?? "" });
-});
-
 // POST /api/admin/plans → todos los planes (con el de respaldo si la tabla está vacía)
 export const listPlansAdmin = httpAction(async (ctx, req) => {
   const bad = checkAdmin(req);

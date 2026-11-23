@@ -12,7 +12,7 @@ import {
   checkout, subscription, subscriptionAction, subscriptionDelete, reveniuWebhook,
 } from "./webapi";
 import {
-  getConfig, listPlansAdmin, upsertPlanAdmin, listOracles, upsertOracle, publishOracle, deleteOracle,
+  listPlansAdmin, upsertPlanAdmin, listOracles, upsertOracle, publishOracle, deleteOracle,
   listUsersAdmin, userAction, userDelete, churnReport,
   getContent, setContent, uploadImage,
 } from "./admin";
@@ -223,7 +223,6 @@ http.route({ path: "/api/subscription", method: "POST", handler: subscription })
 http.route({ path: "/api/subscription/action", method: "POST", handler: subscriptionAction });
 http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
 http.route({ path: "/reveniu", method: "POST", handler: reveniuWebhook });
-http.route({ path: "/api/admin/config", method: "POST", handler: getConfig });
 http.route({ path: "/api/admin/plans", method: "POST", handler: listPlansAdmin });
 http.route({ path: "/api/admin/plans/upsert", method: "POST", handler: upsertPlanAdmin });
 http.route({ path: "/api/admin/oracles", method: "POST", handler: listOracles });
