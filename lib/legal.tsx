@@ -1,4 +1,9 @@
-// Textos legales de Astros x Chat: Términos y Política de Privacidad.
+// Textos legales de Silente: Términos, Política de Privacidad y Política de Reembolso.
+//
+// Marca (2026-11-22): Silente, con Luna como su guía digital. La redacción de marca sigue la
+// versión de Esteban (silente-web, 2026-10-07); el contenido jurídico y los hechos técnicos son
+// los de este archivo. Precio y mensajes por día NO van con números: son de cada plan (tabla
+// `plans`) y se informan en la ficha del plan antes de contratar.
 //
 // Viven en código y NO en el CMS de /admin a propósito: son un contrato versionado
 // (la tabla `consent` guarda qué versión aceptó cada persona), no copy de marketing.
@@ -18,7 +23,7 @@
 // ponytail: un solo archivo con los dos documentos como datos + su renderer. Las páginas
 // de /terminos y /privacidad son tres líneas cada una.
 
-export const VERSION = "2026-09-16";
+export const VERSION = "2026-11-22";
 
 export const EMPRESA = {
   razonSocial: "Logika Sistemas SpA",
@@ -26,8 +31,9 @@ export const EMPRESA = {
   // ⚠️ COMPLETAR antes de publicar: aparece en los dos documentos.
   domicilio: "«DOMICILIO POR DEFINIR», Chile",
   sitio: "silente.cl",
-  contacto: "contacto@logika.cl",
-  // Mismo buzón por ahora. Si se crea uno separado para privacidad, se cambia solo acá.
+  // Buzón real de Silente (ihosting). Cobros, cancelaciones, reembolsos y contacto general.
+  contacto: "info@silente.cl",
+  // Privacidad y derechos sobre los datos: buzón de la sociedad responsable.
   dpo: "contacto@logika.cl",
 };
 
@@ -41,12 +47,12 @@ export type Documento = { titulo: string; intro: string; secciones: Seccion[] };
 
 export const TERMINOS: Documento = {
   titulo: "Términos y Condiciones",
-  intro: `Estos Términos y Condiciones (los «Términos») regulan el acceso y uso del servicio Astros x Chat, accesible en ${E.sitio} y a través de WhatsApp, operado por ${E.razonSocial}, RUT ${E.rut}, sociedad constituida en Chile (en adelante, «nosotros», «la Empresa» o «el Titular»). Al crear una cuenta, suscribirte o usar el servicio, declaras haber leído y aceptado estos Términos y nuestra Política de Privacidad, que forma parte integrante de este contrato. Si no estás de acuerdo, no uses el servicio.`,
+  intro: `Estos Términos y Condiciones (los «Términos») regulan el acceso y uso del servicio Silente, accesible en ${E.sitio} y a través de WhatsApp, operado por ${E.razonSocial}, RUT ${E.rut}, sociedad constituida en Chile (en adelante, «nosotros», «la Empresa» o «el Titular»). Al crear una cuenta, suscribirte o usar el servicio, declaras haber leído y aceptado estos Términos y nuestra Política de Privacidad, que forma parte integrante de este contrato. Si no estás de acuerdo, no uses el servicio.`,
   secciones: [
     {
       t: "1. Aceptación de los Términos",
       b: [
-        "La aceptación se realiza al crear tu cuenta y al usar el servicio. Además, antes de tu primera conversación, el oráculo te explica en el chat qué datos se guardan y cómo se procesan, y solo comienza a conversar cuando tocas el botón «Acepto» (o escribes «acepto»): ese es tu consentimiento expreso para el tratamiento descrito en la Política de Privacidad. No hay casillas premarcadas ni aceptaciones tácitas.",
+        "La aceptación se realiza al crear tu cuenta y al usar el servicio. Además, antes de tu primera conversación, Luna, la guía digital de Silente, te explica en el chat qué datos se guardan y cómo se procesan, y solo comienza a conversar cuando tocas el botón «Acepto» (o escribes «acepto»): ese es tu consentimiento expreso para el tratamiento descrito en la Política de Privacidad. No hay casillas premarcadas ni aceptaciones tácitas.",
         "Conservamos registro de la versión de los Términos y de la Política de Privacidad que aceptaste y de la fecha de tu aceptación. Estos Términos constituyen un contrato de adhesión regido por la legislación chilena.",
       ],
     },
@@ -55,8 +61,8 @@ export const TERMINOS: Documento = {
       b: [
         {
           ul: [
-            "Servicio: la plataforma Astros x Chat, incluyendo el sitio web, la cuenta de usuario y la conversación privada con los personajes («oráculos»).",
-            "Canal: la aplicación de mensajería por la que conversas con el oráculo. El canal del servicio es WhatsApp.",
+            "Servicio: Silente, incluyendo el sitio web, tu cuenta y la conversación privada por WhatsApp con Luna, la guía digital de Silente.",
+            "Canal: WhatsApp, donde conversas en privado con Luna, la guía digital de Silente.",
             "Usuario / tú: la persona natural mayor de edad que se registra y usa el Servicio.",
             "Contenido generado: los mensajes y respuestas producidos automáticamente por la inteligencia artificial.",
             "Datos de nacimiento: la ciudad, la fecha y (opcionalmente) la hora que entregas para calcular tu carta.",
@@ -68,14 +74,14 @@ export const TERMINOS: Documento = {
     {
       t: "3. Qué es el servicio",
       b: [
-        "Astros x Chat es un servicio de entretenimiento, reflexión y autoconocimiento que permite conversar en privado por WhatsApp con oráculos: personajes de inteligencia artificial que interpretan tu consulta con el lenguaje simbólico de la astrología. Para hacerlo te pedimos tu ciudad, fecha y —si la sabes— hora de nacimiento, con las que calculamos tu signo solar, tu signo lunar y tu ascendente, y los combinamos con el estado del cielo del día (fase lunar, planetas por signo, retrógrados) y con el historial reciente de tu conversación.",
+        "Silente es un servicio de entretenimiento, reflexión y autoconocimiento: un espacio para explorar tus preguntas sobre amor, relaciones, decisiones y futuro conversando en privado por WhatsApp con Luna, la guía digital de Silente, un personaje de inteligencia artificial que interpreta tu consulta con el lenguaje simbólico de la astrología y de otras tradiciones adivinatorias. Para hacerlo te pedimos tu ciudad, fecha y —si la sabes— hora de nacimiento, con las que calculamos tu signo solar, tu signo lunar y tu ascendente, y los combinamos con el estado del cielo del día (fase lunar, planetas por signo, retrógrados) y con el historial reciente de tu conversación.",
         "El servicio incluye una función de memoria: guardamos tus mensajes y las respuestas para darle continuidad a la conversación. Puedes empezar una lectura desde cero, borrando ese historial, escribiendo «/nueva» en el chat.",
       ],
     },
     {
       t: "4. Transparencia sobre la inteligencia artificial",
       b: [
-        "No estás conversando con una persona real, ni con un astrólogo profesional, ni con un vidente. Ningún ser humano lee ni responde tus mensajes en tiempo real. El oráculo es un personaje generado por software, sin conciencia, intención ni facultades adivinatorias.",
+        "No estás conversando con una persona real, ni con un astrólogo profesional, ni con un vidente. Ningún ser humano lee ni responde tus mensajes en tiempo real. Luna es una guía digital generada por software, sin conciencia, intención ni facultades adivinatorias.",
         "El Contenido generado puede contener errores, imprecisiones, omisiones o afirmaciones inventadas, incluidos cálculos astrológicos equivocados o atribuciones falsas a autores o tradiciones. Las respuestas se producen con modelos de lenguaje de terceros (a la fecha de esta versión, un modelo abierto ejecutado en la infraestructura de Fireworks AI, en Estados Unidos; el detalle vigente está en la Política de Privacidad, sección 8).",
       ],
     },
@@ -90,7 +96,7 @@ export const TERMINOS: Documento = {
       t: "6. No sustituye orientación profesional · Crisis y emergencias",
       b: [
         "El Contenido no constituye ni reemplaza asesoría o tratamiento médico, psicológico, psiquiátrico, terapéutico, legal, financiero ni de ningún otro tipo profesional. No diagnostica, trata ni cura ninguna condición física o mental. Para cualquier problema de salud, legal o financiero, consulta a un profesional cualificado.",
-        "Astros x Chat no es un servicio de emergencia ni de intervención en crisis. Si tú u otra persona está en peligro, tienes pensamientos de hacerte daño o de suicidio, o atraviesas una emergencia médica o de seguridad, deja de usar el servicio y busca ayuda inmediata:",
+        "Silente no es un servicio de emergencia ni de intervención en crisis. Si tú u otra persona está en peligro, tienes pensamientos de hacerte daño o de suicidio, o atraviesas una emergencia médica o de seguridad, deja de usar el servicio y busca ayuda inmediata:",
         {
           ul: [
             "Emergencias (SAMU / ambulancia): 131 · Carabineros: 133 · Bomberos: 132",
@@ -118,22 +124,22 @@ export const TERMINOS: Documento = {
     {
       t: "9. Acceso al chat",
       b: [
-        "Tu suscripción se vincula al número de WhatsApp que registras en tu cuenta: cuando le escribes al oráculo desde ese número, el chat queda conectado. Puedes cambiar el número desde «Mi cuenta»; al escribir desde el nuevo, la suscripción pasa a ese número y el anterior deja de tener acceso. Debe ser un número de tu titularidad. La cuenta y el chat son para uso personal de una sola persona; no puedes compartirlos, revenderlos ni cederlos.",
+        "Tu suscripción se vincula al número de WhatsApp que registras en tu cuenta: cuando le escribes a Luna desde ese número, el chat queda conectado. Puedes cambiar el número desde «Mi cuenta»; al escribir desde el nuevo, la suscripción pasa a ese número y el anterior deja de tener acceso. Debe ser un número de tu titularidad. La cuenta y el chat son para uso personal de una sola persona; no puedes compartirlos, revenderlos ni cederlos.",
         "El canal del servicio es WhatsApp. Tu conversación queda vinculada al número de WhatsApp con el que abras el chat: si cambias de número, tu lectura comienza de cero y el historial anterior no se traslada.",
         "El uso de WhatsApp se rige además por los términos y la política de privacidad de Meta. Es un servicio ajeno a nosotros y no respondemos por él.",
       ],
     },
     {
-      t: "10. Uso justo · Límite diario de consultas",
+      t: "10. Uso justo · Límite diario de mensajes",
       b: [
-        "La suscripción incluye hasta 10 consultas al oráculo por día calendario (hora de Chile). Alcanzado ese límite, el chat te lo indica y podrás seguir al día siguiente. Los comandos y las preguntas del onboarding no consumen consultas. Podemos ajustar este límite avisando con antelación razonable; el límite vigente se muestra en el propio chat.",
+        "Cada plan incluye un número máximo de mensajes a Luna por día calendario (hora de Chile), que se informa en la ficha del plan antes de contratar y en «Mi cuenta». Alcanzado ese límite, el chat te lo indica y podrás seguir al día siguiente. Los comandos y las preguntas del onboarding no consumen mensajes. Podemos ajustar este límite avisando con antelación razonable; el límite vigente se muestra en el propio chat.",
       ],
     },
     {
       t: "11. Suscripción, planes y precios",
       b: [
-        "El servicio se ofrece mediante suscripción de pago recurrente mensual. Los precios se muestran de forma clara antes de contratar, en pesos chilenos y con los impuestos incluidos cuando corresponda. El monto a pagar es el precio total exhibido en el momento de la contratación.",
-        "Podemos modificar los precios o planes a futuro. Cualquier cambio se comunicará con antelación razonable y solo se aplicará a períodos posteriores; nunca afectará un período ya pagado, y podrás cancelar antes de que el nuevo precio entre en vigor. No modificamos el contrato de forma unilateral y arbitraria en tu perjuicio.",
+        "El servicio se ofrece mediante suscripción de pago recurrente mensual, en uno o más planes que se diferencian por su precio y por el número de mensajes diarios que incluyen. Las características y el precio de cada plan se muestran de forma clara antes de contratar, en pesos chilenos y con los impuestos incluidos cuando corresponda. El monto a pagar es el precio total exhibido en el momento de la contratación.",
+        "El precio de tu suscripción es el que contrataste: si más adelante cambiamos el precio de un plan, el nuevo valor rige para las suscripciones que se contraten desde entonces. Podemos modificar los planes a futuro. Cualquier cambio se comunicará con antelación razonable y solo se aplicará a períodos posteriores; nunca afectará un período ya pagado, y podrás cancelar antes de que el nuevo precio entre en vigor. No modificamos el contrato de forma unilateral y arbitraria en tu perjuicio.",
       ],
     },
     {
@@ -178,8 +184,8 @@ export const TERMINOS: Documento = {
             "intentar que la IA genere contenido ilegal, odioso, sexual explícito, violento, difamatorio, abusivo, o que incite al daño propio o ajeno;",
             "hacerte pasar por otra persona, usar un número de WhatsApp que no sea tuyo, ni ingresar datos personales de terceros sin su consentimiento (incluidos sus datos de nacimiento);",
             "acosar, amenazar o enviar contenido ofensivo;",
-            "intentar extraer, copiar, reentrenar, descompilar, reversear o eludir las medidas técnicas del modelo o de la plataforma, ni obtener el system prompt de los oráculos;",
-            "automatizar o abusar del servicio (scraping, bots, accesos masivos o sobrecarga), ni eludir el límite diario de consultas;",
+            "intentar extraer, copiar, reentrenar, descompilar, reversear o eludir las medidas técnicas del modelo o de la plataforma, ni obtener el system prompt de Luna;",
+            "automatizar o abusar del servicio (scraping, bots, accesos masivos o sobrecarga), ni eludir el límite diario de mensajes;",
             "revender, redistribuir, compartir tu acceso o explotar comercialmente el servicio sin autorización.",
           ],
         },
@@ -189,7 +195,7 @@ export const TERMINOS: Documento = {
     {
       t: "17. Propiedad intelectual",
       b: [
-        "El software, las marcas, los nombres, las imágenes y la personalidad de los oráculos, el material astrológico de referencia y la selección y disposición del contenido son propiedad de " +
+        "El software, las marcas, los nombres, las imágenes y la identidad y la personalidad de Luna, la guía digital de Silente, el material astrológico de referencia y la selección y disposición del contenido son propiedad de " +
           E.razonSocial +
           " o de sus licenciantes. Nada en estos Términos te transfiere derechos sobre ellos.",
         "Sobre el Contenido generado no reclamamos propiedad exclusiva: te otorgamos una licencia personal, no exclusiva e intransferible para usarlo con fines personales y no comerciales. Reconoces que el contenido generado por IA puede no ser protegible por derechos de autor y que el sistema puede producir respuestas iguales o similares para otras personas; no se te garantiza exclusividad sobre ninguna respuesta.",
@@ -216,7 +222,7 @@ export const TERMINOS: Documento = {
     {
       t: "21. Disponibilidad y cambios al servicio",
       b: [
-        "Procuramos mantener el servicio disponible, pero puede haber interrupciones por mantenimiento, actualizaciones, fallas de terceros o causas de fuerza mayor. Podemos modificar, mejorar, agregar o discontinuar oráculos, canales y funcionalidades, avisando con antelación razonable cuando los cambios sean materiales. Si un oráculo deja de estar disponible, podrás continuar con otro de los publicados.",
+        "Procuramos mantener el servicio disponible, pero puede haber interrupciones por mantenimiento, actualizaciones, fallas de terceros o causas de fuerza mayor. Podemos modificar, mejorar, agregar o discontinuar guías, canales y funcionalidades, avisando con antelación razonable cuando los cambios sean materiales. Si una guía deja de estar disponible, podrás continuar con otra de las publicadas.",
       ],
     },
     {
@@ -282,12 +288,12 @@ export const TERMINOS: Documento = {
 
 export const PRIVACIDAD: Documento = {
   titulo: "Política de Privacidad",
-  intro: `Esta Política explica de forma clara qué datos personales tratamos, para qué los usamos, con qué base de licitud, con quién los compartimos, a qué países viajan, por cuánto tiempo los conservamos y qué derechos tienes sobre ellos. Se refiere al servicio Astros x Chat, accesible en ${E.sitio} y por WhatsApp. El servicio opera desde Chile y está escrito conforme a la Ley N° 21.719 sobre Protección de Datos Personales, plenamente exigible desde el 1 de diciembre de 2026: aplicamos su estándar desde ya, sin esperar esa fecha. Forma parte de nuestros Términos y Condiciones.`,
+  intro: `Esta Política explica de forma clara qué datos personales tratamos, para qué los usamos, con qué base de licitud, con quién los compartimos, a qué países viajan, por cuánto tiempo los conservamos y qué derechos tienes sobre ellos. Se refiere al servicio Silente, accesible en ${E.sitio} y por WhatsApp. El servicio opera desde Chile y está escrito conforme a la Ley N° 21.719 sobre Protección de Datos Personales, plenamente exigible desde el 1 de diciembre de 2026: aplicamos su estándar desde ya, sin esperar esa fecha. Forma parte de nuestros Términos y Condiciones.`,
   secciones: [
     {
       t: "1. Quién es responsable de tus datos",
       b: [
-        `El responsable del tratamiento es ${E.razonSocial}, RUT ${E.rut}, sociedad constituida en Chile, operadora del servicio Astros x Chat.`,
+        `El responsable del tratamiento es ${E.razonSocial}, RUT ${E.rut}, sociedad constituida en Chile, operadora del servicio Silente.`,
         {
           ul: [
             `Domicilio: ${E.domicilio}`,
@@ -301,7 +307,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "2. A quién y a qué aplica",
       b: [
-        "Esta política aplica a todas las personas que se registran o usan Astros x Chat, tanto en el sitio web como en el chat de WhatsApp. No aplica a sitios o servicios de terceros enlazados, que se rigen por sus propias políticas.",
+        "Esta política aplica a todas las personas que se registran o usan Silente, tanto en el sitio web como en el chat de WhatsApp. No aplica a sitios o servicios de terceros enlazados, que se rigen por sus propias políticas.",
       ],
     },
     {
@@ -313,7 +319,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "4. Transparencia sobre la inteligencia artificial",
       b: [
-        "Las respuestas de los oráculos son generadas por inteligencia artificial (un modelo de lenguaje de terceros; a la fecha de esta versión, un modelo abierto ejecutado en la infraestructura de Fireworks AI, en Estados Unidos — el detalle vigente está en la sección 8). No conversas con una persona real ni con un astrólogo profesional. El servicio es de entretenimiento, reflexión y autoconocimiento, y no sustituye orientación médica, psicológica, psiquiátrica, legal ni financiera. Si atraviesas una crisis o emergencia, acude a un profesional o llama a los servicios de urgencia (Emergencias: 131 · Salud Responde: 600 360 7777 · prevención del suicidio: *4141; más detalle en los Términos, sección 6).",
+        "Las respuestas de Luna, la guía digital de Silente, son generadas por inteligencia artificial (un modelo de lenguaje de terceros; a la fecha de esta versión, un modelo abierto ejecutado en la infraestructura de Fireworks AI, en Estados Unidos — el detalle vigente está en la sección 8). No conversas con una persona real ni con un astrólogo profesional. El servicio es de entretenimiento, reflexión y autoconocimiento, y no sustituye orientación médica, psicológica, psiquiátrica, legal ni financiera. Si atraviesas una crisis o emergencia, acude a un profesional o llama a los servicios de urgencia (Emergencias: 131 · Salud Responde: 600 360 7777 · prevención del suicidio: *4141; más detalle en los Términos, sección 6).",
       ],
     },
     {
@@ -326,9 +332,9 @@ export const PRIVACIDAD: Documento = {
             "Número de WhatsApp: el que nos indicas al registrarte o en «Mi cuenta», en formato internacional. Es también el identificador con el que WhatsApp nos entrega tu conversación, y lo usamos para conectar tu suscripción con tu chat.",
             "Datos de nacimiento: ciudad, fecha y, si la conoces y decides entregarla, hora de nacimiento. La hora es opcional: sin ella no calculamos tu ascendente.",
             "Datos astrológicos derivados: tu signo solar, tu signo lunar y tu ascendente, calculados a partir de lo anterior.",
-            "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera el oráculo.",
+            "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera Luna.",
             "Datos de suscripción: estado (pendiente, activa, por terminar, cancelada), fechas de cambio de estado, identificador de la suscripción en la pasarela de pago y, si la cancelas, el motivo y comentario que entregues en el formulario de baja. No almacenamos el número de tu tarjeta ni su código de seguridad (ver sección 11).",
-            "Uso del servicio: la cuenta de consultas que llevas en el día, para aplicar el límite diario.",
+            "Uso del servicio: la cuenta de mensajes que llevas en el día, para aplicar el límite diario de tu plan.",
             "Recuperación de contraseña: si pides recuperar tu clave, guardamos por una hora una huella criptográfica del enlace que te enviamos, asociada a tu correo. El enlace en sí no se guarda.",
             "Datos técnicos y de seguridad: registros de acceso y de auditoría generados por nuestros proveedores de infraestructura.",
           ],
@@ -363,7 +369,7 @@ export const PRIVACIDAD: Documento = {
                 "Ejecución del contrato y tu consentimiento",
               ],
               [
-                "Generar las respuestas del oráculo y mantener la continuidad de la conversación (incluye contenido sensible)",
+                "Generar las respuestas de Luna y mantener la continuidad de la conversación (incluye contenido sensible)",
                 "Tu consentimiento expreso",
               ],
               [
@@ -371,7 +377,7 @@ export const PRIVACIDAD: Documento = {
                 "Ejecución del contrato y cumplimiento de un deber legal",
               ],
               [
-                "Aplicar el límite diario de consultas y prevenir abusos del servicio",
+                "Aplicar el límite diario de mensajes de tu plan y prevenir abusos del servicio",
                 "Ejecución del contrato e interés legítimo",
               ],
               [
@@ -391,7 +397,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "8. Procesamiento mediante inteligencia artificial",
       b: [
-        "Para redactar cada respuesta, el contenido de la conversación sale de nuestros servidores y se procesa mediante un servicio de inteligencia artificial ubicado fuera de Chile. Aplicamos minimización de datos: en cada intercambio se envía únicamente el texto de tus mensajes y las respuestas del oráculo (hasta los últimos 20 mensajes de la conversación en curso), la personalidad del oráculo, tus datos astrológicos derivados —los nombres de tu signo solar, tu signo lunar y tu ascendente— y el estado del cielo del día, que es igual para todo el mundo.",
+        "Para redactar cada respuesta, el contenido de la conversación sale de nuestros servidores y se procesa mediante un servicio de inteligencia artificial ubicado fuera de Chile. Aplicamos minimización de datos: en cada intercambio se envía únicamente el texto de tus mensajes y las respuestas de Luna (hasta los últimos 20 mensajes de la conversación en curso), la personalidad de Luna, tus datos astrológicos derivados —los nombres de tu signo solar, tu signo lunar y tu ascendente— y el estado del cielo del día, que es igual para todo el mundo.",
         "No se envían junto con el contenido tu nombre, tu correo electrónico, tu número de WhatsApp, el identificador de tu chat, ni tu ciudad, fecha u hora exactas de nacimiento: esos datos se quedan en nuestra base de datos y solo viaja el signo ya calculado. El contenido, en cambio, sí puede incluir cualquier dato personal que tú mismo hayas escrito en la conversación.",
         "A la fecha de esta versión, el modelo se ejecuta en la infraestructura de Fireworks AI, Inc. (Estados Unidos), a la que enviamos ese contenido a través de su API. Nosotros no entrenamos ningún modelo con tus conversaciones, no las vendemos, no las usamos para publicidad y nuestro equipo no las lee, salvo que tú pidas ayuda con un problema, que sea imprescindible para investigar un abuso o que la ley nos obligue. Lo que no podemos garantizarte es qué hace el proveedor con el contenido una vez recibido: se rige por sus propios términos y política de privacidad, que pueden permitirle conservarlo temporalmente para operar el servicio, facturar, detectar abusos o cumplir la ley.",
         "Por eso este tratamiento se realiza únicamente con tu consentimiento expreso (sección 6) y puedes retirarlo en cualquier momento. Si cambiamos de proveedor de inteligencia artificial, incorporamos uno nuevo o cambia el país donde se procesa tu contenido, publicaremos una nueva versión de esta Política con su fecha y te lo notificaremos por un medio razonable antes de que el cambio te afecte.",
@@ -400,7 +406,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "9. Decisiones automatizadas",
       b: [
-        "El oráculo genera texto de forma automatizada, pero eso no es una decisión con efectos jurídicos ni significativos sobre ti: es contenido de entretenimiento y reflexión que tú evalúas libremente. No usamos tus conversaciones para perfilarte, ni para decidir sobre tu acceso a crédito, empleo, seguros, prestaciones ni ningún otro asunto de esa naturaleza.",
+        "Luna genera texto de forma automatizada, pero eso no es una decisión con efectos jurídicos ni significativos sobre ti: es contenido de entretenimiento y reflexión que tú evalúas libremente. No usamos tus conversaciones para perfilarte, ni para decidir sobre tu acceso a crédito, empleo, seguros, prestaciones ni ningún otro asunto de esa naturaleza.",
         "Las decisiones que sí tomamos sobre tu cuenta —suspenderla por un uso prohibido, o registrar el rechazo de un pago— se adoptan con revisión humana, se te comunican con su fundamento y puedes pedir su reconsideración escribiendo a " +
           E.dpo +
           ". Conforme a la Ley 21.719 tienes derecho a oponerte a ser objeto de decisiones basadas únicamente en tratamiento automatizado que te afecten significativamente, y a solicitar la intervención de una persona.",
@@ -416,7 +422,7 @@ export const PRIVACIDAD: Documento = {
             rows: [
               [
                 "Fireworks AI, Inc.",
-                "Encargado. Ejecutar el modelo de lenguaje que redacta las respuestas del oráculo",
+                "Encargado. Ejecutar el modelo de lenguaje que redacta las respuestas de Luna",
                 "Texto de tus mensajes y de las respuestas (hasta los últimos 20), tus signos solar y lunar y tu ascendente. Sin nombre, correo, teléfono, identificador de chat ni datos de nacimiento",
               ],
               [
@@ -571,7 +577,7 @@ export const PRIVACIDAD: Documento = {
     {
       t: "16. Menores de edad",
       b: [
-        "Astros x Chat está dirigido exclusivamente a personas mayores de 18 años. No recopilamos intencionadamente datos de menores ni tratamos datos de niñas, niños o adolescentes. Si detectamos que una cuenta pertenece a un menor, la eliminaremos.",
+        "Silente está dirigido exclusivamente a personas mayores de 18 años. No recopilamos intencionadamente datos de menores ni tratamos datos de niñas, niños o adolescentes. Si detectamos que una cuenta pertenece a un menor, la eliminaremos.",
       ],
     },
     {
@@ -604,13 +610,13 @@ export const PRIVACIDAD: Documento = {
 // enlaza directo: es lo primero que busca quien quiere su plata de vuelta.
 export const REEMBOLSOS: Documento = {
   titulo: "Política de Reembolso",
-  intro: `Esta Política detalla cuándo procede un reembolso, cómo pedirlo y en qué plazo lo resolvemos. Complementa la sección 15 de nuestros Términos y Condiciones y no limita en nada los derechos que la Ley 19.496 sobre Protección de los Derechos de los Consumidores te reconoce como consumidor, que son irrenunciables. Aplica a las suscripciones de Astros x Chat contratadas en ${E.sitio}.`,
+  intro: `Esta Política detalla cuándo procede un reembolso, cómo pedirlo y en qué plazo lo resolvemos. Complementa la sección 15 de nuestros Términos y Condiciones y no limita en nada los derechos que la Ley 19.496 sobre Protección de los Derechos de los Consumidores te reconoce como consumidor, que son irrenunciables. Aplica a las suscripciones de Silente contratadas en ${E.sitio}.`,
   secciones: [
     {
       t: "1. Derecho a retracto: 10 días",
       b: [
         "Como se trata de una contratación a distancia, tienes derecho a retractarte dentro de los 10 días siguientes a la contratación, conforme al artículo 3 bis de la Ley 19.496, sin expresar causa y sin costo para ti.",
-        "Astros x Chat es un servicio digital de consumo inmediato: el reembolso por retracto cubre las sumas que no correspondan a servicios ya prestados a la fecha en que ejerces el retracto. Si no alcanzaste a conversar con el oráculo, la devolución es íntegra.",
+        "Silente es un servicio digital de consumo inmediato: el reembolso por retracto cubre las sumas que no correspondan a servicios ya prestados a la fecha en que ejerces el retracto. Si no alcanzaste a conversar con Luna, la devolución es íntegra.",
       ],
     },
     {
@@ -645,7 +651,7 @@ export const REEMBOLSOS: Documento = {
     {
       t: "5. Qué no se reembolsa",
       b: [
-        "Fuera del plazo de retracto y de los casos anteriores, no se reembolsan los períodos ya transcurridos ni las consultas ya utilizadas, ni procede devolución por insatisfacción con el contenido de las lecturas, que es de naturaleza simbólica y de entretenimiento (ver la sección 5 de los Términos). Tampoco procede reembolso cuando la cuenta fue suspendida o cerrada por un uso prohibido conforme a la sección 16 de los Términos.",
+        "Fuera del plazo de retracto y de los casos anteriores, no se reembolsan los períodos ya transcurridos ni los mensajes ya utilizados, ni procede devolución por insatisfacción con el contenido de las lecturas, que es de naturaleza simbólica y de entretenimiento (ver la sección 5 de los Términos). Tampoco procede reembolso cuando la cuenta fue suspendida o cerrada por un uso prohibido conforme a la sección 16 de los Términos.",
       ],
     },
     {
@@ -675,56 +681,59 @@ export const REEMBOLSOS: Documento = {
 
 /* ------------------------------------------------------------------ Renderer */
 
+// Layout de silente-web/components/LegalPageLayout.tsx (el header y el pie son los globales).
 export function LegalDoc({ doc }: { doc: Documento }) {
   return (
-    <main className="pt-32 pb-24 px-6 max-w-3xl mx-auto text-on-surface">
-      <h1 className="text-4xl md:text-5xl font-headline font-extrabold tracking-tighter mb-3">{doc.titulo}</h1>
-      <p className="text-sm text-on-surface-variant mb-10">Versión {VERSION}</p>
-      <p className="text-on-surface-variant leading-relaxed mb-12">{doc.intro}</p>
-
-      {doc.secciones.map((s) => (
-        <section key={s.t} className="mb-10">
-          <h2 className="text-xl font-headline font-bold mb-4">{s.t}</h2>
-          {s.b.map((b, i) =>
-            typeof b === "string" ? (
-              <p key={i} className="text-on-surface-variant leading-relaxed mb-4">
-                {b}
-              </p>
-            ) : "ul" in b ? (
-              <ul key={i} className="list-disc pl-6 space-y-2 mb-4 text-on-surface-variant">
-                {b.ul.map((li) => (
-                  <li key={li}>{li}</li>
-                ))}
-              </ul>
-            ) : (
-              <div key={i} className="overflow-x-auto mb-4">
-                <table className="w-full text-sm text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-primary/30">
-                      {b.tabla.head.map((h) => (
-                        <th key={h} className="py-2 pr-4 font-bold align-top">
-                          {h}
-                        </th>
+    <main className="min-h-screen bg-[var(--silente-night)] text-[var(--silente-ivory)]">
+      <article className="mx-auto max-w-4xl px-5 pb-20 pt-28 md:px-8 md:pt-36">
+        <header className="mb-12 border-b border-[var(--silente-border)] pb-8">
+          <p className="text-xs uppercase tracking-[.22em] text-[var(--silente-gold)]">Información legal</p>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-[-.03em] md:text-6xl">{doc.titulo}</h1>
+          <p className="mt-4 text-sm text-[var(--silente-muted)]">Versión {VERSION}</p>
+          <p className="mt-7 text-base leading-7 text-[var(--silente-ivory)]/90 md:text-lg md:leading-8">{doc.intro}</p>
+        </header>
+        <div className="space-y-10">
+          {doc.secciones.map((sec) => (
+            <section key={sec.t}>
+              <h2 className="text-xl font-semibold leading-snug text-[var(--silente-gold-light)] md:text-2xl">{sec.t}</h2>
+              <div className="mt-4 space-y-4 text-sm leading-7 text-[var(--silente-muted)] md:text-base md:leading-8">
+                {sec.b.map((b, i) =>
+                  typeof b === "string" ? (
+                    <p key={i}>{b}</p>
+                  ) : "ul" in b ? (
+                    <ul key={i} className="list-disc space-y-2 pl-6">
+                      {b.ul.map((li) => (
+                        <li key={li}>{li}</li>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody className="text-on-surface-variant">
-                    {b.tabla.rows.map((row) => (
-                      <tr key={row[0]} className="border-b border-primary/10 align-top">
-                        {row.map((cell, j) => (
-                          <td key={j} className="py-3 pr-4">
-                            {cell}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </ul>
+                  ) : (
+                    <div key={i} className="overflow-x-auto rounded-2xl border border-[var(--silente-border)]">
+                      <table className="w-full border-collapse text-left text-sm">
+                        <thead className="bg-[var(--silente-secondary)] text-[var(--silente-ivory)]">
+                          <tr>
+                            {b.tabla.head.map((h) => (
+                              <th key={h} className="px-4 py-3 align-top font-semibold">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {b.tabla.rows.map((row) => (
+                            <tr key={row[0]} className="border-t border-[var(--silente-border)] align-top">
+                              {row.map((cell, j) => (
+                                <td key={j} className="px-4 py-3">{cell}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ),
+                )}
               </div>
-            ),
-          )}
-        </section>
-      ))}
+            </section>
+          ))}
+        </div>
+      </article>
     </main>
   );
 }
