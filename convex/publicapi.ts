@@ -10,12 +10,24 @@ export const publicContent = httpAction(async (ctx) => {
   });
 });
 
-// GET /api/public/oracles → { oracles:[{slug,name,specialty,bio,photoUrl}], priceClp, reason }
-// Datos para las páginas de marketing. Sin secreto: solo lo publicado, sin el system prompt.
+// GET /api/public/plans → [{ slug, name, priceClp, dailyLimit, bullets }] publicados, en orden.
+// Sin secreto y sin el id de Reveniu: es lo que muestra la web.
+export const publicPlans = httpAction(async (ctx) => {
+  const plans = await ctx.runQuery(internal.plans.list, { onlyPublished: true });
+  const safe = plans.map(({ slug, name, priceClp, dailyLimit, bullets }) => ({ slug, name, priceClp, dailyLimit, bullets }));
+  return new Response(JSON.stringify(safe), {
+    headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" },
+  });
+});
+
+// GET /api/public/oracles → { oracles:[{slug,name,specialty,bio,photoUrl}], priceClp }
+// Sin secreto: solo lo publicado, sin el system prompt.
+// ponytail: `priceClp` (precio del primer plan) es compatibilidad con el front publicado
+// antes de los planes; el front nuevo usa /api/public/plans. Quitarlo cuando main lo tenga.
 export const publicOracles = httpAction(async (ctx) => {
-  const [oracles, config] = await Promise.all([
+  const [oracles, plan] = await Promise.all([
     ctx.runQuery(internal.oracles.list, { onlyPublished: true }),
-    ctx.runQuery(internal.settings.getSubscriptionConfig, {}),
+    ctx.runQuery(internal.plans.forSlug, {}),
   ]);
   const safe = oracles.map((o) => ({
     slug: o.slug,
@@ -25,7 +37,7 @@ export const publicOracles = httpAction(async (ctx) => {
     photoUrl: o.photoUrl ?? null,
   }));
   return new Response(
-    JSON.stringify({ oracles: safe, priceClp: config.priceClp, reason: config.reason }),
+    JSON.stringify({ oracles: safe, priceClp: plan?.priceClp ?? 0 }),
     { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" } },
   );
 });

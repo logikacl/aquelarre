@@ -1,5 +1,5 @@
-// Cuota diaria de consultas al oráculo. Puro (sin imports de Convex) para poder testearlo.
-export const DAILY_LIMIT = 10;
+// Cuota diaria de mensajes a Luna. Puro (sin imports de Convex) para poder testearlo.
+// El límite es de cada plan (tabla `plans`, ver convex/planRules.ts).
 
 // Día calendario en Chile (mismo idioma que churn.ts: buckets en hora local, no UTC).
 export const chileDay = (at: number = Date.now()) =>

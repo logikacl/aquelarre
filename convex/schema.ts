@@ -59,6 +59,8 @@ export default defineSchema({
     // este campo en las filas existentes, y recién después sacarlo del esquema (Convex rechaza
     // un esquema que no calza con los documentos guardados).
     linkToken: v.optional(v.string()),
+    // Slug del plan contratado. Ausente = plan por defecto (suscripciones previas a los planes).
+    plan: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
@@ -87,16 +89,30 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_at", ["at"]),
 
-  // Config editable desde el admin. Fila única keyed por "subscription".
+  // Legado: precio único previo a la tabla `plans`. Nadie lo escribe; solo se lee como
+  // precio del plan por defecto mientras `plans` esté vacía (ver convex/plans.ts).
+  // ponytail: borrar la tabla cuando exista la primera fila en `plans` en producción.
   settings: defineTable({
     key: v.string(),
     priceClp: v.number(),
-    // ponytail: quedó huérfano al migrar a Reveniu — el texto que ve el usuario en el
-    // cobro sale del título del plan (REVENIU_PLAN_ID), no de acá. Se sigue leyendo en
-    // /admin y en /api/public/oracles. Borrarlo es una limpieza de 5 archivos; hacerla
-    // cuando se confirme que el cliente no lo quiere como copy editable.
     reason: v.string(),
   }).index("by_key", ["key"]),
+
+  // Planes de suscripción: precio, mensajes por día y beneficios de cada uno, editables desde
+  // /admin. Cada plan tiene su propio plan en Reveniu (`reveniuPlanId`), porque la URL de
+  // retorno tras pagar vive allá. Reveniu guarda el monto en cada suscripción: cambiar
+  // `priceClp` afecta solo a las suscripciones nuevas.
+  plans: defineTable({
+    slug: v.string(),
+    name: v.string(),
+    priceClp: v.number(),
+    dailyLimit: v.number(),
+    bullets: v.array(v.string()),
+    published: v.boolean(),
+    order: v.number(),
+    reveniuPlanId: v.optional(v.number()),
+    updatedAt: v.number(),
+  }).index("by_slug", ["slug"]),
 
   // Perfiles de astrólogos, gestionables desde el admin. El chat usa `system`;
   // la web usa name/specialty/bio/photoUrl. `slug` es lo que guarda conversations.oracle.

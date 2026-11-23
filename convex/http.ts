@@ -12,20 +12,20 @@ import {
   checkout, subscription, subscriptionAction, subscriptionDelete, reveniuWebhook,
 } from "./webapi";
 import {
-  getConfig, setConfig, listOracles, upsertOracle, publishOracle, deleteOracle,
+  getConfig, listPlansAdmin, upsertPlanAdmin, listOracles, upsertOracle, publishOracle, deleteOracle,
   listUsersAdmin, userAction, userDelete, churnReport,
   getContent, setContent, uploadImage,
 } from "./admin";
 import { register, login, accountPhone } from "./authapi";
 import { resetRequest, resetConfirm } from "./reset";
-import { publicOracles, publicContent } from "./publicapi";
-import { DAILY_LIMIT } from "./quota";
+import { publicOracles, publicContent, publicPlans } from "./publicapi";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
-const CONSENT_VERSION = "2026-07-17";
+// Igual a la VERSION de lib/legal.tsx: la versión de los documentos que se aceptan con «Acepto».
+const CONSENT_VERSION = "2026-11-22";
 
-const WELCOME = `Hola. Soy un oráculo: conversamos en privado sobre lo que traes hoy, mirándolo a través de la astrología simbólica.
+const WELCOME = `Hola. Soy Luna, la guía digital de Silente: conversamos en privado sobre lo que traes hoy, mirándolo a través de la astrología simbólica.
 
 Antes de empezar: nuestras conversaciones se guardan para darte continuidad, y se procesan con un modelo de IA (incluida transferencia a servidores en EE.UU.). Puedes pedir borrar todo tu historial cuando quieras.
 
@@ -35,7 +35,7 @@ const NEED_CONSENT = `Para conversar necesito antes tu consentimiento. Te lo cue
 
 // Le dice desde qué número escribe: el caso más común de quien ya pagó y llega acá es que
 // registró otro número (o lo escribió mal) en su cuenta, y sin ese dato no lo descubre.
-const needSubscription = (chatId: number) => `Para conversar con el oráculo necesitas una suscripción activa.
+const needSubscription = (chatId: number) => `Para conversar con Luna necesitas una suscripción activa en Silente.
 
 Estás escribiendo desde ${formatearTelefono(chatId)}.
 
@@ -58,7 +58,8 @@ const ok = () => new Response(null, { status: 200 });
 // secretos en el prompt más allá de la persona, y el peor caso (jailbreak) lo acota la cuota.
 const MAX_LEN = 2000;
 const TOO_LONG = `Ese mensaje es muy largo para una lectura. Resúmelo en menos de ${MAX_LEN} caracteres y te leo.`;
-const NO_QUOTA = `Llegaste a tus ${DAILY_LIMIT} consultas de hoy. Mañana seguimos — a veces conviene dejar que lo hablado repose.`;
+const noQuota = (limit: number) =>
+  `Llegaste a tus ${limit} mensajes de hoy. Mañana seguimos — a veces conviene dejar que lo hablado repose.`;
 
 // El corazón del bot. Recibe un mensaje ya normalizado: el webhook de WhatsApp solo aporta
 // el parseo de su formato, así que nada de acá abajo sabe de la API de Meta.
@@ -158,9 +159,10 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
     return ok();
   }
 
-  // Cuota diaria: solo las consultas al oráculo la gastan (comandos y onboarding no).
-  if (!(await ctx.runMutation(internal.messages.consumeQuota, { chatId }))) {
-    await send(chatId, NO_QUOTA);
+  // Cuota diaria del plan: solo los mensajes a Luna la gastan (comandos y onboarding no).
+  const cuota = await ctx.runMutation(internal.messages.consumeQuota, { chatId });
+  if (!cuota.ok) {
+    await send(chatId, noQuota(cuota.limit));
     return ok();
   }
 
@@ -222,7 +224,8 @@ http.route({ path: "/api/subscription/action", method: "POST", handler: subscrip
 http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
 http.route({ path: "/reveniu", method: "POST", handler: reveniuWebhook });
 http.route({ path: "/api/admin/config", method: "POST", handler: getConfig });
-http.route({ path: "/api/admin/config/set", method: "POST", handler: setConfig });
+http.route({ path: "/api/admin/plans", method: "POST", handler: listPlansAdmin });
+http.route({ path: "/api/admin/plans/upsert", method: "POST", handler: upsertPlanAdmin });
 http.route({ path: "/api/admin/oracles", method: "POST", handler: listOracles });
 http.route({ path: "/api/admin/oracles/upsert", method: "POST", handler: upsertOracle });
 http.route({ path: "/api/admin/oracles/publish", method: "POST", handler: publishOracle });
@@ -241,4 +244,5 @@ http.route({ path: "/api/auth/reset/confirm", method: "POST", handler: resetConf
 http.route({ path: "/api/account/phone", method: "POST", handler: accountPhone });
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
 http.route({ path: "/api/public/content", method: "GET", handler: publicContent });
+http.route({ path: "/api/public/plans", method: "GET", handler: publicPlans });
 export default http;

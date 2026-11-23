@@ -1,8 +1,6 @@
 // Check de la cuota diaria. Correr: npx tsx quota.check.ts
 import assert from "node:assert";
-import { DAILY_LIMIT, chileDay, usedToday } from "./convex/quota.ts";
-
-assert.strictEqual(DAILY_LIMIT, 10);
+import { chileDay, usedToday } from "./convex/quota.ts";
 
 // Contador de otro día (o ausente) = 0 usadas: la cuota se renueva sola, sin cron.
 assert.strictEqual(usedToday("2026-08-24", undefined, undefined), 0);

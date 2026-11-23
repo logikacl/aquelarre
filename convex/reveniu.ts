@@ -15,15 +15,16 @@ function headers() {
   };
 }
 
-async function post(path: string, body?: unknown): Promise<any> {
+async function call(method: "POST" | "PATCH", path: string, body?: unknown): Promise<any> {
   const res = await fetch(`${api()}${path}`, {
-    method: "POST",
+    method,
     headers: headers(),
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
-  if (!res.ok) throw new Error(`Reveniu POST ${path} ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new Error(`Reveniu ${method} ${path} ${res.status}: ${await res.text()}`);
   return res.status === 204 ? null : res.json();
 }
+const post = (path: string, body?: unknown) => call("POST", path, body);
 
 // Crea la suscripción y devuelve a dónde mandar al usuario. `externalId` = _id de nuestra
 // suscripción; Reveniu lo devuelve en todos los webhooks de esa suscripción.
@@ -32,9 +33,10 @@ export async function createSubscription(opts: {
   name: string;
   amountClp: number;
   externalId: string;
+  planId: number;
 }): Promise<{ id: number; completionUrl: string; securityToken: string }> {
   const d = await post("/api/v1/subscriptions/", {
-    plan_id: Number(process.env.REVENIU_PLAN_ID),
+    plan_id: opts.planId,
     external_id: opts.externalId,
     field_values: {
       email: opts.email,
@@ -50,3 +52,28 @@ export const disableRenew = (id: number) => post(`/api/v1/subscriptions/${id}/di
 
 // Baja inmediata.
 export const disable = (id: number) => post(`/api/v1/subscriptions/${id}/disable/`);
+
+// Un plan nuestro = un plan de Reveniu de monto abierto (el monto lo manda cada suscripción,
+// así el precio vive en Convex). Mismo cuerpo que scripts/reveniu-plan.sh. frequency 3 =
+// mensual; cicles 1 + auto_renew = indefinida. La URL de retorno vive en el plan.
+// Las rutas exigen barra final (sin ella, 301).
+export async function createPlan(opts: { title: string; priceClp: number; min: number; max: number }): Promise<number> {
+  const base = process.env.WEB_BASE_URL;
+  const d = await post("/api/v1/plans/", {
+    frequency: 3,
+    cicles: 1,
+    title: opts.title,
+    description: "Conversación privada con Luna por WhatsApp",
+    price: opts.priceClp,
+    is_custom_amount: true,
+    custom_amount_min: opts.min,
+    custom_amount_max: opts.max,
+    auto_renew: true,
+    redirect_to: `${base}/suscripcion/listo`,
+    redirect_to_failure: `${base}/checkout?error=pago`,
+  });
+  return d.id;
+}
+
+// El título del plan es lo que Reveniu muestra al cobrar. PATCH acepta cambios parciales.
+export const updatePlanTitle = (id: number, title: string) => call("PATCH", `/api/v1/plans/${id}/`, { title });

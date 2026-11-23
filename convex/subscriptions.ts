@@ -101,23 +101,25 @@ export const backfillEvents = internalMutation({
   },
 });
 
-// Crea (o resetea a pending) la suscripción de un email y le da un token de enlace nuevo.
+// Crea (o resetea a pending) la suscripción de un email, con el plan elegido, y le da un
+// token de enlace nuevo.
 export const createPending = internalMutation({
-  args: { email: v.string() },
-  handler: async (ctx, { email }) => {
+  args: { email: v.string(), plan: v.string() },
+  handler: async (ctx, { email, plan }) => {
     const existing = await ctx.db
       .query("subscriptions")
       .withIndex("by_email", (q) => q.eq("email", email))
       .unique();
     const linkToken = newLinkToken();
     if (existing) {
-      await ctx.db.patch(existing._id, { status: "pending", linkToken, updatedAt: now() });
+      await ctx.db.patch(existing._id, { status: "pending", plan, linkToken, updatedAt: now() });
       if (existing.status !== "pending") await logEvent(ctx, email, "pending");
       return { id: existing._id, linkToken };
     }
     const id = await ctx.db.insert("subscriptions", {
       email,
       status: "pending",
+      plan,
       linkToken,
       createdAt: now(),
       updatedAt: now(),

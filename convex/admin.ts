@@ -2,6 +2,8 @@ import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { applySubscriptionAction, suppressSubscription } from "./webapi";
 import { churnMensual, mesDe } from "./churn";
+import { validarPlan, MONTO_MIN, MONTO_MAX } from "./planRules";
+import { createPlan, updatePlanTitle } from "./reveniu";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
@@ -13,23 +15,57 @@ function checkAdmin(req: Request): Response | null {
   return null;
 }
 
-// POST /api/admin/config          → { priceClp, reason }   (leer)
-// POST /api/admin/config/set { priceClp?, reason? }         (escribir)
+// POST /api/admin/config → { priceClp } del plan por defecto.
+// ponytail: compatibilidad con el front publicado antes de los planes (lee esto en /admin).
+// Borrar junto con su ruta en http.ts cuando main tenga el admin de planes.
 export const getConfig = httpAction(async (ctx, req) => {
   const bad = checkAdmin(req);
   if (bad) return bad;
-  return json(await ctx.runQuery(internal.settings.getSubscriptionConfig, {}));
+  const plan = await ctx.runQuery(internal.plans.forSlug, {});
+  return json({ priceClp: plan?.priceClp ?? 0, reason: plan?.name ?? "" });
 });
 
-export const setConfig = httpAction(async (ctx, req) => {
+// POST /api/admin/plans → todos los planes (con el de respaldo si la tabla está vacía)
+export const listPlansAdmin = httpAction(async (ctx, req) => {
   const bad = checkAdmin(req);
   if (bad) return bad;
-  const { priceClp, reason } = await req.json();
-  if (priceClp !== undefined && (typeof priceClp !== "number" || priceClp <= 0)) {
-    return json({ error: "priceClp inválido" }, 400);
+  return json(await ctx.runQuery(internal.plans.list, {}));
+});
+
+// POST /api/admin/plans/upsert { slug, name, priceClp, dailyLimit, bullets, published, order }
+// Crea el plan en Reveniu si todavía no tiene uno, y le actualiza el título allá si cambió
+// el nombre (es lo que Reveniu muestra al cobrar). Reveniu primero, Convex después: si
+// Reveniu falla no queda un plan a la venta sin dónde cobrarlo.
+export const upsertPlanAdmin = httpAction(async (ctx, req) => {
+  const bad = checkAdmin(req);
+  if (bad) return bad;
+  const b = await req.json().catch(() => null);
+  const plan = {
+    slug: String(b?.slug ?? "").trim(),
+    name: String(b?.name ?? "").trim(),
+    priceClp: Number(b?.priceClp),
+    dailyLimit: Number(b?.dailyLimit),
+    bullets: Array.isArray(b?.bullets) ? b.bullets.map(String).map((x: string) => x.trim()).filter(Boolean) : [],
+    published: Boolean(b?.published),
+    order: Number(b?.order ?? 0) || 0,
+  };
+  const error = validarPlan(plan);
+  if (error) return json({ error }, 400);
+
+  const actual = (await ctx.runQuery(internal.plans.list, {})).find((p) => p.slug === plan.slug);
+  const titulo = `Silente · ${plan.name}`;
+  let reveniuPlanId = actual?.reveniuPlanId;
+  try {
+    if (!reveniuPlanId) {
+      reveniuPlanId = await createPlan({ title: titulo, priceClp: plan.priceClp, min: MONTO_MIN, max: MONTO_MAX });
+    } else if (actual && actual.name !== plan.name) {
+      await updatePlanTitle(reveniuPlanId, titulo);
+    }
+  } catch (e) {
+    return json({ error: `Reveniu: ${String(e).slice(0, 300)}` }, 502);
   }
-  await ctx.runMutation(internal.settings.setSubscriptionConfig, { priceClp, reason });
-  return json(await ctx.runQuery(internal.settings.getSubscriptionConfig, {}));
+  await ctx.runMutation(internal.plans.upsert, { ...plan, reveniuPlanId });
+  return json({ ok: true, reveniuPlanId });
 });
 
 // POST /api/admin/oracles                         → lista completa

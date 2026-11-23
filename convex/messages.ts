@@ -1,7 +1,9 @@
 import { internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { DEFAULT_ORACLE } from "./personas";
-import { DAILY_LIMIT, chileDay, usedToday } from "./quota";
+import { chileDay, usedToday } from "./quota";
+import { planDeSuscripcion } from "./plans";
+import { subscriptionAllows } from "./subscription";
 
 // ponytail: ventana fija de 20 turnos. Cambiar a presupuesto de tokens si el contexto se desborda.
 const HISTORY_LIMIT = 20;
@@ -101,16 +103,24 @@ export const finishOnboarding = internalMutation({
   },
 });
 
-// Gasta una consulta del día. Devuelve false si ya se acabaron (el chat responde y corta).
+// Gasta un mensaje del día. El límite es el del plan de la suscripción enlazada a este chat
+// (el gate ya comprobó que hay una habilitada). Devuelve { ok: false } si se acabaron, con el
+// límite para que el bot lo diga.
 export const consumeQuota = internalMutation({
   args: { chatId: v.number() },
   handler: async (ctx, { chatId }) => {
     const convo = await ensure(ctx, chatId);
+    const subs = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_chat", (q) => q.eq("chatId", chatId))
+      .collect();
+    const sub = subs.find((s) => subscriptionAllows(s));
+    const { dailyLimit: limit } = await planDeSuscripcion(ctx, sub?.plan);
     const day = chileDay();
     const used = usedToday(day, convo.quotaDay, convo.quotaCount);
-    if (used >= DAILY_LIMIT) return false;
+    if (used >= limit) return { ok: false, limit };
     await ctx.db.patch(convo._id, { quotaDay: day, quotaCount: used + 1 });
-    return true;
+    return { ok: true, limit };
   },
 });
 

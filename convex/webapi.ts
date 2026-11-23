@@ -19,13 +19,14 @@ export function yaTieneSuscripcion(sub: { status: string } | null | undefined): 
   return sub?.status === "active" || sub?.status === "ending";
 }
 
-// POST /api/checkout { email, name } → { completionUrl, securityToken, linkToken }
-//                                    | { alreadyActive: true }
-// Crea la suscripción pendiente y la suscripción en Reveniu (precio desde settings).
+// POST /api/checkout { email, name, plan? } → { completionUrl, securityToken, linkToken }
+//                                           | { alreadyActive: true }
+// Crea la suscripción pendiente y la suscripción en Reveniu, con el precio y el plan de
+// Reveniu del plan elegido (o el primero publicado si el slug no existe o está oculto).
 export const checkout = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
-  const { email, name } = await req.json();
+  const { email, name, plan: slug } = await req.json();
   if (typeof email !== "string" || !email.includes("@")) return json({ error: "email inválido" }, 400);
 
   const actual = await ctx.runQuery(internal.subscriptions.getByEmail, { email });
@@ -38,19 +39,23 @@ export const checkout = httpAction(async (ctx, req) => {
   // `disable/` es idempotente, y si el id ya no existe tampoco puede frenar un checkout.
   if (actual?.reveniuId) await disable(actual.reveniuId).catch(() => {});
 
-  const config = await ctx.runQuery(internal.settings.getSubscriptionConfig, {});
-  const { id, linkToken } = await ctx.runMutation(internal.subscriptions.createPending, { email });
+  const plan = await ctx.runQuery(internal.plans.forSlug, { slug: typeof slug === "string" ? slug : undefined });
+  if (!plan) return json({ error: "sin planes a la venta" }, 409);
+  if (!plan.reveniuPlanId) return json({ error: "el plan no tiene plan de Reveniu" }, 500);
+
+  const { id, linkToken } = await ctx.runMutation(internal.subscriptions.createPending, { email, plan: plan.slug });
   const sub = await createSubscription({
     email,
     name: typeof name === "string" && name ? name : email,
-    amountClp: config.priceClp,
+    amountClp: plan.priceClp,
     externalId: id,
+    planId: plan.reveniuPlanId,
   });
   await ctx.runMutation(internal.subscriptions.setReveniuId, { subId: id, reveniuId: sub.id });
   return json({ completionUrl: sub.completionUrl, securityToken: sub.securityToken, linkToken });
 });
 
-// POST /api/subscription { email } → { status, chatId, phone }
+// POST /api/subscription { email } → { status, chatId, phone, plan: { slug, name, dailyLimit } | null }
 export const subscription = httpAction(async (ctx, req) => {
   const bad = checkSecret(req);
   if (bad) return bad;
@@ -60,8 +65,14 @@ export const subscription = httpAction(async (ctx, req) => {
     ctx.runQuery(internal.users.getByEmail, { email }),
   ]);
   const phone = user?.phone ?? null;
-  if (!sub) return json({ status: "none", chatId: null, phone });
-  return json({ status: sub.status, chatId: sub.chatId ?? null, phone });
+  if (!sub) return json({ status: "none", chatId: null, phone, plan: null });
+  const plan = await ctx.runQuery(internal.plans.ofSubscription, { slug: sub.plan });
+  return json({
+    status: sub.status,
+    chatId: sub.chatId ?? null,
+    phone,
+    plan: { slug: plan.slug, name: plan.name, dailyLimit: plan.dailyLimit },
+  });
 });
 
 // `op` como string y no la función misma para que webapi.check.ts pueda verificar el mapa
