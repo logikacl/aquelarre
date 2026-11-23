@@ -11,7 +11,7 @@
 // rechaza el envío *después* (verificado el 2026-09-16). Este fetch no ve error y no queda
 // nada en nuestros logs. Si "no me llega el correo", mirar los eventos de Brevo:
 //   GET https://api.brevo.com/v3/smtp/statistics/events?tags=recuperar-clave&event=error
-const REMITENTE = "Astros x Chat";
+const REMITENTE = "Silente";
 
 export async function sendEmail(opts: { to: string; subject: string; html: string; text: string; tag: string }) {
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {

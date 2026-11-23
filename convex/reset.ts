@@ -97,19 +97,19 @@ export const resetRequest = httpAction(async (ctx, req) => {
     try {
       await sendEmail({
         to: correo,
-        subject: "Recupera tu contraseña · Astros x Chat",
+        subject: "Recupera tu contraseña · Silente",
         tag: "recuperar-clave",
         text: `Hola,
 
-Recibimos una solicitud para cambiar la contraseña de tu cuenta en Astros x Chat.
+Recibimos una solicitud para cambiar la contraseña de tu cuenta en Silente.
 
 Crea una nueva en este enlace. Vence en una hora y sirve una sola vez:
 ${link}
 
 Si no fuiste tú, ignora este correo: tu contraseña sigue siendo la misma.`,
         html: `<p>Hola,</p>
-<p>Recibimos una solicitud para cambiar la contraseña de tu cuenta en <strong>Astros x Chat</strong>.</p>
-<p><a href="${link}" style="display:inline-block;padding:12px 24px;background:#c2652a;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold">Crear contraseña nueva</a></p>
+<p>Recibimos una solicitud para cambiar la contraseña de tu cuenta en <strong>Silente</strong>.</p>
+<p><a href="${link}" style="display:inline-block;padding:12px 24px;background:#D5AA4B;color:#121B26;border-radius:8px;text-decoration:none;font-weight:bold">Crear contraseña nueva</a></p>
 <p style="color:#666;font-size:13px">El enlace vence en una hora y sirve una sola vez.</p>
 <p style="color:#666;font-size:13px">Si no fuiste tú, ignora este correo: tu contraseña sigue siendo la misma.</p>`,
       });
