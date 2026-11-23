@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Estado actual
 
-Pre-código. El repo contiene solo `Definiciones_Proyecto_Chat_IA_Astrologos.md` (la spec viva) y `.env` (`FIREWORKS_API`). No hay scaffold, ni comandos de build/test/lint todavía. El siguiente paso es crear el proyecto Convex y el scaffold del motor conversacional. La spec es la fuente de verdad; al construir, actualízala.
+**Ya no es pre-código.** Servicio en marcha bajo la marca **Silente**: front Next.js 15 (Vercel, construye `main`) + backend Convex (deployment `dev` `utmost-starfish-607`, usar `npx convex dev --once`, nunca `deploy`) + pagos Reveniu + chat por WhatsApp. El estado vivo está en `docs/ESTADO.md` (fuera de git) y los planes en `docs/superpowers/plans/`. Checks: `for f in *.check.ts; do npx tsx "$f"; done`. Diseño y copy: los define Esteban (marketing), referencia `github.com/ElCopyPaste/silente-web`. Precio, cuota y beneficios viven en la tabla `plans` (editable en `/admin`), no en código.
+
+Lo de abajo es la intención original de la Fase 1; el canal cambió de Telegram a WhatsApp y el paywall ya existe.
 
 ## Qué se está construyendo
 
