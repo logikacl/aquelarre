@@ -148,6 +148,12 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_expires", ["expiresAt"]),
 
+  // Última vez que se mandó cada alerta de monitoreo (convex/monitor.ts), para no repetirla.
+  alerts: defineTable({
+    key: v.string(),
+    at: v.number(),
+  }).index("by_key", ["key"]),
+
   // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
   users: defineTable({
     email: v.string(),

@@ -47,9 +47,12 @@ export const respond = internalAction({
     });
 
     if (!res.ok) {
-      await send(chatId, "El oráculo está en silencio por ahora. Intenta de nuevo en un momento.");
       // Un 404 acá casi siempre es el modelo deprecado o sin serverless, no la clave (ver arriba).
-      throw new Error(`Fireworks ${res.status} (modelo ${body.model}): ${await res.text()}`);
+      // 402/412 = sin créditos; 429 = límite de tasa.
+      const detalle = `Fireworks ${res.status} (modelo ${body.model}): ${await res.text()}`;
+      await ctx.scheduler.runAfter(0, internal.monitor.avisar, { key: `fireworks ${res.status}`, texto: detalle });
+      await send(chatId, "El oráculo está en silencio por ahora. Intenta de nuevo en un momento.");
+      throw new Error(detalle);
     }
 
     const data = await res.json();
@@ -63,6 +66,12 @@ export const respond = internalAction({
       role: "assistant",
       content: reply,
     });
-    await send(chatId, reply);
+    try {
+      await send(chatId, reply);
+    } catch (e) {
+      // Token de Meta vencido, número bloqueado o sin método de pago: el usuario no recibe nada.
+      await ctx.scheduler.runAfter(0, internal.monitor.avisar, { key: "whatsapp envío", texto: String(e) });
+      throw e;
+    }
   },
 });
