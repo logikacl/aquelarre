@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Estado actual
 
-**Ya no es pre-código.** Servicio en marcha bajo la marca **Silente**: front Next.js 15 (Vercel, construye `main`) + backend Convex (deployment `dev` `utmost-starfish-607`, usar `npx convex dev --once`, nunca `deploy`) + pagos Reveniu + chat por WhatsApp. El estado vivo está en `docs/ESTADO.md` (fuera de git) y los planes en `docs/superpowers/plans/`. Checks: `for f in *.check.ts; do npx tsx "$f"; done`. Diseño y copy: los define Esteban (marketing), referencia `github.com/ElCopyPaste/silente-web`. Precio, cuota y beneficios viven en la tabla `plans` (editable en `/admin`), no en código.
+**En producción desde el 2026-11-25** bajo la marca **Silente** (marcha blanca a 500 CLP): front Next.js 15 (Vercel, construye `main`, `www.silente.cl`) + backend Convex + pagos Reveniu productivo + chat por WhatsApp.
+
+**Deployments Convex:**
+- **Producción = `benevolent-kookabura-983`** → publicar con **`npx convex deploy`**. Ahí apuntan Vercel (`CONVEX_SITE_URL`), el webhook de WhatsApp y la URL de eventos de Reveniu productivo.
+- **Pruebas = `utmost-starfish-607`** (tipo dev, Reveniu sandbox) → `npx convex dev --once`. Tiene los usuarios de prueba.
+- `npx convex deploy` sube `convex/` **tal como está en disco**, commiteado o no: commitear (o apartar) el trabajo a medias antes de desplegar a prod.
+- Datos y env de prod: `--prod` en `npx convex data|env|run|logs`. El estado vivo está en `docs/ESTADO.md` (fuera de git) y los planes en `docs/superpowers/plans/`. Checks: `for f in *.check.ts; do npx tsx "$f"; done`. Diseño y copy: los define Esteban (marketing), referencia `github.com/ElCopyPaste/silente-web`. Precio, cuota y beneficios viven en la tabla `plans` (editable en `/admin`), no en código.
 
 Lo de abajo es la intención original de la Fase 1; el canal cambió de Telegram a WhatsApp y el paywall ya existe.
 
