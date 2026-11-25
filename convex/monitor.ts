@@ -13,7 +13,7 @@
 //   del equipo. Acá solo se vigila que la web responda y cuánto crece la base.
 //
 // Correo a ALERT_EMAIL (env de Convex). Umbrales por env, con defaults abajo.
-import { internalAction, internalMutation, internalQuery } from "./_generated/server";
+import { httpAction, internalAction, internalMutation, internalQuery } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { sendEmail } from "./email";
@@ -101,7 +101,8 @@ async function leerWeb(): Promise<Lectura["web"]> {
   }
 }
 
-export const revisar = internalAction({
+// Lee todo y arma el texto, sin mandar nada. La usan el cron (revisar) y GET /monitor (Hermi).
+export const leer = internalAction({
   args: {},
   handler: async (ctx) => {
     const [fireworks, whatsapp, web, convex] = await Promise.all([
@@ -125,8 +126,27 @@ export const revisar = internalAction({
       "",
       "Saldo Fireworks, uso del plan Convex y Vercel: ver los paneles de cada proveedor.",
     ].join("\n");
-    console.log(`[monitor] ${texto}`);
-    await correo(`${problemas.length ? "⚠️" : "✅"} Silente: resumen diario`, texto);
-    return { problemas, lectura };
+    return { problemas, lectura, texto };
   },
+});
+
+export const revisar = internalAction({
+  args: {},
+  handler: async (ctx) => {
+    const r = await ctx.runAction(internal.monitor.leer, {});
+    console.log(`[monitor] ${r.texto}`);
+    await correo(`${r.problemas.length ? "⚠️" : "✅"} Silente: resumen diario`, r.texto);
+    return r;
+  },
+});
+
+// GET /monitor con "Authorization: Bearer <MONITOR_TOKEN>": lo consulta Hermi (InstaBox, el
+// proxy inyecta el token). Solo conteos y consumo, ningún dato de usuarios. Token propio y no
+// ADMIN_API_SECRET, que abre todo el admin.
+export const monitorHttp = httpAction(async (ctx, req) => {
+  const token = process.env.MONITOR_TOKEN;
+  if (!token || req.headers.get("Authorization") !== `Bearer ${token}`)
+    return new Response("no autorizado", { status: 401 });
+  const r = await ctx.runAction(internal.monitor.leer, {});
+  return new Response(JSON.stringify(r), { headers: { "Content-Type": "application/json" } });
 });
