@@ -40,7 +40,7 @@ const needSubscription = (chatId: number) => `Para conversar con Luna necesitas 
 Estás escribiendo desde ${formatearTelefono(chatId)}.
 
 • Si ya pagaste: entra a ${process.env.WEB_BASE_URL}/cuenta y revisa que ese sea el número de WhatsApp de tu cuenta. Apenas lo corrijas, vuelve a escribirme.
-• Si aún no te suscribes: ${process.env.WEB_BASE_URL}`;
+• Si aún no te suscribes: ${process.env.WEB_BASE_URL}/#elige-tu-plan`;
 
 const askBirth = (nombre: string) =>
   `Gracias, ${nombre}. ✨ Para leer tu carta necesito saber dónde y cuándo naciste.
@@ -84,6 +84,19 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
       // Deep-link desde la web tras pagar: amarra este chatId a la suscripción.
       await ctx.runMutation(internal.subscriptions.linkChat, { linkToken: token, chatId });
     }
+  }
+
+  // Puerta de suscripción, antes que el consentimiento: el botón del home trae a WhatsApp a
+  // cualquiera, y a quien no está suscrito le sirve el link a los planes, no el aviso de datos.
+  // Solo compara el número contra las cuentas; nada llega al LLM. Si el chat todavía no está
+  // enlazado, se enlaza acá por el número registrado en la cuenta.
+  const activeSub = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
+  if (!activeSub) {
+    await send(chatId, needSubscription(chatId));
+    return ok();
+  }
+
+  if (esStart || !convo) {
     await pedirConsentimiento(chatId, WELCOME);
     return ok();
   }
@@ -93,22 +106,13 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
   // explícito de Ley 21.719 y no se aceptan por más que sea tentador facilitarlo.
   if (esConsentimiento(text)) {
     await ctx.runMutation(internal.messages.recordConsent, { chatId, version: CONSENT_VERSION });
-    const active = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
-    await send(chatId, active ? askBirth(nombre) : needSubscription(chatId));
+    await send(chatId, askBirth(nombre));
     return ok();
   }
 
   // Puerta de consentimiento (Ley 21.719): nada llega al oráculo sin consentimiento previo.
   if (!convo.consented) {
     await pedirConsentimiento(chatId, `${NEED_CONSENT}\n\n${WELCOME}`);
-    return ok();
-  }
-
-  // Puerta de suscripción: nada de onboarding ni oráculo sin suscripción activa. Si el chat
-  // todavía no está enlazado, se enlaza acá por el número registrado en la cuenta.
-  const activeSub = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
-  if (!activeSub) {
-    await send(chatId, needSubscription(chatId));
     return ok();
   }
 
