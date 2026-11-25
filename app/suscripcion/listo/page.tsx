@@ -53,13 +53,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ o
         </>
       ) : (
         <>
-          {/* Reveniu cobra unos minutos después de inscribir la tarjeta, así que acá casi
-              siempre se llega antes de la activación. Un meta refresh evita que el cliente
-              se quede mirando esta pantalla sin saber que tiene que recargar. */}
+          {/* Al recargar, el backend consulta a Reveniu y activa apenas la tarjeta está inscrita. Si Reveniu tarda o el
+              webhook no llega, el meta refresh vuelve a preguntar sin que el cliente
+              tenga que recargar. */}
           <meta httpEquiv="refresh" content="5" />
-          <h1 className="text-3xl font-headline font-bold mb-4">Estamos confirmando tu pago…</h1>
+          <h1 className="text-3xl font-headline font-bold mb-4">Estamos confirmando tu inscripción…</h1>
           <p className="text-on-surface-variant">
-            Puede tardar unos minutos. Esta página se actualiza sola; también puedes verlo en tu{" "}
+            Suele tardar unos segundos. Esta página se actualiza sola; también puedes verlo en tu{" "}
             <a href="/cuenta" className="underline text-primary">
               cuenta
             </a>

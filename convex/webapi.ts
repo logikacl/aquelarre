@@ -66,6 +66,18 @@ export const subscription = httpAction(async (ctx, req) => {
   ]);
   const phone = user?.phone ?? null;
   if (!sub) return json({ status: "none", chatId: null, phone, plan: null });
+  // Activación al volver de Webpay, sin esperar el webhook: Reveniu cobra en lotes cada
+  // 10 min, pero con la tarjeta inscrita la suscripción ya está en "6" y eso equivale a
+  // subscription_activated. Solo mientras está pending; si Reveniu falla, sigue pending y
+  // el webhook o la próxima recarga (la página se refresca cada 5 s) lo resuelven.
+  if (sub.status === "pending" && sub.reveniuId) {
+    const s = await getSubscription(sub.reveniuId).catch(() => null);
+    const event = s && eventoDesdeEstado(s);
+    if (event) {
+      await ctx.runMutation(internal.subscriptions.applyReveniuEvent, { event, reveniuId: sub.reveniuId });
+      sub.status = "active";
+    }
+  }
   const plan = await ctx.runQuery(internal.plans.ofSubscription, { slug: sub.plan });
   return json({
     status: sub.status,
