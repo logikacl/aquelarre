@@ -154,6 +154,13 @@ export default defineSchema({
     at: v.number(),
   }).index("by_key", ["key"]),
 
+  // Saldo prepago registrado a mano (Fireworks no lo expone por API). Ver convex/monitor.ts.
+  saldos: defineTable({
+    proveedor: v.string(),
+    usd: v.number(),
+    at: v.number(),
+  }).index("by_proveedor", ["proveedor"]),
+
   // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
   users: defineTable({
     email: v.string(),

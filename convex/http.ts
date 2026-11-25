@@ -19,7 +19,7 @@ import {
 import { register, login, accountPhone } from "./authapi";
 import { resetRequest, resetConfirm } from "./reset";
 import { publicOracles, publicContent, publicPlans } from "./publicapi";
-import { monitorHttp } from "./monitor";
+import { monitorHttp, saldoHttp } from "./monitor";
 
 const titulo = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -229,6 +229,7 @@ http.route({ path: "/api/subscription/action", method: "POST", handler: subscrip
 http.route({ path: "/api/subscription/delete", method: "POST", handler: subscriptionDelete });
 http.route({ path: "/reveniu", method: "POST", handler: reveniuWebhook });
 http.route({ path: "/monitor", method: "GET", handler: monitorHttp });
+http.route({ path: "/monitor/saldo", method: "POST", handler: saldoHttp });
 http.route({ path: "/api/admin/plans", method: "POST", handler: listPlansAdmin });
 http.route({ path: "/api/admin/plans/upsert", method: "POST", handler: upsertPlanAdmin });
 http.route({ path: "/api/admin/oracles", method: "POST", handler: listOracles });

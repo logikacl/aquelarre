@@ -17,7 +17,7 @@ import { httpAction, internalAction, internalMutation, internalQuery } from "./_
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { sendEmail } from "./email";
-import { debeAvisar, evaluar, sumarFireworks, type Lectura } from "./monitorRules";
+import { costoFireworks, debeAvisar, DIAS_STOCK, evaluar, parsePrecio, proyectar, type Lectura } from "./monitorRules";
 
 const num = (k: string, d: number) => Number(process.env[k] ?? d);
 
@@ -59,18 +59,54 @@ export const conteos = internalQuery({
 
 const err = (e: unknown) => ({ error: e instanceof Error ? e.message : String(e) });
 
-async function leerFireworks(): Promise<Lectura["fireworks"]> {
+// Saldo prepago de Fireworks: su API no lo expone, así que Ignacio lo dicta (a Hermi, tras cada
+// carga) y de ahí se descuenta el consumo calculado. Una fila por proveedor.
+export const getSaldo = internalQuery({
+  args: {},
+  handler: (ctx) => ctx.db.query("saldos").withIndex("by_proveedor", (q) => q.eq("proveedor", "fireworks")).unique(),
+});
+
+export const setSaldo = internalMutation({
+  args: { usd: v.number() },
+  handler: async (ctx, { usd }) => {
+    const prev = await ctx.db.query("saldos").withIndex("by_proveedor", (q) => q.eq("proveedor", "fireworks")).unique();
+    if (prev) await ctx.db.patch(prev._id, { usd, at: Date.now() });
+    else await ctx.db.insert("saldos", { proveedor: "fireworks", usd, at: Date.now() });
+  },
+});
+
+const DIA = 24 * 3600 * 1000;
+
+async function leerFireworks(saldo: { usd: number; at: number } | null): Promise<Lectura["fireworks"]> {
   try {
     const h = { Authorization: `Bearer ${process.env.FIREWORKS_API}` };
     const acc = await fetch("https://api.fireworks.ai/v1/accounts", { headers: h }).then((r) => r.json());
     const id = acc.accounts?.[0]?.name; // "accounts/<id>"
     if (!id) return { error: "sin cuenta" };
-    const fin = new Date();
-    const ini = new Date(fin.getTime() - 24 * 3600 * 1000);
-    const q = `startTime=${ini.toISOString()}&endTime=${fin.toISOString()}`;
-    const r = await fetch(`https://api.fireworks.ai/v1/${id}/billingUsage?${q}`, { headers: h });
-    if (!r.ok) return { error: `HTTP ${r.status}` };
-    return sumarFireworks(await r.json());
+    const precio = parsePrecio(process.env.FIREWORKS_PRECIO);
+    const fin = Date.now();
+    const uso = async (desde: number) => {
+      const q = `startTime=${new Date(desde).toISOString()}&endTime=${new Date(fin).toISOString()}`;
+      const r = await fetch(`https://api.fireworks.ai/v1/${id}/billingUsage?${q}`, { headers: h });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return costoFireworks(await r.json(), precio);
+    };
+    // ponytail: tres consultas (24 h, semana, desde el saldo) en vez de partir una sola; son
+    // baratas y corren una vez al día o cuando Hermi pregunta.
+    const [dia, semana, desdeSaldo] = await Promise.all([
+      uso(fin - DIA),
+      uso(fin - 7 * DIA),
+      saldo ? uso(saldo.at) : null,
+    ]);
+    const estimado = saldo && desdeSaldo ? saldo.usd - desdeSaldo.usd : null;
+    return {
+      tokens: dia.tokens,
+      usd: dia.usd,
+      porModelo: dia.porModelo,
+      ...proyectar(semana.porDia, estimado),
+      saldo: estimado,
+      saldoAl: saldo ? new Date(saldo.at).toISOString() : null,
+    };
   } catch (e) {
     return err(e);
   }
@@ -105,26 +141,34 @@ async function leerWeb(): Promise<Lectura["web"]> {
 export const leer = internalAction({
   args: {},
   handler: async (ctx) => {
+    const saldo = await ctx.runQuery(internal.monitor.getSaldo, {});
     const [fireworks, whatsapp, web, convex] = await Promise.all([
-      leerFireworks(),
+      leerFireworks(saldo),
       leerWhatsApp(),
       leerWeb(),
       ctx.runQuery(internal.monitor.conteos, {}),
     ]);
     const lectura: Lectura = { fireworks, whatsapp, web, convex };
     const problemas = evaluar(lectura, {
-      usdDia: num("MONITOR_USD_DIA", 3),
       tokensDia: num("MONITOR_TOKENS_DIA", 2_000_000),
       mensajes: num("MONITOR_MENSAJES", 200_000),
     });
     const texto = [
       problemas.length ? `PROBLEMAS:\n- ${problemas.join("\n- ")}\n` : "Todo en orden.\n",
-      `Fireworks (24 h): ${JSON.stringify(fireworks)}`,
+      "error" in fireworks
+        ? `Fireworks: ${fireworks.error}`
+        : [
+            `Fireworks 24 h: ${fireworks.tokens} tokens, US$${fireworks.usd.toFixed(3)} ${JSON.stringify(fireworks.porModelo)}`,
+            `Fireworks proyección: promedio US$${fireworks.promedioDia.toFixed(3)}/día, peor día US$${fireworks.picoDia.toFixed(3)}, ` +
+              `30 días ~US$${fireworks.proyeccion30.toFixed(2)}`,
+            `Fireworks saldo: ${fireworks.saldo === null ? "no registrado" : `~US$${fireworks.saldo.toFixed(2)} (registrado ${fireworks.saldoAl}), cubre ${fireworks.diasCobertura?.toFixed(1)} días`}; ` +
+              `stock de seguridad (${DIAS_STOCK} días) US$${fireworks.stock.toFixed(2)}`,
+          ].join("\n"),
       `WhatsApp: ${JSON.stringify(whatsapp)}`,
       `Web: ${JSON.stringify(web)}`,
       `Convex: ${JSON.stringify(convex)}`,
       "",
-      "Saldo Fireworks, uso del plan Convex y Vercel: ver los paneles de cada proveedor.",
+      "El saldo de Fireworks es estimado (último registrado − consumo calculado); el real está en su panel.",
     ].join("\n");
     return { problemas, lectura, texto };
   },
@@ -149,4 +193,16 @@ export const monitorHttp = httpAction(async (ctx, req) => {
     return new Response("no autorizado", { status: 401 });
   const r = await ctx.runAction(internal.monitor.leer, {});
   return new Response(JSON.stringify(r), { headers: { "Content-Type": "application/json" } });
+});
+
+// POST /monitor/saldo {"usd": 25}: registra el saldo de Fireworks que Ignacio ve en su panel.
+export const saldoHttp = httpAction(async (ctx, req) => {
+  const token = process.env.MONITOR_TOKEN;
+  if (!token || req.headers.get("Authorization") !== `Bearer ${token}`)
+    return new Response("no autorizado", { status: 401 });
+  const usd = Number((await req.json().catch(() => ({})))?.usd);
+  if (!Number.isFinite(usd) || usd < 0 || usd > 100_000)
+    return new Response(JSON.stringify({ error: "usd debe ser un número entre 0 y 100000" }), { status: 400 });
+  await ctx.runMutation(internal.monitor.setSaldo, { usd });
+  return new Response(JSON.stringify({ ok: true, usd }), { headers: { "Content-Type": "application/json" } });
 });
