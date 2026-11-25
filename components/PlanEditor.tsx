@@ -68,7 +68,7 @@ export default function PlanEditor({ plan, nuevo = false }: { plan?: AdminPlan; 
         </label>
         <label className="flex flex-col gap-1 text-sm">
           Precio mensual (CLP)
-          <input className={campo} type="number" min={1000} max={200000} value={p.priceClp} onChange={(e) => set("priceClp", Number(e.target.value))} />
+          <input className={campo} type="number" min={500} max={200000} value={p.priceClp} onChange={(e) => set("priceClp", Number(e.target.value))} />
         </label>
         <label className="flex flex-col gap-1 text-sm">
           Mensajes por día

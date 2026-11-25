@@ -31,7 +31,7 @@ curl -sS -X POST "${REVENIU_API_URL}/api/v1/plans/" \
   "description": "Conversación privada con Luna por WhatsApp",
   "price": ${PLAN_PRICE},
   "is_custom_amount": true,
-  "custom_amount_min": 1000,
+  "custom_amount_min": 500,
   "custom_amount_max": 200000,
   "auto_renew": true,
   "redirect_to": "${WEB_BASE_URL}/suscripcion/listo",

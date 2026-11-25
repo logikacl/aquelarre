@@ -13,7 +13,7 @@ export type Plan = {
 
 // Los rangos del plan de monto abierto en Reveniu (custom_amount_min/max). Fuera de ahí la
 // suscripción se rechaza allá, así que se rechaza acá antes.
-export const MONTO_MIN = 1000;
+export const MONTO_MIN = 500;
 export const MONTO_MAX = 200000;
 // Cuota histórica (DAILY_LIMIT antes de los planes). Es la del plan por defecto.
 export const CUOTA_POR_DEFECTO = 10;
