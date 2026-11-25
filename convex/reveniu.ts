@@ -15,7 +15,7 @@ function headers() {
   };
 }
 
-async function call(method: "POST" | "PATCH", path: string, body?: unknown): Promise<any> {
+async function call(method: "GET" | "POST" | "PATCH", path: string, body?: unknown): Promise<any> {
   const res = await fetch(`${api()}${path}`, {
     method,
     headers: headers(),
@@ -46,6 +46,9 @@ export async function createSubscription(opts: {
   });
   return { id: d.id, completionUrl: d.completion_url, securityToken: d.security_token };
 }
+
+// Estado de una suscripción (status, payment_method…). Respaldo del webhook.
+export const getSubscription = (id: number) => call("GET", `/api/v1/subscriptions/${id}/`);
 
 // "No renovar": la suscripción sigue activa hasta el fin del período ya pagado.
 export const disableRenew = (id: number) => post(`/api/v1/subscriptions/${id}/disablerenew/`);

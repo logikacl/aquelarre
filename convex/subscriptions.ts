@@ -175,6 +175,21 @@ export const applyReveniuEvent = internalMutation({
   },
 });
 
+// Pendientes con suscripción ya creada en Reveniu, de los últimos 2 días: las que un webhook
+// ilegible podría haber dejado sin activar. Más viejas son checkouts abandonados.
+// ponytail: filtro sin índice; la tabla es chica y esto corre solo ante un webhook raro.
+export const pendientesRecientes = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const desde = now() - 2 * 24 * 3600 * 1000;
+    const subs = await ctx.db
+      .query("subscriptions")
+      .filter((q) => q.and(q.eq(q.field("status"), "pending"), q.gt(q.field("createdAt"), desde)))
+      .collect();
+    return subs.flatMap((s) => (s.reveniuId ? [s.reveniuId] : []));
+  },
+});
+
 // Enlaza un chat de WhatsApp a la suscripción vía token de un solo uso.
 export const linkChat = internalMutation({
   args: { linkToken: v.string(), chatId: v.number() },

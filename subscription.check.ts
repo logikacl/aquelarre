@@ -1,7 +1,7 @@
 // Check de los helpers puros de suscripción. Correr: npx tsx subscription.check.ts
 import assert from "node:assert";
 import {
-  parseStartToken, nextStatus, subscriptionAllows, newLinkToken,
+  parseStartToken, nextStatus, subscriptionAllows, newLinkToken, parseReveniuWebhook, eventoDesdeEstado,
 } from "./convex/subscription.ts";
 
 assert.strictEqual(parseStartToken("/start abc123"), "abc123");
@@ -54,3 +54,20 @@ for (const no of ["ok", "sí", "si", "dale", "👍", "ya", "bueno", "no acepto",
   assert.strictEqual(esConsentimiento(no), false, `NO debería valer: ${no}`);
 }
 console.log("consentimiento OK");
+
+// Webhook de Reveniu: el formato de su doc y los que puede mandar producción.
+const esperado = { event: "subscription_activated", subscriptionId: 313248, externalId: "k17", cancelReason: undefined, feedback: undefined };
+assert.deepStrictEqual(parseReveniuWebhook(JSON.stringify({ event: "subscription_activated", data: { subscription_id: 313248, subscription_external_id: "k17" } })), esperado);
+assert.deepStrictEqual(parseReveniuWebhook(JSON.stringify({ event: "subscription_activated", data: JSON.stringify({ subscription_id: "313248", subscription_external_id: "k17" }) })), esperado);
+assert.deepStrictEqual(parseReveniuWebhook("event=subscription_activated&data=" + encodeURIComponent(JSON.stringify({ subscription_id: 313248, subscription_external_id: "k17" }))), esperado);
+assert.deepStrictEqual(parseReveniuWebhook("event=subscription_activated&data%5Bsubscription_id%5D=313248&data%5Bsubscription_external_id%5D=k17"), esperado);
+assert.deepStrictEqual(parseReveniuWebhook("event=subscription_activated&subscription_id=313248&subscription_external_id=k17"), esperado);
+assert.strictEqual(parseReveniuWebhook(JSON.stringify({ event: "x", data: { subscription_external_id: null } })), null);
+assert.strictEqual(parseReveniuWebhook(""), null);
+assert.strictEqual(parseReveniuWebhook("basura{"), null);
+assert.strictEqual(parseReveniuWebhook(JSON.stringify({ event: "subscription_activated", data: { subscription_id: 1, subscription_external_id: null } }))!.externalId, undefined);
+assert.strictEqual(eventoDesdeEstado({ status: "1" }), "subscription_payment_succeeded");
+assert.strictEqual(eventoDesdeEstado({ status: "6", payment_method: { last_4_card_digits: "XXXX0930" } }), "subscription_activated");
+assert.strictEqual(eventoDesdeEstado({ status: "6", payment_method: { last_4_card_digits: null } }), null);
+assert.strictEqual(eventoDesdeEstado({ status: "9" }), null);
+console.log("webhook Reveniu OK");

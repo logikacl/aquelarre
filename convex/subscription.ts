@@ -40,6 +40,55 @@ export function nextStatus(event: string, current: SubStatus): SubStatus | null 
   }
 }
 
+export type ReveniuWebhook = {
+  event: string;
+  subscriptionId: number;
+  externalId?: string;
+  cancelReason?: string;
+  feedback?: string;
+};
+
+// Cuerpo del webhook de Reveniu → evento, o null si no se entiende. Su doc muestra JSON
+// {event, data:{subscription_id}}, pero producción (2026-11-25) mandó algo que req.json()
+// no leyó. Se aceptan JSON, formulario y `data` doblemente codificado, con ids en texto.
+export function parseReveniuWebhook(text: string): ReveniuWebhook | null {
+  const asJson = (s: unknown): any => {
+    if (typeof s !== "string") return s;
+    try { return JSON.parse(s); } catch { return undefined; }
+  };
+  let body = asJson(text);
+  if (!body || typeof body !== "object") {
+    const p = new URLSearchParams(text);
+    body = Object.fromEntries(p);
+    // data[subscription_id]=... (estilo PHP/Rails) → data.subscription_id
+    for (const [k, val] of p) {
+      const m = k.match(/^data\[(\w+)\]$/);
+      if (m) body.data = { ...(typeof body.data === "object" ? body.data : {}), [m[1]]: val };
+    }
+  }
+  const d = asJson(body.data) ?? body; // `data` en texto, o los campos al primer nivel
+  const subscriptionId = Number(d?.subscription_id);
+  if (typeof body.event !== "string" || !Number.isInteger(subscriptionId) || subscriptionId <= 0) return null;
+  const str = (x: unknown) => (x === null || x === undefined || x === "" ? undefined : String(x));
+  return {
+    event: body.event,
+    subscriptionId,
+    externalId: str(d.subscription_external_id),
+    cancelReason: str(d.cancel_reason),
+    feedback: str(d.feedback),
+  };
+}
+
+// Respaldo cuando el webhook no se entiende: el estado de la suscripción según la API de
+// Reveniu (GET /subscriptions/<id>/) → evento equivalente, o null si todavía no hay nada que
+// aplicar. "1" = al día (cobrada). "6" = no iniciada: con tarjeta inscrita equivale a
+// subscription_activated (Reveniu cobra ~10 min después); sin tarjeta es checkout abandonado.
+export function eventoDesdeEstado(s: { status?: string; payment_method?: { last_4_card_digits?: string | null } }): string | null {
+  if (s.status === "1") return "subscription_payment_succeeded";
+  if (s.status === "6" && s.payment_method?.last_4_card_digits) return "subscription_activated";
+  return null;
+}
+
 // El chat pasa si la suscripción está activa o en su último período pagado.
 export function subscriptionAllows(sub: { status: SubStatus } | null | undefined): boolean {
   return sub?.status === "active" || sub?.status === "ending";

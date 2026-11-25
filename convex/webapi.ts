@@ -1,7 +1,7 @@
-import { httpAction, type ActionCtx } from "./_generated/server";
+import { httpAction, internalAction, type ActionCtx } from "./_generated/server";
 import { internal } from "./_generated/api";
-import { createSubscription, disableRenew, disable } from "./reveniu";
-import type { SubStatus } from "./subscription";
+import { createSubscription, disableRenew, disable, getSubscription } from "./reveniu";
+import { parseReveniuWebhook, eventoDesdeEstado, type SubStatus } from "./subscription";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json" } });
@@ -140,20 +140,40 @@ export const reveniuWebhook = httpAction(async (ctx, req) => {
   console.log(`reveniu webhook: autorizado=${autorizado}`);
   if (!autorizado) return new Response("unauthorized", { status: 401 });
 
-  const body = await req.json().catch(() => null);
-  const event = body?.event;
-  const d = body?.data;
-  console.log(`reveniu webhook: event=${event} sub=${d?.subscription_id}`);
-  if (typeof event !== "string" || typeof d?.subscription_id !== "number") {
-    return new Response(null, { status: 200 }); // payload que no entendemos: no reintentar
+  const text = await req.text();
+  const w = parseReveniuWebhook(text);
+  console.log(`reveniu webhook: event=${w?.event} sub=${w?.subscriptionId}`);
+  if (!w) {
+    // Forma del cuerpo sin valores (trae correos): para corregir el parser con datos reales.
+    console.log(`reveniu webhook ilegible: content-type=${req.headers.get("Content-Type")} ` +
+      `largo=${text.length} inicio=${JSON.stringify(text.slice(0, 40).replace(/[^{}[\]":,=&a-z_]/gi, "·"))}`);
+    // Sin saber qué suscripción es, se le pregunta a Reveniu por las pendientes recientes:
+    // un webhook ilegible no puede dejar a alguien pagando sin acceso.
+    await ctx.scheduler.runAfter(0, internal.webapi.reconciliarPendientes, {});
+    return new Response(null, { status: 200 });
   }
   await ctx.runMutation(internal.subscriptions.applyReveniuEvent, {
-    event,
-    reveniuId: d.subscription_id,
-    externalId: d.subscription_external_id ?? undefined,
-    cancelReason: d.cancel_reason ?? undefined,
-    feedback: d.feedback ?? undefined,
+    event: w.event,
+    reveniuId: w.subscriptionId,
+    externalId: w.externalId,
+    cancelReason: w.cancelReason,
+    feedback: w.feedback,
   });
   // 200 aunque no hayamos encontrado la fila: reintentar no ayudaría y solo llenaría su cola.
   return new Response(null, { status: 200 });
+});
+
+// Respaldo del webhook: consulta en Reveniu cada pendiente reciente y aplica el evento que
+// corresponde a su estado. Idempotente: lo que no cambia el estado no hace nada.
+export const reconciliarPendientes = internalAction({
+  args: {},
+  handler: async (ctx) => {
+    const ids = await ctx.runQuery(internal.subscriptions.pendientesRecientes, {});
+    for (const id of ids) {
+      const s = await getSubscription(id).catch((e) => (console.log(`reconciliar ${id}: ${e}`), null));
+      const event = s && eventoDesdeEstado(s);
+      console.log(`reconciliar ${id}: status=${s?.status} → ${event}`);
+      if (event) await ctx.runMutation(internal.subscriptions.applyReveniuEvent, { event, reveniuId: id });
+    }
+  },
 });
