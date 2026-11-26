@@ -34,7 +34,14 @@ export default function Footer() {
           </section>
         </div>
         <p className="mt-8 border-t border-[var(--silente-border)] pt-6 text-center text-xs text-[var(--silente-muted)]">
-          © 2026 Silente · {EMPRESA.razonSocial} · RUT {EMPRESA.rut}
+          © 2026 Silente, una marca de {EMPRESA.razonSocial} · RUT {EMPRESA.rut}
+        </p>
+        {/* Meta verifica el negocio contra Logika: el sitio tiene que mostrar que la marca es suya. */}
+        <p className="mt-2 text-center text-xs text-[var(--silente-muted)]">
+          Powered by{" "}
+          <a className={`${a} underline underline-offset-2`} href="https://logika.cl" target="_blank" rel="noopener">
+            Logika
+          </a>
         </p>
       </div>
     </footer>
