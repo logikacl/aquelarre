@@ -7,10 +7,11 @@
 // que astro.ts calcule casas y longitudes natales en grados.
 //
 // El lookup es un índice determinista, no búsqueda semántica: sin embeddings.
-import { cieloDeHoy, type Cielo } from "./astro";
+import { cieloDeHoy, SIGNOS, type Cielo } from "./astro";
 import fasesCorpus from "./corpus/fase_lunar.json";
 import signosCorpus from "./corpus/planeta_signo.json";
 import retrosCorpus from "./corpus/retrogrado.json";
+import casasCorpus from "./corpus/transito_casa.json";
 
 // De cada registro se toma un solo campo, el más útil para una consulta personal:
 // la fase aporta qué momento del ciclo es (`energia`), el planeta en signo aporta
@@ -59,6 +60,33 @@ export function bloqueCielo(cielo: Cielo = cieloDeHoy()): string {
   return [
     "Cielo de hoy (contexto colectivo: le toca igual a todo el mundo, no es la carta de esta persona).",
     "Es trasfondo para tu lectura — úsalo si viene al caso, nunca lo recites ni lo enumeres:",
+    ...lineas,
+  ].join("\n");
+}
+
+// Casa natal por signos enteros: el signo del ascendente es la casa 1 y se cuenta desde ahí.
+export const casaDe = (signoPlaneta: string, asc: string) =>
+  ((SIGNOS.indexOf(signoPlaneta) - SIGNOS.indexOf(asc) + 12) % 12) + 1;
+
+// Por dónde de la carta del consultante pasan hoy los lentos (corpus transito_casa). Solo con
+// ascendente: sin él no hay casas, y el prompt ya le dice a Luna que no las tiene.
+// ponytail: solo los 2 tránsitos de mayor intensidad y su `textoCorto`, para no inflar el
+// prompt. Mercurio/Venus/Marte/Sol/Luna también están en el corpus; sumarlos si hace falta.
+export function bloqueCasas(asc: string | undefined, cielo: Cielo = cieloDeHoy()): string {
+  if (!asc || !SIGNOS.includes(asc)) return "";
+  const lineas = cielo.lentos
+    .map(({ planeta, signo }) => {
+      const casa = casaDe(signo, asc);
+      return casasCorpus.find((r) => r.planeta === planeta && r.casa === casa);
+    })
+    .filter((r) => r !== undefined)
+    .sort((a, b) => b.intensidad - a.intensidad)
+    .slice(0, 2)
+    .map((r) => `- ${NOMBRE[r.planeta]} transitando su casa ${r.casa}: ${r.textoCorto}`);
+  if (!lineas.length) return "";
+  return [
+    "Tránsitos por sus casas (casas por signos enteros desde su ascendente; esto sí es de esta persona).",
+    "Trasfondo para tu lectura — úsalo si viene al caso, nunca lo recites ni lo enumeres:",
     ...lineas,
   ].join("\n");
 }

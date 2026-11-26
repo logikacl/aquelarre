@@ -2,8 +2,9 @@ import { internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { buildSystemPrompt, DEFAULT_ORACLE, FALLBACK_SYSTEM } from "./personas";
-import { bloqueCielo } from "./cielo";
+import { bloqueCielo, bloqueCasas } from "./cielo";
 import { send } from "./send";
+import { cieloDeHoy } from "./astro";
 
 // Modelo vía env FIREWORKS_MODEL; este default es el respaldo.
 // Historia: gpt-oss-120b se usó hasta que Fireworks lo deprecó (2026-11-07) y le quitó el
@@ -25,7 +26,11 @@ export const respond = internalAction({
 
     const slug = convo?.oracle ?? DEFAULT_ORACLE;
     const oracle = await ctx.runQuery(internal.oracles.getBySlug, { slug });
-    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo ?? undefined, bloqueCielo());
+    const cielo = cieloDeHoy();
+    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo ?? undefined,
+      bloqueCielo(cielo),
+      bloqueCasas(convo?.astro?.asc, cielo),
+    );
     const body = {
       model: process.env.FIREWORKS_MODEL ?? DEFAULT_MODEL,
       messages: [

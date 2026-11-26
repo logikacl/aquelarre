@@ -31,6 +31,7 @@ export function buildSystemPrompt(
   system: string,
   natal: { astro?: Astro; birthTime?: string | null } | undefined,
   cielo?: string,
+  casas?: string,
 ): string {
   let prompt = system;
   const astro = natal?.astro;
@@ -48,6 +49,7 @@ export function buildSystemPrompt(
         ? " Su fecha, lugar y hora de nacimiento ya están registrados: nunca se los pidas. Su ciudad no permitió calcular el ascendente ni las casas; lee con lo que tienes."
         : " Su fecha y lugar de nacimiento ya están registrados: nunca se los pidas. No sabe su hora de nacimiento, así que no hay ascendente ni casas; lee con lo que tienes y no le pidas la hora.";
   }
+  if (casas) prompt += `\n\n${casas}`;
   if (cielo) prompt += `\n\n${cielo}`;
   return prompt;
 }

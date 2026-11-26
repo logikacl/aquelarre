@@ -1,7 +1,7 @@
 // Check del cielo de hoy y su cruce con el corpus. Correr: npx tsx cielo.check.ts
 import assert from "node:assert";
 import { cieloDeHoy, faseLunar, esRetrogrado, planetLon, signo } from "./convex/astro.ts";
-import { bloqueCielo } from "./convex/cielo.ts";
+import { bloqueCielo, bloqueCasas, casaDe } from "./convex/cielo.ts";
 import * as AstronomyNS from "astronomy-engine";
 const { Body } = ((AstronomyNS as any).default ?? AstronomyNS) as typeof AstronomyNS;
 
@@ -66,5 +66,19 @@ assert.ok(!bloque.includes("undefined"), "un campo del corpus llegó vacío al p
 
 // El bloque entra en el presupuesto de contexto: se manda en cada mensaje.
 assert.ok(bloque.length < 4000, `el bloque pesa ${bloque.length} caracteres — demasiado por mensaje`);
+
+// ── Casas por signos enteros ────────────────────────────────────────────────
+assert.strictEqual(casaDe("Aries", "Aries"), 1);
+assert.strictEqual(casaDe("Aries", "Libra"), 7);
+assert.strictEqual(casaDe("Piscis", "Aries"), 12);
+assert.strictEqual(casaDe("Aries", "Piscis"), 2, "da la vuelta al zodíaco");
+const cieloFijo = { ...cieloDeHoy(en("2026-08-25")), lentos: [
+  { planeta: "saturno" as const, signo: "Aries" }, { planeta: "jupiter" as const, signo: "Leo" },
+  { planeta: "pluton" as const, signo: "Acuario" },
+] };
+assert.strictEqual(bloqueCasas(undefined, cieloFijo), "", "sin ascendente no hay casas");
+const casas = bloqueCasas("Aries", cieloFijo);
+assert.strictEqual(casas.split("\n").filter((l) => l.startsWith("- ")).length, 2, "solo los 2 más intensos");
+assert.match(casas, /Saturno transitando su casa 1:|Plutón transitando su casa 11:|Júpiter transitando su casa 5:/);
 
 console.log(`cielo.check.ts OK · ${bloque.length} caracteres, ${lineas.length} líneas`);

@@ -6,7 +6,7 @@ import * as AstronomyNS from "astronomy-engine";
 const { SunPosition, EclipticGeoMoon, SiderealTime, MakeTime, GeoVector, Ecliptic, Body } =
   ((AstronomyNS as any).default ?? AstronomyNS) as typeof AstronomyNS;
 
-const SIGNOS = [
+export const SIGNOS = [
   "Aries", "Tauro", "Géminis", "Cáncer", "Leo", "Virgo",
   "Libra", "Escorpio", "Sagitario", "Capricornio", "Acuario", "Piscis",
 ];
