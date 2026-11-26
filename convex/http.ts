@@ -3,11 +3,12 @@ import { httpAction, type ActionCtx } from "./_generated/server";
 import { waChatId, validaFirmaMeta } from "./whatsapp";
 import { formatearTelefono } from "./telefono";
 import { internal } from "./_generated/api";
-import { send, pedirConsentimiento } from "./send";
+import { send, pedirConsentimiento, ofrecerPromos } from "./send";
 import { parseFecha, parseHora, fmtHora, noSabeHora, isoFecha } from "./birth";
 import { natalChart } from "./astro";
 import { buscarCiudad } from "./cities";
-import { parseStartToken, esConsentimiento } from "./subscription";
+import { parseStartToken, esConsentimiento, esAltaPromos, esBajaPromos } from "./subscription";
+import { promosReport, clicWa } from "./promos";
 import {
   checkout, subscription, subscriptionAction, subscriptionDelete, reveniuWebhook,
 } from "./webapi";
@@ -42,6 +43,12 @@ Estás escribiendo desde ${formatearTelefono(chatId)}.
 
 • Si ya pagaste: entra a ${process.env.WEB_BASE_URL}/cuenta y revisa que ese sea el número de WhatsApp de tu cuenta. Apenas lo corrijas, vuelve a escribirme.
 • Si aún no te suscribes: ${process.env.WEB_BASE_URL}/#elige-tu-plan`;
+
+const OFERTA_PROMOS = `
+
+¿Quieres que te avisemos por WhatsApp de novedades y promociones de Silente? Toca «Quiero novedades». Puedes darte de baja cuando quieras escribiendo BAJA.`;
+const PROMOS_SI = `Listo ✨ Te avisaremos de novedades y promociones de Silente por este WhatsApp. Si en algún momento no quieres recibirlas, escribe BAJA.`;
+const PROMOS_NO = `Listo, no te enviaremos más promociones por WhatsApp.`;
 
 const askBirth = (nombre: string) =>
   `Gracias, ${nombre}. ✨ Para leer tu carta necesito saber dónde y cuándo naciste.
@@ -91,9 +98,23 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
   // cualquiera, y a quien no está suscrito le sirve el link a los planes, no el aviso de datos.
   // Solo compara el número contra las cuentas; nada llega al LLM. Si el chat todavía no está
   // enlazado, se enlaza acá por el número registrado en la cuenta.
+  // Promociones: consentimiento propio, antes de la puerta de suscripción porque se le ofrece
+  // justamente a quien no está suscrito. La baja vale para todos.
+  if (esBajaPromos(text)) {
+    await ctx.runMutation(internal.promos.baja, { chatId });
+    await send(chatId, PROMOS_NO);
+    return ok();
+  }
+  if (esAltaPromos(text)) {
+    await ctx.runMutation(internal.promos.alta, { chatId });
+    await send(chatId, PROMOS_SI);
+    return ok();
+  }
+
   const activeSub = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
   if (!activeSub) {
-    await send(chatId, needSubscription(chatId));
+    if (await ctx.runQuery(internal.promos.tiene, { chatId })) await send(chatId, needSubscription(chatId));
+    else await ofrecerPromos(chatId, needSubscription(chatId) + OFERTA_PROMOS);
     return ok();
   }
 
@@ -251,4 +272,6 @@ http.route({ path: "/api/account/phone", method: "POST", handler: accountPhone }
 http.route({ path: "/api/public/oracles", method: "GET", handler: publicOracles });
 http.route({ path: "/api/public/content", method: "GET", handler: publicContent });
 http.route({ path: "/api/public/plans", method: "GET", handler: publicPlans });
+http.route({ path: "/api/admin/promos", method: "POST", handler: promosReport });
+http.route({ path: "/api/clicks/wa", method: "POST", handler: clicWa });
 export default http;

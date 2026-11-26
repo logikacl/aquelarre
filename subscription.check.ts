@@ -1,7 +1,7 @@
 // Check de los helpers puros de suscripción. Correr: npx tsx subscription.check.ts
 import assert from "node:assert";
 import {
-  parseStartToken, nextStatus, subscriptionAllows, newLinkToken, parseReveniuWebhook, eventoDesdeEstado,
+  parseStartToken, nextStatus, subscriptionAllows, newLinkToken, parseReveniuWebhook, eventoDesdeEstado, esAltaPromos, esBajaPromos,
 } from "./convex/subscription.ts";
 
 assert.strictEqual(parseStartToken("/start abc123"), "abc123");
@@ -71,3 +71,10 @@ assert.strictEqual(eventoDesdeEstado({ status: "6", payment_method: { last_4_car
 assert.strictEqual(eventoDesdeEstado({ status: "6", payment_method: { last_4_card_digits: null } }), null);
 assert.strictEqual(eventoDesdeEstado({ status: "9" }), null);
 console.log("webhook Reveniu OK");
+
+// Promociones: alta solo por el id del botón; baja solo con "BAJA" como mensaje completo.
+assert.strictEqual(esAltaPromos("promos"), true);
+for (const no of ["sí", "si quiero", "quiero novedades", "Promos!", "ok"]) assert.strictEqual(esAltaPromos(no), false, no);
+for (const si of ["BAJA", "baja", " Baja ", "baja.", "BAJA!"]) assert.strictEqual(esBajaPromos(si), true, si);
+for (const no of ["estoy de baja", "baja de ánimo", "bajar", "dar de baja la suscripción"]) assert.strictEqual(esBajaPromos(no), false, no);
+console.log("promos OK");

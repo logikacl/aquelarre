@@ -161,6 +161,21 @@ export default defineSchema({
     at: v.number(),
   }).index("by_proveedor", ["proveedor"]),
 
+  // Quién aceptó recibir promociones por WhatsApp (botón «Quiero novedades»): número, fecha
+  // y versión de la política vigente al aceptar. "BAJA" o la supresión borran la fila.
+  promos: defineTable({
+    chatId: v.number(),
+    version: v.string(),
+    at: v.number(),
+  }).index("by_chat", ["chatId"]),
+
+  // Clics del botón de WhatsApp del home (/wa), por día chileno. Solo un contador: sin IP
+  // ni identificador, así que no es dato personal.
+  clicks: defineTable({
+    day: v.string(),
+    count: v.number(),
+  }).index("by_day", ["day"]),
+
   // Cuentas de la web (email+password). El hashing es PBKDF2 (Web Crypto), sin dependencias.
   users: defineTable({
     email: v.string(),

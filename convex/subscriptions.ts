@@ -277,7 +277,7 @@ export const suppressByEmail = internalMutation({
     // afectaría al otro usuario), así que se documenta en vez de adivinar.
     const chatId = sub.chatId ?? null;
     if (chatId !== null) {
-      for (const table of ["messages", "consent", "conversations"] as const) {
+      for (const table of ["messages", "consent", "conversations", "promos"] as const) {
         const rows = await ctx.db
           .query(table)
           .withIndex("by_chat", (q) => q.eq("chatId", chatId))

@@ -7,6 +7,7 @@ const secciones = [
   { href: "/admin/oraculos", label: "Oráculos" },
   { href: "/admin/usuarios", label: "Usuarios" },
   { href: "/admin/churn", label: "Churn" },
+  { href: "/admin/promos", label: "Promos" },
   { href: "/admin/contenido", label: "Contenido" },
 ];
 

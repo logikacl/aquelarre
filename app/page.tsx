@@ -16,7 +16,6 @@ export default async function Home() {
   return (
     <main className="silente-home">
       <Hero
-        numeroBot={process.env.NEXT_WHATSAPP_NUMBER ?? ""}
         copy={{
           titulo: t("home.hero.titulo"),
           palabras: [t("home.hero.palabra1"), t("home.hero.palabra2")],

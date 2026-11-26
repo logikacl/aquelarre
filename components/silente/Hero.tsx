@@ -41,7 +41,7 @@ const ICONOS = [
   <svg key="c" viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth="1.5"><rect x="5" y="10" width="14" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" strokeLinecap="round" /></svg>,
 ];
 
-export default function Hero({ copy, numeroBot }: { copy: HeroCopy; numeroBot: string }) {
+export default function Hero({ copy }: { copy: HeroCopy }) {
   const [i, setI] = useState<0 | 1>(0);
   const [reduceMotion, setReduceMotion] = useState(false);
 
@@ -134,9 +134,10 @@ export default function Hero({ copy, numeroBot }: { copy: HeroCopy; numeroBot: s
           ))}
         </div>
 
-        {/* Directo a WhatsApp: si no está suscrito, el bot le contesta con el link a los planes. */}
+        {/* A WhatsApp pasando por /wa, que cuenta el clic. Si no está suscrito, el bot le
+            contesta con el link a los planes y le ofrece las promociones. */}
         <a
-          href={`https://wa.me/${numeroBot}?text=${encodeURIComponent("Hola 👋")}`}
+          href="/wa"
           className="hero-cta relative z-20 mx-auto flex min-h-14 w-full max-w-[590px] items-center justify-between rounded-full px-6 py-3 text-left font-medium text-[var(--silente-night)] transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--silente-gold-light)] active:scale-[.99] lg:-mt-8 lg:min-h-16 lg:py-4"
         >
           <span className="flex items-center gap-3">

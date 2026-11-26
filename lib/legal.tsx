@@ -23,7 +23,7 @@
 // ponytail: un solo archivo con los dos documentos como datos + su renderer. Las páginas
 // de /terminos y /privacidad son tres líneas cada una.
 
-export const VERSION = "2026-11-22";
+export const VERSION = "2026-11-25";
 
 export const EMPRESA = {
   razonSocial: "Logika Sistemas SpA",
@@ -335,6 +335,7 @@ export const PRIVACIDAD: Documento = {
             "Contenido de tus conversaciones: los mensajes que escribes y las respuestas que genera Luna.",
             "Datos de suscripción: estado (pendiente, activa, por terminar, cancelada), fechas de cambio de estado, identificador de la suscripción en la pasarela de pago y, si la cancelas, el motivo y comentario que entregues en el formulario de baja. No almacenamos el número de tu tarjeta ni su código de seguridad (ver sección 11).",
             "Uso del servicio: la cuenta de mensajes que llevas en el día, para aplicar el límite diario de tu plan.",
+            "Preferencia de promociones: si en el chat tocas «Quiero novedades», guardamos tu número de WhatsApp, la fecha y la versión de esta Política que aceptaste, aunque no tengas cuenta ni suscripción.",
             "Recuperación de contraseña: si pides recuperar tu clave, guardamos por una hora una huella criptográfica del enlace que te enviamos, asociada a tu correo. El enlace en sí no se guarda.",
             "Datos técnicos y de seguridad: registros de acceso y de auditoría generados por nuestros proveedores de infraestructura.",
           ],
@@ -385,13 +386,17 @@ export const PRIVACIDAD: Documento = {
                 "Interés legítimo",
               ],
               [
+                "Enviarte por WhatsApp novedades y promociones de los productos y servicios de Silente, solo si lo aceptaste en el chat",
+                "Tu consentimiento, que retiras escribiendo «BAJA»",
+              ],
+              [
                 "Seguridad, prevención de fraude y registros de auditoría",
                 "Interés legítimo y deber legal de seguridad",
               ],
             ],
           },
         },
-        "No usamos tus datos para publicidad, no los vendemos, no los cedemos a terceros con fines comerciales y no elaboramos perfiles comerciales con ellos.",
+        "Hacemos promoción de nuestros propios productos y servicios, y solo a quien lo acepta: el chat te lo ofrece con el botón «Quiero novedades» y, si lo tocas, te escribimos por WhatsApp con novedades y ofertas de Silente. Para eso usamos únicamente tu número; nunca el contenido de tus conversaciones, tus datos de nacimiento ni tu carta. Dejas de recibirlas en cuanto escribes «BAJA» en el chat, y aceptar o no aceptar no cambia en nada el servicio. No vendemos tus datos, no los cedemos a terceros con fines comerciales y no elaboramos perfiles comerciales con ellos.",
       ],
     },
     {
@@ -519,6 +524,10 @@ export const PRIVACIDAD: Documento = {
               [
                 "Cuenta, datos de nacimiento, carta y conversaciones",
                 "Mientras tu cuenta esté activa. Al eliminarla desde «Mi cuenta», se borran tu cuenta, tu conversación, tus datos de nacimiento y tu registro de consentimiento",
+              ],
+              [
+                "Aceptación de promociones",
+                "Hasta que escribas «BAJA» en el chat o elimines tu cuenta; en ambos casos se borra",
               ],
               [
                 "Historial de una lectura",

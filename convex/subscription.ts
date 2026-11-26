@@ -40,6 +40,13 @@ export function nextStatus(event: string, current: SubStatus): SubStatus | null 
   }
 }
 
+// Promociones por WhatsApp (consentimiento aparte del de datos, Ley 21.719 + política de
+// Meta). Alta solo con el botón «Quiero novedades», que vuelve con el id "promos": igual que
+// el consentimiento de datos, un "sí" escrito no prueba nada. Baja = el mensaje "BAJA" solo,
+// para no confundirla con alguien que le cuenta a Luna que está "de baja".
+export const esAltaPromos = (text: string) => text.trim() === "promos";
+export const esBajaPromos = (text: string) => /^\s*baja\s*[.!]?\s*$/i.test(text);
+
 export type ReveniuWebhook = {
   event: string;
   subscriptionId: number;
