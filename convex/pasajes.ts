@@ -98,12 +98,20 @@ export async function buscarPasajes(ctx: ActionCtx, consulta: string, carta: Car
   ].filter((c): c is string => Boolean(c));
   const hits = await ctx.vectorSearch("pasajes", "by_embedding", {
     vector,
-    limit: TOP,
+    limit: TOP * 4, // holgura para quedarse con uno por respuesta
     filter: (q) => q.or(...claves.map((c) => q.eq("clave", c))),
   });
   const buenos = hits.filter((h) => h._score >= UMBRAL);
   const docs: Doc<"pasajes">[] = await ctx.runQuery(internal.pasajes.porIds, { ids: buenos.map((h) => h._id) });
-  return docs.map((d) => ({ ...d, score: buenos.find((h) => h._id === d._id)!._score }));
+  const score = new Map(buenos.map((h) => [h._id, h._score]));
+  // Los trozos de una misma respuesta se parecen entre sí y coparían los 3 lugares: se toma
+  // el mejor de cada respuesta (titulo) para que Luna reciba ángulos distintos.
+  const vistos = new Set<string>();
+  return docs
+    .map((d) => ({ ...d, score: score.get(d._id)! }))
+    .sort((a, b) => b.score - a.score)
+    .filter((d) => !vistos.has(d.titulo) && vistos.add(d.titulo))
+    .slice(0, TOP);
 }
 
 // Bloque para el system prompt ("" si no hay nada que pase el umbral).

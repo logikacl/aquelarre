@@ -58,7 +58,23 @@ for (const tanda of cfg.tandas) {
 function extraer(stdout) {
   const partes = stdout.split(/^={20,}$/m);
   if (partes.length < 4) return null;
-  return partes[2].split("EXTREMELY IMPORTANT")[0].trim() || null;
+  const resp = partes[2].split("EXTREMELY IMPORTANT")[0].trim();
+  // Si la skill corta antes de tiempo devuelve solo el encabezado plegado del razonamiento
+  // ("Thoughts / expand_more"): eso no es respuesta y no debe quedar en caché.
+  const util = resp.replace(/^\s*Thoughts\s*(expand_(more|less))?/i, "").trim();
+  return util.length >= 300 ? resp : null;
+}
+
+// El cuaderno acumula el chat y, pasadas ~40 respuestas, carga tan lento que la skill falla
+// en todas las preguntas siguientes. Se borra cada BORRAR_CADA preguntas (lo respondido ya
+// está en la caché local). Ver scripts/notebook-borrar-historial.py.
+const BORRAR_CADA = 15;
+const LIBRERIA = JSON.parse(readFileSync(join(dirname(dirname(SKILL)), "data/library.json"), "utf8")).notebooks;
+const VENV_PY = join(dirname(dirname(SKILL)), ".venv/bin/python");
+function borrarHistorial(notebookId) {
+  const r = spawnSync(VENV_PY, [join(RAIZ, "scripts/notebook-borrar-historial.py"), LIBRERIA[notebookId].url, "--confirmar"],
+    { encoding: "utf8", timeout: 3 * 60_000 });
+  console.log(r.status === 0 ? "   ⌫ historial del cuaderno borrado" : `   ⚠ no se pudo borrar el historial: ${(r.stderr ?? "").slice(-200)}`);
 }
 
 // NotebookLM contesta "las fuentes no tratan esto" en vez de inventar: eso no se carga.
@@ -67,11 +83,15 @@ const SIN_FUENTE = /(las fuentes|los textos|los documentos|el material)[^.]{0,60
 const cacheDe = (p) => join(RAIZ, "docs/corpus-fuentes/notebook", p.fuente, `${slug(p.titulo)}.md`);
 
 let preguntadas = 0;
+// 3 fallos seguidos casi siempre es el límite diario de NotebookLM ("AI usage limit reached…
+// available after HH:MM"): seguir solo acumula fallos. Se deja de preguntar y se carga lo que hay.
+let fallosSeguidos = 0;
 const respondidas = [];
 for (const p of preguntas) {
   const archivo = cacheDe(p);
   if (!existsSync(archivo)) {
-    if (preguntadas >= max) continue;
+    if (preguntadas >= max || fallosSeguidos >= 3) continue;
+    if (preguntadas > 0 && preguntadas % BORRAR_CADA === 0) borrarHistorial(p.notebookId);
     preguntadas++;
     console.log(`[${preguntadas}] ${p.titulo}`);
     // Un reintento: el navegador a veces no termina de cargar el cuaderno a tiempo.
@@ -83,8 +103,10 @@ for (const p of preguntas) {
     }
     if (!resp) {
       console.log(`   ✗ sin respuesta (se reintenta en la próxima corrida)\n${(r.stdout ?? "").slice(-300)}${r.stderr?.slice(-300) ?? ""}`);
+      if (++fallosSeguidos === 3) console.log("\n⏸ 3 fallos seguidos (¿límite diario de NotebookLM?): se deja de preguntar.");
       continue;
     }
+    fallosSeguidos = 0;
     mkdirSync(dirname(archivo), { recursive: true });
     writeFileSync(archivo, `<!-- ${JSON.stringify({ ...p, texto: undefined, pregunta: p.texto })} -->\n${resp}\n`);
   }
