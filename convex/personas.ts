@@ -32,6 +32,7 @@ export function buildSystemPrompt(
   natal: { astro?: Astro; birthTime?: string | null } | undefined,
   cielo?: string,
   casas?: string,
+  pasajes?: string,
 ): string {
   let prompt = system;
   const astro = natal?.astro;
@@ -51,5 +52,6 @@ export function buildSystemPrompt(
   }
   if (casas) prompt += `\n\n${casas}`;
   if (cielo) prompt += `\n\n${cielo}`;
+  if (pasajes) prompt += `\n\n${pasajes}`;
   return prompt;
 }

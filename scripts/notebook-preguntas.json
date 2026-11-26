@@ -1,0 +1,155 @@
+{
+  "_comentario": "Entrada de scripts/notebook-a-pasajes.mjs. Cada tanda = un cuaderno de NotebookLM (fuente). Por tema se generan: una pregunta por concepto + una por signo para `foco` (sol | luna | asc: lo único que sabemos de cada consultante). Para sumar libros: cargarlos al cuaderno o registrar otro con notebook_manager.py add y agregar una tanda.",
+  "plantillas": {
+    "concepto": "Según los libros cargados, explica con tus propias palabras (sin citas textuales) cómo se relaciona {concepto} con el ámbito de {tema} en la vida de una persona. Vincula el concepto astrológico con situaciones concretas y cotidianas de ese ámbito: cómo se manifiesta, qué tensiones típicas trae y qué la ayuda a vivirlo mejor. Responde en español, en prosa, 3 a 5 párrafos.",
+    "signo": "Según los libros cargados, explica con tus propias palabras (sin citas textuales) cómo vive el ámbito de {tema} una persona con {focoNombre} en {signo}: qué busca, qué necesita, qué le cuesta y qué patrones tiende a repetir. Vincula las cualidades del signo (elemento, modalidad, regente) con situaciones concretas de ese ámbito. Responde en español, en prosa, 2 a 4 párrafos."
+  },
+  "tandas": [
+    {
+      "fuente": "sasportas-arroyo-greene",
+      "notebookId": "astrologia---transitos-por-casas-(sasportas/arroyo/greene)",
+      "temas": [
+        {
+          "tema": "familia",
+          "nombre": "la familia, el hogar y las raíces",
+          "foco": "luna",
+          "conceptos": [
+            "la Casa 4 (el hogar, las raíces, el origen familiar)",
+            "el eje de las Casas 4 y 10 (los padres y la herencia familiar)",
+            "la Luna (la madre, la nutrición emocional, lo aprendido en casa)",
+            "Saturno (el padre, las reglas familiares, las cargas heredadas)",
+            "la Casa 3 (los hermanos y el entorno cercano)",
+            "los patrones familiares que se repiten de generación en generación",
+            "los tránsitos de Saturno, Urano, Neptuno y Plutón por la Casa 4"
+          ]
+        },
+        {
+          "tema": "pareja",
+          "nombre": "la pareja y el amor",
+          "foco": "asc",
+          "conceptos": [
+            "la Casa 7 y el eje ascendente-descendente (lo que buscamos en el otro)",
+            "Venus (cómo amamos y qué valoramos en un vínculo)",
+            "Marte (el deseo, la iniciativa y el conflicto en la pareja)",
+            "la Casa 5 (el enamoramiento, el romance y el juego)",
+            "la Casa 8 (la intimidad profunda, los celos y la fusión)",
+            "las proyecciones en la pareja (ver en el otro lo propio no reconocido)",
+            "las separaciones y rupturas leídas desde los tránsitos lentos"
+          ]
+        },
+        {
+          "tema": "trabajo",
+          "nombre": "el trabajo y la vocación",
+          "foco": "sol",
+          "conceptos": [
+            "la Casa 10 (la vocación, la carrera y el lugar en el mundo)",
+            "la Casa 6 (el trabajo diario, la rutina y el servicio)",
+            "Saturno (la disciplina, la ambición y los límites profesionales)",
+            "Júpiter (las oportunidades y el crecimiento profesional)",
+            "el Sol (el propósito y lo que hace brillar a la persona en su trabajo)",
+            "los cambios de trabajo y las crisis vocacionales leídos desde los tránsitos lentos"
+          ]
+        },
+        {
+          "tema": "dinero",
+          "nombre": "el dinero y los recursos",
+          "foco": "sol",
+          "conceptos": [
+            "la Casa 2 (los recursos propios, el valor personal y el dinero)",
+            "la Casa 8 (el dinero compartido, las deudas y las herencias)",
+            "Venus (lo que valoramos y cómo disfrutamos lo material)",
+            "Júpiter y Saturno en relación con la abundancia y la escasez",
+            "la seguridad material y el miedo a la carencia"
+          ]
+        },
+        {
+          "tema": "salud",
+          "nombre": "la salud, el cuerpo y la energía",
+          "foco": "sol",
+          "conceptos": [
+            "la Casa 6 (los hábitos, el cuerpo y la salud cotidiana)",
+            "la Casa 1 y el ascendente (la vitalidad y la relación con el cuerpo)",
+            "el estrés, el cansancio y el agotamiento en la carta",
+            "el Sol y la Luna como energía vital y necesidad de descanso"
+          ]
+        },
+        {
+          "tema": "amistades",
+          "nombre": "las amistades y los grupos",
+          "foco": "sol",
+          "conceptos": [
+            "la Casa 11 (las amistades, los grupos y las causas compartidas)",
+            "Urano (la libertad, la diferencia y la pertenencia a grupos)",
+            "la soledad y la necesidad de pertenencia"
+          ]
+        },
+        {
+          "tema": "crisis",
+          "nombre": "las crisis, las pérdidas y el duelo",
+          "foco": "luna",
+          "conceptos": [
+            "Plutón (la muerte simbólica, la pérdida y la transformación)",
+            "la Casa 8 (las crisis, los finales y los renacimientos)",
+            "la Casa 12 (lo que se pierde, el retiro y lo inconsciente)",
+            "el retorno de Saturno y las crisis de madurez",
+            "el duelo por la muerte de un ser querido",
+            "Neptuno (la confusión, la desilusión y la entrega)"
+          ]
+        },
+        {
+          "tema": "proposito",
+          "nombre": "el propósito y el sentido de la vida",
+          "foco": "sol",
+          "conceptos": [
+            "el Sol como camino de individuación y propósito",
+            "la Casa 9 (la búsqueda de sentido, la filosofía y la fe)",
+            "los nodos lunares (de dónde venimos y hacia dónde crecemos)",
+            "Júpiter (la expansión, la confianza y el significado)"
+          ]
+        },
+        {
+          "tema": "creatividad",
+          "nombre": "la creatividad y el disfrute",
+          "foco": "sol",
+          "conceptos": [
+            "la Casa 5 (la creatividad, la expresión y el placer)",
+            "Venus y Neptuno en relación con el arte y la inspiración",
+            "los bloqueos creativos y cómo se leen en la carta"
+          ]
+        },
+        {
+          "tema": "hijos",
+          "nombre": "los hijos y la crianza",
+          "foco": "luna",
+          "conceptos": [
+            "la Casa 5 (los hijos y lo que se crea)",
+            "la Luna como forma de cuidar y criar",
+            "Saturno como forma de poner límites en la crianza"
+          ]
+        },
+        {
+          "tema": "cambios",
+          "nombre": "los cambios, las mudanzas y los viajes",
+          "foco": "asc",
+          "conceptos": [
+            "Urano (los cambios repentinos y la necesidad de libertad)",
+            "la Casa 4 y los cambios de casa o mudanzas",
+            "la Casa 9 (los viajes largos y vivir en el extranjero)",
+            "los momentos de decisión y encrucijada leídos desde los tránsitos lentos"
+          ]
+        },
+        {
+          "tema": "autoestima",
+          "nombre": "la autoestima y la identidad",
+          "foco": "asc",
+          "conceptos": [
+            "el ascendente (cómo nos mostramos y cómo nos ven)",
+            "el Sol (la identidad esencial y la confianza en uno mismo)",
+            "la Casa 2 (el valor propio)",
+            "la diferencia entre el Sol, la Luna y el ascendente en la forma de ser"
+          ]
+        }
+      ]
+    }
+  ]
+}

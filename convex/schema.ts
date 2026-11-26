@@ -189,4 +189,23 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_phone", ["phone"]),
+
+  // Base vectorial de Luna: síntesis de los libros de interpretación sacadas de NotebookLM
+  // (scripts/notebook-a-pasajes.mjs). Contenido genérico, no dato personal: no entra en la
+  // supresión por chat. `clave` = "todos" o "<sol|luna|asc>:<Signo>", para filtrar por la carta.
+  pasajes: defineTable({
+    texto: v.string(),
+    titulo: v.string(),
+    tema: v.string(),
+    clave: v.string(),
+    fuente: v.string(),
+    hash: v.string(), // sha256 del texto: recargar no duplica
+    embedding: v.array(v.float64()),
+  })
+    .index("by_hash", ["hash"])
+    .vectorIndex("by_embedding", {
+      vectorField: "embedding",
+      dimensions: 1024, // = DIMENSIONES de convex/pasajes.ts
+      filterFields: ["clave", "tema", "fuente"],
+    }),
 });

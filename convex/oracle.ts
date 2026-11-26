@@ -5,6 +5,7 @@ import { buildSystemPrompt, DEFAULT_ORACLE, FALLBACK_SYSTEM } from "./personas";
 import { bloqueCielo, bloqueCasas } from "./cielo";
 import { send } from "./send";
 import { cieloDeHoy } from "./astro";
+import { buscarPasajes, bloquePasajes } from "./pasajes";
 
 // Modelo vía env FIREWORKS_MODEL; este default es el respaldo.
 // Historia: gpt-oss-120b se usó hasta que Fireworks lo deprecó (2026-11-07) y le quitó el
@@ -27,9 +28,21 @@ export const respond = internalAction({
     const slug = convo?.oracle ?? DEFAULT_ORACLE;
     const oracle = await ctx.runQuery(internal.oracles.getBySlug, { slug });
     const cielo = cieloDeHoy();
+    // Base vectorial detrás de un interruptor: sin RAG_ACTIVO=1 el prompt queda como antes.
+    // Si la búsqueda falla, Luna responde igual, sin el bloque.
+    let pasajes = "";
+    const ultimo = history.findLast((m) => m.role === "user")?.content;
+    if (process.env.RAG_ACTIVO === "1" && ultimo) {
+      try {
+        pasajes = bloquePasajes(await buscarPasajes(ctx, ultimo, convo?.astro));
+      } catch (e) {
+        console.log(`[rag] sin pasajes: ${e}`);
+      }
+    }
     const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo ?? undefined,
       bloqueCielo(cielo),
       bloqueCasas(convo?.astro?.asc, cielo),
+      pasajes,
     );
     const body = {
       model: process.env.FIREWORKS_MODEL ?? DEFAULT_MODEL,
