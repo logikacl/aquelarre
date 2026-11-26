@@ -41,12 +41,14 @@ const needSubscription = (chatId: number) => `Para conversar con Luna necesitas 
 
 Estás escribiendo desde ${formatearTelefono(chatId)}.
 
-• Si ya pagaste: entra a ${process.env.WEB_BASE_URL}/cuenta y revisa que ese sea el número de WhatsApp de tu cuenta. Apenas lo corrijas, vuelve a escribirme.
+• Si ya pagaste: espera que se active tu suscripción.
 • Si aún no te suscribes: ${process.env.WEB_BASE_URL}/#elige-tu-plan`;
 
-const OFERTA_PROMOS = `
+// Va solo con el botón: dice qué se acepta al tocarlo (promociones + política), que es lo que
+// exigen la Ley 21.719 y Meta para que el alta valga.
+const OFERTA_PROMOS = () => `
 
-¿Quieres que te avisemos por WhatsApp de novedades y promociones de Silente? Toca «Quiero novedades». Puedes darte de baja cuando quieras escribiendo BAJA.`;
+Al tocar «Quiero novedades» aceptas recibir promociones de Silente por WhatsApp y su política de privacidad: ${process.env.WEB_BASE_URL}/privacidad`;
 const PROMOS_SI = `Listo ✨ Te avisaremos de novedades y promociones de Silente por este WhatsApp. Si en algún momento no quieres recibirlas, escribe BAJA.`;
 const PROMOS_NO = `Listo, no te enviaremos más promociones por WhatsApp.`;
 
@@ -114,7 +116,7 @@ const handleMessage = async (ctx: ActionCtx, { chatId, text, nombre }: Incoming)
   const activeSub = await ctx.runMutation(internal.subscriptions.activaOVincula, { chatId });
   if (!activeSub) {
     if (await ctx.runQuery(internal.promos.tiene, { chatId })) await send(chatId, needSubscription(chatId));
-    else await ofrecerPromos(chatId, needSubscription(chatId) + OFERTA_PROMOS);
+    else await ofrecerPromos(chatId, needSubscription(chatId) + OFERTA_PROMOS());
     return ok();
   }
 
