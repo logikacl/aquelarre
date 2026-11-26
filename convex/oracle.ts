@@ -25,7 +25,7 @@ export const respond = internalAction({
 
     const slug = convo?.oracle ?? DEFAULT_ORACLE;
     const oracle = await ctx.runQuery(internal.oracles.getBySlug, { slug });
-    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo?.astro, bloqueCielo());
+    const system = buildSystemPrompt(oracle?.system ?? FALLBACK_SYSTEM, convo ?? undefined, bloqueCielo());
     const body = {
       model: process.env.FIREWORKS_MODEL ?? DEFAULT_MODEL,
       messages: [

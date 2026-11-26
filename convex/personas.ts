@@ -24,9 +24,16 @@ type Astro = { sun?: string; moon?: string; asc?: string } | undefined;
 
 // Puro: recibe el system prompt de la persona (desde la BD) y le adjunta la carta
 // derivada y el cielo de hoy (que arma cielo.ts desde el corpus).
-// Solo signos derivados — nunca datos identificables (minimización, Ley 21.719).
-export function buildSystemPrompt(system: string, astro: Astro, cielo?: string): string {
+// Solo signos derivados — nunca datos identificables (minimización, Ley 21.719). De los datos
+// de nacimiento le dice solo si están, no cuáles son: sin esto Luna no sabe que ya los tiene
+// y se los vuelve a pedir al consultante a mitad de la conversación.
+export function buildSystemPrompt(
+  system: string,
+  natal: { astro?: Astro; birthTime?: string | null } | undefined,
+  cielo?: string,
+): string {
   let prompt = system;
+  const astro = natal?.astro;
   if (astro && (astro.sun || astro.moon || astro.asc)) {
     const parts = [
       astro.sun && `Sol en ${astro.sun}`,
@@ -34,6 +41,12 @@ export function buildSystemPrompt(system: string, astro: Astro, cielo?: string):
       astro.asc && `Ascendente ${astro.asc}`,
     ].filter(Boolean);
     prompt += `\n\nCarta del consultante: ${parts.join(", ")}.`;
+    // La carta solo existe tras el onboarding, que exige fecha y lugar.
+    prompt += astro.asc
+      ? " Su fecha, lugar y hora de nacimiento ya están registrados y su carta está calculada: nunca se los pidas."
+      : natal?.birthTime
+        ? " Su fecha, lugar y hora de nacimiento ya están registrados: nunca se los pidas. Su ciudad no permitió calcular el ascendente ni las casas; lee con lo que tienes."
+        : " Su fecha y lugar de nacimiento ya están registrados: nunca se los pidas. No sabe su hora de nacimiento, así que no hay ascendente ni casas; lee con lo que tienes y no le pidas la hora.";
   }
   if (cielo) prompt += `\n\n${cielo}`;
   return prompt;
