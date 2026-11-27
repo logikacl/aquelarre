@@ -69,12 +69,30 @@ function extraer(stdout) {
 // en todas las preguntas siguientes. Se borra cada BORRAR_CADA preguntas (lo respondido ya
 // está en la caché local). Ver scripts/notebook-borrar-historial.py.
 const BORRAR_CADA = 15;
-const LIBRERIA = JSON.parse(readFileSync(join(dirname(dirname(SKILL)), "data/library.json"), "utf8")).notebooks;
-const VENV_PY = join(dirname(dirname(SKILL)), ".venv/bin/python");
-function borrarHistorial(notebookId) {
-  const r = spawnSync(VENV_PY, [join(RAIZ, "scripts/notebook-borrar-historial.py"), LIBRERIA[notebookId].url, "--confirmar"],
-    { encoding: "utf8", timeout: 3 * 60_000 });
-  console.log(r.status === 0 ? "   ⌫ historial del cuaderno borrado" : `   ⚠ no se pudo borrar el historial: ${(r.stderr ?? "").slice(-200)}`);
+const SKILL_DIR = dirname(dirname(SKILL));
+const LIBRERIA = JSON.parse(readFileSync(join(SKILL_DIR, "data/library.json"), "utf8")).notebooks;
+const VENV_PY = join(SKILL_DIR, ".venv/bin/python");
+
+// Cuentas de Google con acceso al cuaderno, cada una con su límite diario. La principal usa
+// data/; las otras, data-<nombre>/ (NOTEBOOKLM_DATA_DIR, parche en config.py de la skill).
+// Se usa una cuenta solo si tiene sesión iniciada. Para iniciarla:
+//   NOTEBOOKLM_DATA_DIR=~/.claude/skills/notebooklm/data-hermi python3 scripts/run.py auth_manager.py setup
+const CUENTAS = [{ nombre: "principal", dir: null }, ...["hermi", "denna"].map((n) => ({ nombre: n, dir: join(SKILL_DIR, `data-${n}`) }))]
+  .filter((c) => !c.dir || existsSync(join(c.dir, "browser_state/state.json")));
+let cuenta = 0;
+const envCuenta = () => ({ ...process.env, ...(CUENTAS[cuenta].dir ? { NOTEBOOKLM_DATA_DIR: CUENTAS[cuenta].dir } : {}) });
+console.log(`Cuentas con sesión: ${CUENTAS.map((c) => c.nombre).join(", ")}`);
+
+// El historial es privado de cada cuenta: se borra el de la que está en uso.
+// Con destrabar (tras un fallo) además detiene una respuesta colgada, o devuelve "limite" si la
+// página muestra el aviso de límite diario.
+function borrarHistorial(notebookId, destrabar = false) {
+  const r = spawnSync(VENV_PY, [join(RAIZ, "scripts/notebook-borrar-historial.py"), LIBRERIA[notebookId].url,
+    destrabar ? "--destrabar" : "--confirmar"], { encoding: "utf8", timeout: 3 * 60_000, env: envCuenta() });
+  const salida = (r.stdout ?? "").trim().split("\n").pop();
+  if (r.status === 3) { console.log(`   ⛔ ${salida}`); return "limite"; }
+  console.log(r.status === 0 ? `   ⌫ ${salida}` : `   ⚠ no se pudo borrar el historial: ${(r.stderr ?? "").slice(-200)}`);
+  return "ok";
 }
 
 // NotebookLM contesta "las fuentes no tratan esto" en vez de inventar: eso no se carga.
@@ -84,26 +102,42 @@ const cacheDe = (p) => join(RAIZ, "docs/corpus-fuentes/notebook", p.fuente, `${s
 
 let preguntadas = 0;
 // 3 fallos seguidos casi siempre es el límite diario de NotebookLM ("AI usage limit reached…
-// available after HH:MM"): seguir solo acumula fallos. Se deja de preguntar y se carga lo que hay.
+// available after HH:MM"): se pasa a la siguiente cuenta; sin más cuentas, se deja de preguntar
+// y se carga lo que hay.
 let fallosSeguidos = 0;
+let desdeBorrado = 0;
 const respondidas = [];
-for (const p of preguntas) {
+for (let i = 0; i < preguntas.length; i++) {
+  const p = preguntas[i];
   const archivo = cacheDe(p);
   if (!existsSync(archivo)) {
-    if (preguntadas >= max || fallosSeguidos >= 3) continue;
-    if (preguntadas > 0 && preguntadas % BORRAR_CADA === 0) borrarHistorial(p.notebookId);
+    if (preguntadas >= max || cuenta >= CUENTAS.length) continue;
+    if (desdeBorrado >= BORRAR_CADA) { borrarHistorial(p.notebookId); desdeBorrado = 0; }
     preguntadas++;
-    console.log(`[${preguntadas}] ${p.titulo}`);
+    desdeBorrado++;
+    console.log(`[${preguntadas}] (${CUENTAS[cuenta].nombre}) ${p.titulo}`);
     // Un reintento: el navegador a veces no termina de cargar el cuaderno a tiempo.
     let r, resp;
     for (let intento = 0; intento < 2 && !resp; intento++) {
-      r = spawnSync("python3", [SKILL, "ask_question.py", "--question", p.texto, "--notebook-id", p.notebookId],
-        { cwd: dirname(dirname(SKILL)), encoding: "utf8", timeout: 6 * 60_000 });
+      // --notebook-url y no --notebook-id: la biblioteca solo existe en data/ (cuenta principal).
+      r = spawnSync("python3", [SKILL, "ask_question.py", "--question", p.texto, "--notebook-url", LIBRERIA[p.notebookId].url],
+        { cwd: SKILL_DIR, encoding: "utf8", timeout: 6 * 60_000, env: envCuenta() });
       resp = extraer(r.stdout ?? "");
     }
     if (!resp) {
       console.log(`   ✗ sin respuesta (se reintenta en la próxima corrida)\n${(r.stdout ?? "").slice(-300)}${r.stderr?.slice(-300) ?? ""}`);
-      if (++fallosSeguidos === 3) console.log("\n⏸ 3 fallos seguidos (¿límite diario de NotebookLM?): se deja de preguntar.");
+      // Límite diario a la vista → cambiar de cuenta ya. Si no, era una respuesta colgada:
+      // se detiene y se sigue con la misma cuenta (3 fallos seguidos igual la rotan).
+      const limite = borrarHistorial(p.notebookId, true) === "limite";
+      desdeBorrado = 0;
+      if (limite || ++fallosSeguidos === 3) {
+        console.log(`\n⏸ ${limite ? "límite diario" : "3 fallos seguidos"} con ${CUENTAS[cuenta].nombre}.`);
+        cuenta++;
+        fallosSeguidos = 0;
+        desdeBorrado = BORRAR_CADA; // la cuenta nueva parte con su historial limpio
+        console.log(cuenta < CUENTAS.length ? `→ sigue con ${CUENTAS[cuenta].nombre}` : "Sin más cuentas: se deja de preguntar.");
+        if (cuenta < CUENTAS.length) i--; // la misma pregunta, ahora con la cuenta nueva
+      }
       continue;
     }
     fallosSeguidos = 0;
